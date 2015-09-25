@@ -1,0 +1,42 @@
+{
+  "name": "DestinyTailor",
+  "version": "0.0.1",
+  "description": "Easily discover how to get the most from your armour, and still look dapper.",
+  "main": "./app/main.js",
+  "scripts": {
+    "start": "node ./app/bin/www",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/GeekyEggo/DestinyTailor.git"
+  },
+  "keywords": [
+    "Destiny",
+    "Guardians",
+    "Hunter",
+    "Titan",
+    "Warlock",
+    "Armour",
+    "Weapons",
+    "Light",
+    "level"
+  ],
+  "author": "Richard Herman (GeekyEggo)",
+  "license": "Apache 2.0",
+  "bugs": {
+    "url": "https://github.com/GeekyEggo/DestinyTailor/issues"
+  },
+  "private": true,
+  "homepage": "https://github.com/GeekyEggo/DestinyTailor",
+  "private": true,
+  "dependencies": {
+    "body-parser": "~1.12.4",
+    "cookie-parser": "~1.3.5",
+    "debug": "~2.2.0",
+    "express": "~4.12.4",
+    "jade": "~1.9.2",
+    "morgan": "~1.5.3",
+    "serve-favicon": "~2.2.1"
+  }
+}
