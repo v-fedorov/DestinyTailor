@@ -5,7 +5,7 @@
  */
 
 var app = require('../main');
-var debug = require('debug')('src:server');
+var debug = require('debug')('DestinyTailor:server');
 var http = require('http');
 
 /**

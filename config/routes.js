@@ -6,7 +6,7 @@ var fs = require('fs'),
  * @param {object} app The express application.
  */
 function registerRoutes(app) {
-    var controllersPath = path.join(__dirname, '../app/controllers');
+    var controllersPath = path.join(__dirname, '../controllers');
  
     // select all controllers
     fs.readdirSync(controllersPath).forEach(function(file) {
@@ -16,7 +16,7 @@ function registerRoutes(app) {
         
         // trim the file to select the route and controller
         var route = file.substr(0, file.indexOf('.')),
-            controller = require('../app/controllers/' + route);
+            controller = require('../controllers/' + route);
             
         // respect the index
         if (route === 'index') {
