@@ -23,7 +23,7 @@ function registerRoutes(app) {
             route = '';
         };
         
-        app.use('/' + route.toLowerCase(), controller);        
+        app.use('/' + route.toLowerCase(), controller);
     });
     
     // catch 404 and forward to error handler
