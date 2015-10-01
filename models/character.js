@@ -2,7 +2,11 @@
  * Creates a new character.
  * @constructor
  */
-var Character = function() {
+var Character = function(platform, accountId, id) {
+    this.id = id;
+    this.accountId = accountId;
+    this.platform = platform;
+    
     this.arms = null;
     this.chest = null;
     this.helmet = null;
