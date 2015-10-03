@@ -12,8 +12,16 @@ router.get('/:accountId/:characterId', function(req, res, next) {
         res.json(char);
     });*/
     
-    bungieApiService.getInventoryItem(character, '6917529062061291933', function(err, item) {
+    /*bungieApiService.getInventoryItem(character, '6917529062061291933', function(err, item) {
        res.json(item); 
+    });*/
+    
+    bungieApiService.getInventory(character, function(err, result) {
+        if (err) {
+            res.status(err.code).send(err.message);
+        } else {
+            res.json(result);
+        };
     });
 });
 
