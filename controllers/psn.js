@@ -1,4 +1,4 @@
-var BungieService = require('../lib/bungieService'),
+var BungieService = require('../lib/bungie'),
     Character = require('../models/character'), 
     express = require('express'),
     router = express.Router();
