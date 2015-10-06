@@ -1,12 +1,14 @@
-var StatRange = require('./StatRange');
+var StatRange = require('../lib/StatRange');
 
 /**
  * Creates a new item.
  * @constructor
+ * @param {number} id The item id.
+ * @param {number} lightLevel The item light level.
  */
-var Item = function(id, lightLevel) {
-    this.id = id;
-    this.lightLevel = lightLevel;
+var Item = function() {
+    this.id = null;
+    this.lightLevel = null;
     
     this.name = '';
     

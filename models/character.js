@@ -6,10 +6,11 @@
  * @param {number} id The character's id.
  */
 var Character = function(platform, accountId, id) {
-    // identifiers
     this.id = id;
     this.accountId = accountId;
     this.platform = platform;
+    
+    this.name = '';
     
     // items
     this.artifact = null;
