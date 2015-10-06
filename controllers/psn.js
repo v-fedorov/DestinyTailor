@@ -1,6 +1,7 @@
 var Bungie = require('../lib/bungie'),
     Character = require('../models/character'), 
     express = require('express'),
+    extend = require('extend'),
     router = express.Router();
 
 /*
@@ -13,32 +14,16 @@ var Bungie = require('../lib/bungie'),
 var bungieService = new Bungie();
 
 /**
- * [GET] Loads the inventory item for the given character.
- * @param {string} accountId The account id.
- * @param {string} characterId The character id.
+ * Gets the route handler for the given Bungie method.
+ * @param {string} methodName The name of the Bungie method to call.
+ * @returns The route handler function.
  */
-router.get('/:accountId/:characterId', function(req, res, next) {
-    bungieService.getCharacter(2, req.params.accountId, req.params.characterId, getResponseHandler(res));
-});
-
-/**
- * [GET] Loads the inventory item for the given character.
- * @param {string} accountId The account id.
- * @param {string} characterId The character id.
- */
-router.get('/:accountId/:characterId/inventory', function(req, res, next) {
-    bungieService.getInventory(2, req.params.accountId, req.params.characterId, getResponseHandler(res));
-});
-
-/**
- * [GET] Loads the inventory item for the given character.
- * @param {string} accountId The account id.
- * @param {string} characterId The character id.
- * @param {string} itemId The instance item id.
- */
-router.get('/:accountId/:characterId/inventory/:itemId', function(req, res, next) {
-    bungieService.getInventoryItem(2, req.params.accountId, req.params.characterId, req.params.itemId, getResponseHandler(res));
-});
+var getRouteHandler = function(methodName) {
+    return function(req, res, next) {
+        var params = extend({}, req.params, { platform: 2 });
+        bungieService[methodName](params, getResponseHandler(res));
+    };
+}
 
 /**
  * Gets a response handler callback delegate for a Bungie service method.
@@ -55,5 +40,10 @@ var getResponseHandler = function(res) {
         };
     };
 };
+
+// map the routes to the Bungie service
+router.get('/:accountId/:characterId', getRouteHandler('getCharacter'));
+router.get('/:accountId/:characterId/inventory', getRouteHandler('getInventory'));
+router.get('/:accountId/:characterId/inventory/:itemId', getRouteHandler('getInventoryItem'));
 
 module.exports = router;
