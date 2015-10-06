@@ -1,6 +1,9 @@
 /**
  * Creates a new character.
  * @constructor
+ * @param {number} platform The platform of the character.
+ * @param {number} accountId The account id.
+ * @param {number} id The character's id.
  */
 var Character = function(platform, accountId, id) {
     // identifiers

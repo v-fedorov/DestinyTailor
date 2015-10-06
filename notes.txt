@@ -1,3 +1,6 @@
+todo:
+    - Cache items based on their instance id and light level (based on the inventory summary .data.items[].primaryStat.value)
+
 /Platform/Destiny/{platform}/Account/{accountId}/Character/Inventory/Summary/?definitions=true
     Loads information about the items on a character
     
