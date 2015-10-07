@@ -33,7 +33,7 @@ Item.prototype.expand = function(callback) {
         if (err) {
             return callback(err);
         };
-       
+
         // map the stats
         _this.discipline = result.discipline;
         _this.intellect = result.intellect;

@@ -1,3 +1,5 @@
+var async = require('async');
+
 /**
  * Constructs a new inventory object used to store information about a character.
  * @constructor
@@ -17,7 +19,7 @@ function Inventory() {
     
     // sub
     this.artifact = null;
-    this.classItem = null;    
+    this.classItem = null;
 };
 
 /**
@@ -25,26 +27,15 @@ function Inventory() {
  * @param {function} callback The callback triggered when the inventory's items have been fully loaded.
  */
 Inventory.prototype.expand = function(callback) {
-    var _this = this;
-    
-    // recursively expand the items 
-    var expandItem = function(item, remaining) {
-        if (!item) {
-            return callback(null, _this);
-        }
-
-        // expand the current item, moving to the next once complete
-        item.expand(function(err, result) {
-            if (err) {
-                return callback(err);
-            };
-            
-            expandItem(remaining[0], remaining.slice(1));
-        });
-    };
-    
-    // we only expand items that have statistics, e.g. discipline, intellect and strength
-    expandItem(this.ghost, [this.helmet, this.gauntlets, this.chest, this.legs, this.artifact, this.classItem]);
+    var _this = this,
+        items = [this.ghost, this.helmet, this.gauntlets, this.chest, this.legs, this.artifact, this.classItem];
+        
+    // expand all of the items we require stats for
+    async.each(items, function(item, next) {
+        item.expand(next);
+    }, function(err) {
+        callback(err, _this);
+    });
 };
 
 /**
