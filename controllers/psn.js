@@ -14,16 +14,28 @@ var Bungie = require('../lib/bungie'),
 var bungieService = new Bungie();
 
 /**
- * Gets the route handler for the given Bungie method.
- * @param {string} methodName The name of the Bungie method to call.
- * @returns The route handler function.
+ * [GET] Gets the character information.
  */
-var getRouteHandler = function(methodName) {
-    return function(req, res, next) {
-        var params = extend({}, req.params, { platform: 2 });
-        bungieService[methodName](params, getResponseHandler(res));
-    };
-}
+router.get('/:membershipId/:characterId', function(req, res, next) {
+    var callback = getResponseHandler(res);
+    bungieService.getCharacter(2, req.params.membershipId, req.params.characterId, callback);
+});
+
+/**
+ * [GET] Gets the inventory information for the character.
+ */
+router.get('/:membershipId/:characterId/inventory', function(req, res, next) {
+    var callback = getResponseHandler(res);
+    bungieService.getInventory(2, req.params.membershipId, req.params.characterId, callback);
+});
+
+/**
+ * [GET] Gets the instance specific item information for the given character.
+ */
+router.get('/:membershipId/:characterId/inventory/:itemId', function(req, res, next) {
+    var callback = getResponseHandler(res);
+    bungieService.getInventoryItem(2, req.params.membershipId, req.params.characterId, req.params.itemId, callback);
+});
 
 /**
  * Gets a response handler callback delegate for a Bungie service method.
@@ -40,10 +52,5 @@ var getResponseHandler = function(res) {
         };
     };
 };
-
-// map the routes to the Bungie service
-router.get('/:accountId/:characterId', getRouteHandler('getCharacter'));
-router.get('/:accountId/:characterId/inventory', getRouteHandler('getInventory'));
-router.get('/:accountId/:characterId/inventory/:itemId', getRouteHandler('getInventoryItem'));
 
 module.exports = router;

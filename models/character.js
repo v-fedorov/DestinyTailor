@@ -4,12 +4,12 @@ var Inventory = require('./inventory');
  * Creates a new character.
  * @constructor
  * @param {number} platform The platform of the character.
- * @param {number} accountId The account id.
- * @param {number} characterId The character's id.
+ * @param {string} membershipId The membership id.
+ * @param {string} characterId The character's id.
  */
-var Character = function(platform, accountId, characterId) {
+var Character = function(platform, membershipId, characterId) {
     this.platform = platform;
-    this.accountId = accountId;
+    this.membershipId = membershipId;
     this.characterId = characterId;
     
     this.name = '';

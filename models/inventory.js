@@ -1,7 +1,7 @@
 var async = require('async');
 
 /**
- * Constructs a new inventory object used to store information about a character.
+ * Constructs a new inventory object used to store items owned by a character.
  * @constructor
  */
 function Inventory() {

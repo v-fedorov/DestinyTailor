@@ -8,7 +8,7 @@ var Item = function() {
     this.itemId = null;
     
     this.platform = null;
-    this.accountId = null;
+    this.membershipId = null;
     this.characterId = null;
     
     this.name = null;
@@ -29,7 +29,7 @@ Item.prototype.expand = function(callback) {
         Bungie = require('../lib/Bungie');
         
     // get the item
-    new Bungie().getInventoryItem(this, function(err, result) {
+    new Bungie().getInventoryItem(this.platform, this.membershipId, this.characterId, this.itemId, function(err, result) {
         if (err) {
             return callback(err);
         };
@@ -40,6 +40,8 @@ Item.prototype.expand = function(callback) {
         _this.strength = result.strength;
         
         callback(err, _this);
+    }, {
+        lightLevel: this.lightLevel
     });
 };
 
