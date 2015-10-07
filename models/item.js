@@ -1,4 +1,4 @@
-var StatRange = require('../lib/StatRange');
+var StatRange = require('../lib/statRange');
 
 /**
  * Creates a new item.
@@ -26,10 +26,10 @@ var Item = function() {
  */
 Item.prototype.expand = function(callback) {
     var _this = this,
-        Bungie = require('../lib/Bungie');
+        BungieService = require('../lib/bungieService');
         
     // get the item
-    new Bungie().getInventoryItem(this.platform, this.membershipId, this.characterId, this.itemId, function(err, result) {
+    new BungieService().getInventoryItem(this.platform, this.membershipId, this.characterId, this.itemId, function(err, result) {
         if (err) {
             return callback(err);
         };
