@@ -32,7 +32,11 @@ Inventory.prototype.expand = function(callback) {
         
     // expand all of the items we require stats for
     async.each(items, function(item, next) {
-        item.expand(next);
+        if (item) {
+            item.expand(next);
+        } else {
+            next(null, item);
+        };
     }, function(err) {
         callback(err, _this);
     });
