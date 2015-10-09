@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
-var app = require('../main'),
-    config = require('../config/'),
+var app = require('../server/main'),
+    config = require('../server/config'),
     debug = require('debug')('DestinyTailor:server'),
     http = require('http');
 

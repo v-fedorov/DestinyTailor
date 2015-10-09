@@ -32,4 +32,3 @@ public/vendor
 
 # Local config
 .env
-.vscode/*

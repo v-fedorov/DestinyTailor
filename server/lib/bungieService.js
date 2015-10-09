@@ -1,4 +1,4 @@
-var config = require('../config/'),
+var config = require('../config'),
     extend = require('extend'),
     Inventory = require('../models/inventory'),
     ItemFormatter = require('./formatters/itemFormatter'),
@@ -55,12 +55,12 @@ BungieService.prototype.getInventory = function(platform, membershipId, characte
         // construct the inventory with the basic information
         var itemFormatter = new ItemFormatter(platform, membershipId, characterId),
             inventory = new Inventory();
-            
+
         result.data.items.forEach(function(itemData) {
             var item = itemFormatter.getItem({ item: itemData }, result.definitions);
             inventory.setItem(item);
         });
-        
+
         // finally expand the inventories information to include instance based data
         inventory.expand(callback);
     });
@@ -95,7 +95,7 @@ BungieService.prototype.getInventoryItem = function(platform, membershipId, char
                 if (err) {
                     return callback(err);
                 }
-                
+
                 // attempt to set the cache as we now have an item
                 cacheKey = getInventoryItemCacheKey(item.itemId, item.lightLevel);
                 itemCache.set(cacheKey, item, function(err, success) {
@@ -104,7 +104,7 @@ BungieService.prototype.getInventoryItem = function(platform, membershipId, char
             });
         });
     } else {
-        this.requestInventoryItem(platform, membershipId, characterId, itemId, callback); 
+        this.requestInventoryItem(platform, membershipId, characterId, itemId, callback);
     };
 };
 
@@ -124,11 +124,11 @@ BungieService.prototype.requestInventoryItem = function(platform, membershipId, 
         if (err !== null) {
             return callback(err);
         }
-        
+
         // format the item
         var itemFormatter = new ItemFormatter(platform, membershipId, characterId),
             item = itemFormatter.getItem(result.data, result.definitions);
-        
+
         callback(null, item);
     });
 }
@@ -158,12 +158,12 @@ BungieService.prototype.getRequestOptions = function(path) {
 BungieService.prototype.request = function(options, callback) {
     http.get(options, function(res) {
             var data = '';
-        
+
         // iteratively build up the data
         res.on('data', function(chunk) {
             data += chunk;
         });
-        
+
         // when complete, continue
         res.on('end', function() {
             // check if the result was successful
