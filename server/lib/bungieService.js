@@ -76,8 +76,7 @@ BungieService.prototype.getInventory = function(platform, membershipId, characte
  * @param {object} options The optional information.
  */
 BungieService.prototype.getInventoryItem = function(platform, membershipId, characterId, itemId, callback, options) {
-    var _this = this,
-        options = extend({}, {
+    var options = extend({}, {
             lightLevel: undefined
         }, options);
 
@@ -91,7 +90,7 @@ BungieService.prototype.getInventoryItem = function(platform, membershipId, char
             };
 
             // as we don't have the item, lets load it
-            _this.requestInventoryItem(platform, membershipId, characterId, itemId, function(err, item) {
+            this.requestInventoryItem(platform, membershipId, characterId, itemId, function(err, item) {
                 if (err) {
                     return callback(err);
                 }
@@ -102,7 +101,7 @@ BungieService.prototype.getInventoryItem = function(platform, membershipId, char
                     callback(err, item);
                 });
             });
-        });
+        }.bind(this));
     } else {
         this.requestInventoryItem(platform, membershipId, characterId, itemId, callback);
     };

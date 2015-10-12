@@ -34,7 +34,7 @@ ItemFormatter.prototype.getItem = function(data, definitions) {
 
     // set the basic information
     item.itemId = data.item.itemId || data.item.itemInstanceId;
-    item.name = definitions.items[data.item.itemHash].itemName;
+    item.name = definitions.items.hasOwnProperty(data.item.itemHash) ? definitions.items[data.item.itemHash].itemName : null;
     item.bucketHash = data.item.bucketHash;
 
     // set the light level if we can

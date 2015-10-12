@@ -9,14 +9,14 @@ function Inventory() {
     this.primaryWeapon = null;
     this.specialWeapon = null;
     this.heavyWeapon = null;
-    
+
     // main
     this.ghost = null;
     this.helmet = null;
     this.gauntlets = null;
     this.chest = null;
     this.legs = null;
-    
+
     // sub
     this.artifact = null;
     this.classItem = null;
@@ -27,19 +27,16 @@ function Inventory() {
  * @param {function} callback The callback triggered when the inventory's items have been fully loaded.
  */
 Inventory.prototype.expand = function(callback) {
-    var _this = this,
-        items = [this.ghost, this.helmet, this.gauntlets, this.chest, this.legs, this.artifact, this.classItem];
-        
     // expand all of the items we require stats for
-    async.each(items, function(item, next) {
+    async.each([this.ghost, this.helmet, this.gauntlets, this.chest, this.legs, this.artifact, this.classItem], function(item, next) {
         if (item) {
             item.expand(next);
         } else {
             next(null, item);
         };
     }, function(err) {
-        callback(err, _this);
-    });
+        callback(err, this);
+    }.bind(this));
 };
 
 /**
@@ -52,7 +49,7 @@ Inventory.prototype.setItem = function(item) {
     if (Inventory.ItemBucketHashType.hasOwnProperty(item.bucketHash)) {
         this[Inventory.ItemBucketHashType[item.bucketHash]] = item;
     };
-    
+
     return this;
 };
 
