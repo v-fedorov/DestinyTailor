@@ -16,7 +16,7 @@ var bungieService = new BungieService();
 /**
  * [GET] Searches for the character on the given platform.
  */
-router.get('/:platform/:displayName', function(req, res, next) {
+router.get('/search/:platform/:displayName', function(req, res, next) {
     var callback = getResponseHandler(res);
     bungieService.searchCharacter(req.params.platform, req.params.displayName, callback);
 });

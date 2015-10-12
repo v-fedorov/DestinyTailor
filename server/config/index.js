@@ -4,7 +4,7 @@ var nconf = require('nconf'),
 // add the configuration files
 nconf.add('local', {
     type: 'file',
-    file: path.join(__dirname, '../../local.json')
+    file: path.join(__dirname, 'local.json')
 }).add('config', {
     type: 'file',
     file: path.join(__dirname, (process.env.NODE_ENV || 'dev') + '.json')
