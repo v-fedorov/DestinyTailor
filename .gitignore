@@ -28,7 +28,9 @@ node_modules
 
 # Package managers
 bower_components
-public/vendor
+public/css/vendor.css
+public/fonts/
+public/js/vendor.js
 
 # Local config
 .env
