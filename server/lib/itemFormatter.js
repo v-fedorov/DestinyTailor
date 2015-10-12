@@ -1,4 +1,4 @@
-var Item = require('../../models/item');
+var Item = require('../models/item');
 
 // constants
 var STAT_MAP = {
@@ -41,29 +41,29 @@ ItemFormatter.prototype.getItem = function(data, definitions) {
     if (data.item.primaryStat) {
         item.lightLevel = data.item.primaryStat.value;
     };
-    
+
     // set the default ranges
     withEachStat(item, function(range) {
         range.min = Infinity;
         range.max = -Infinity;
     });
-    
+
     // loop through the current stats
     if (data.item.stats) {
         data.item.stats.forEach(function(stat) {
             item[STAT_MAP[stat.statHash]].current = stat.value;
         });
     }
-    
+
     // loop through the nodes to determine the min and max
     for (var hash in data.statsOnNodes) {
         var talentNode = getTalentNode(data, parseInt(hash, 10));
-        
+
         // check both the current, and next, node stats
         setStats(item, talentNode, data.statsOnNodes[hash].currentNodeStats);
         setStats(item, talentNode, data.statsOnNodes[hash].nextNodeStats);
     }
-    
+
     sanitiseDefaultRanges(item);
     return item;
 };
@@ -72,7 +72,7 @@ ItemFormatter.prototype.getItem = function(data, definitions) {
  * Gets the item's talent node based on its hash.
  * @param {object} data The item's data.
  * @param {number} hash The talent node's hash.
- * @returns The talent node. 
+ * @returns The talent node.
  */
 var getTalentNode = function(data, hash) {
     for (var i = 0; i < data.talentNodes.length; i++) {
@@ -80,7 +80,7 @@ var getTalentNode = function(data, hash) {
             return data.talentNodes[i];
         };
     };
-    
+
     return null;
 };
 
@@ -93,7 +93,7 @@ var sanitiseDefaultRanges = function(item) {
         // check if a range has been set
         range.min = range.min !== Infinity ? range.min : -Infinity;
         range.max = range.max !== -Infinity ? range.max : Infinity;
-        
+
         // when the range is classified as unspecified, set to 0
         if (range.min === -Infinity && range.max === Infinity) {
             range.min = 0;
@@ -112,7 +112,7 @@ var setStats = function(item, talentNode, nodeStats) {
     for (var i = 0; i < nodeStats.length; i++) {
         var stat = nodeStats[i],
             range = item[STAT_MAP[stat.statHash]];
-            
+
         // check we have a range to play with
         if (!range) {
             continue;

@@ -33,4 +33,4 @@ public/fonts/
 public/js/vendor.js
 
 # Local config
-.env
+local.json

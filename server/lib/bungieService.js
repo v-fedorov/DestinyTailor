@@ -1,7 +1,7 @@
 var config = require('../config'),
     extend = require('extend'),
     Inventory = require('../models/inventory'),
-    ItemFormatter = require('./formatters/itemFormatter'),
+    ItemFormatter = require('./itemFormatter'),
     NodeCache = require('node-cache'),
     util = require('util'),
     http = require('http');
@@ -114,7 +114,7 @@ BungieService.prototype.getInventoryItem = function(platform, membershipId, char
  * @param {string} membershipId The membership id the character is on.
  * @param {string} characterId The character id.
  * @param {string} itemId The item instance id.
- * @param {function} callback The callback trigger when the item has loaded.
+ * @param {function} callback The callback triggered when the item has loaded.
  */
 BungieService.prototype.requestInventoryItem = function(platform, membershipId, characterId, itemId, callback) {
     var path = util.format('/Platform/Destiny/%s/Account/%s/Character/%s/Inventory/%s/?definitions=true', platform, membershipId, characterId, itemId),
@@ -131,6 +131,19 @@ BungieService.prototype.requestInventoryItem = function(platform, membershipId, 
 
         callback(null, item);
     });
+};
+
+/**
+ * Searches for the account for the given platform.
+ * @param {number} platform The platform to search on; either Xbox (1) or PSN (2).
+ * @param {string} displayName The account's display name.
+ * @param {function} callback The callback triggered when the search has completed.
+ */
+BungieService.prototype.searchCharacter = function(platform, displayName, callback) {
+    var path = util.format('/Platform/Destiny/SearchDestinyPlayer/%s/%s/', platform, displayName),
+        requestOptions = this.getRequestOptions(path);
+
+    this.request(requestOptions, callback);
 }
 
 /**

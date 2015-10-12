@@ -1,17 +1,25 @@
 var BungieService = require('../lib/bungieService'),
-    Character = require('../models/character'), 
+    Character = require('../models/character'),
     express = require('express'),
     extend = require('extend'),
     router = express.Router();
 
 /*
     testing:
-    
+
     http://localhost:3000/psn/4611686018437908853/2305843009230541270
     itemId 6917529062061291933
 */
- 
+
 var bungieService = new BungieService();
+
+/**
+ * [GET] Searches for the character on the given platform.
+ */
+router.get('/:platform/:displayName', function(req, res, next) {
+    var callback = getResponseHandler(res);
+    bungieService.searchCharacter(req.params.platform, req.params.displayName, callback);
+});
 
 /**
  * [GET] Gets the character information.
