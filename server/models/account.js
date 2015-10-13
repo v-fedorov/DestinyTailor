@@ -3,12 +3,11 @@ var Character = require('./character');
 /**
  * Constructs a new account.
  * @constructor
- * @param {number} platform The platform the account is on.
  * @param {object} data The account's data.
  */
-function Account(platform, data) {
+function Account(data) {
     // set the identifiers
-    this.platform = platform;
+    this.membershipType = data.membershipType;
     this.membershipId = data.membershipId;
 
     // set the account aesthetics

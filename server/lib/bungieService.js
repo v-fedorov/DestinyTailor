@@ -15,20 +15,20 @@ var itemCache = new NodeCache(config.cache),
     ERROR_CODE_TYPE = bungieService.ERROR_CODE_TYPE = {
         success: 1
     },
-    PLATFORM_TYPE = bungieService.PLATFORM_TYPE = {
+    MEMBERSHIP_TYPE = bungieService.MEMBERSHIP_TYPE = {
         xbox: 1,
         psn: 2
     };
 
 /**
  * Gets the character's inventory from Bungie.
- * @param {number} platform The platform of the character.
+ * @param {number} membershipType The membership type of the character.
  * @param {string} membershipId The membership id the character is on.
  * @param {string} characterId The character id.
  * @param {function} callback The callback triggered when the inventory has loaded.
  */
-bungieService.getInventory = function(platform, membershipId, characterId, callback) {
-    var path = util.format('/%s/Account/%s/Character/%s/Inventory/Summary/?definitions=true', platform, membershipId, characterId);
+bungieService.getInventory = function(membershipType, membershipId, characterId, callback) {
+    var path = util.format('/%s/Account/%s/Character/%s/Inventory/Summary/?definitions=true', membershipType, membershipId, characterId);
     request(path, function(err, result) {
         if (err) {
             return callback(err);
@@ -42,7 +42,7 @@ bungieService.getInventory = function(platform, membershipId, characterId, callb
             item.name = result.definitions.items.hasOwnProperty(data.itemHash) ? result.definitions.items[data.itemHash].itemName : null;
             item.bucketHash = data.bucketHash;
             item.setLightLevel(data.primaryStat);
-            item.expand = getStatMapperDelegate(platform, membershipId, characterId, item);
+            item.expand = getStatMapperDelegate(membershipType, membershipId, characterId, item);
 
             inventory.setItem(item);
         });
@@ -53,13 +53,13 @@ bungieService.getInventory = function(platform, membershipId, characterId, callb
 };
 
 /**
- * Searches for the account for the given platform and returns the summary of the account.
- * @param {number} platform The platform to search on; either Xbox (1) or PSN (2).
+ * Searches for the account for the given membership type and returns the summary of the account.
+ * @param {number} membershipType The membership type to search on; either Xbox (1) or PSN (2).
  * @param {string} displayName The account's display name.
  * @param {function} callback The callback triggered when the search has completed.
  */
-bungieService.searchCharacter = function(platform, displayName, callback) {
-    var path = util.format('/SearchDestinyPlayer/%s/%s/', platform, displayName);
+bungieService.searchCharacter = function(membershipType, displayName, callback) {
+    var path = util.format('/SearchDestinyPlayer/%s/%s/', membershipType, displayName);
     request(path, function(err, result) {
         if (err) {
             return callback(err);
@@ -74,7 +74,7 @@ bungieService.searchCharacter = function(platform, displayName, callback) {
         }
 
         // construct the basic account information and load the summary
-        var account = new Account(platform, result[0]);
+        var account = new Account(result[0]);
         getAccountSummary(account, callback);
     });
 };
@@ -85,7 +85,7 @@ bungieService.searchCharacter = function(platform, displayName, callback) {
  * @param {function} callback Triggered when the account summary has loaded.
  */
 var getAccountSummary = function(account, callback) {
-    var path = util.format('/%s/Account/%s/?definitions=true', account.platform, account.membershipId);
+    var path = util.format('/%s/Account/%s/?definitions=true', account.membershipType, account.membershipId);
     request(path, function(err, result) {
         if (err) {
             return callback(err);
@@ -103,12 +103,12 @@ var getAccountSummary = function(account, callback) {
 
 /**
  * Gets the item delegate used to expand the item stats.
- * @param {number} platform The platform of the character.
+ * @param {number} membershipType The membership type of the character.
  * @param {string} membershipId The membership id the character is on.
  * @param {string} characterId The character id.
  * @param {string} item The item.
  */
-var getStatMapperDelegate = function(platform, membershipId, characterId, item) {
+var getStatMapperDelegate = function(membershipType, membershipId, characterId, item) {
     return function(callback) {
         // check if we have the item cached locally before making a request
         itemCache.get(item.itemId + '|' + item.lightLevel, function(err, value) {
@@ -117,7 +117,7 @@ var getStatMapperDelegate = function(platform, membershipId, characterId, item) 
                 return callback(err, value);
             };
 
-            var path = util.format('/%s/Account/%s/Character/%s/Inventory/%s/?definitions=true', platform, membershipId, characterId, item.itemId);
+            var path = util.format('/%s/Account/%s/Character/%s/Inventory/%s/?definitions=true', membershipType, membershipId, characterId, item.itemId);
             request(path, function(err, result) {
                 if (err !== null) {
                     return callback(err);

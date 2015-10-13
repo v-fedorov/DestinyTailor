@@ -1,4 +1,5 @@
-var definitions = require('../lib/definitions');
+var definitions = require('../lib/definitions'),
+    util = require('util');
 
 /**
  * Creates a new character.
@@ -20,6 +21,8 @@ var Character = function(data) {
     // set their emblem
     this.emblemPath = data.emblemPath;
     this.backgroundPath = data.backgroundPath;
+
+    this.inventoryPath = util.format('/api/%s/%s/%s', data.characterBase.membershipType, data.characterBase.membershipId, this.characterId);
 };
 
 module.exports = Character;

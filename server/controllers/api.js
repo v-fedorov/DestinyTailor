@@ -11,16 +11,16 @@ var bungieService = require('../lib/bungieService'),
 */
 
 /**
- * [GET] Searches for the character on the given platform.
+ * [GET] Searches for the character on the given platform (membership type).
  */
-router.get('/:platformName/:displayName', function(req, res, next) {
-    // validate platform name
-    if (!bungieService.PLATFORM_TYPE.hasOwnProperty(req.params.platformName)) {
-        res.status(400).send('Invalid platform name');
+router.get('/:platform/:displayName', function(req, res, next) {
+    // validate platform
+    if (!bungieService.MEMBERSHIP_TYPE.hasOwnProperty(req.params.platform)) {
+        res.status(400).send('Invalid platform.');
         return;
     }
 
-    bungieService.searchCharacter(bungieService.PLATFORM_TYPE[req.params.platformName], req.params.displayName, function(err, result) {
+    bungieService.searchCharacter(bungieService.MEMBERSHIP_TYPE[req.params.platform], req.params.displayName, function(err, result) {
         if (err) {
             return res.status(err.code).send('Error ' + err.code + ': ' + err.message);
         }
@@ -32,9 +32,9 @@ router.get('/:platformName/:displayName', function(req, res, next) {
 /**
  * [GET] Gets the inventory information for the character.
  */
-router.get('/:platform/:membershipId/:characterId', function(req, res, next) {
+router.get('/:membershipType/:membershipId/:characterId', function(req, res, next) {
     var callback = getResponseHandler(res);
-    bungieService.getInventory(req.params.platform, req.params.membershipId, req.params.characterId, callback);
+    bungieService.getInventory(req.params.membershipType, req.params.membershipId, req.params.characterId, callback);
 });
 
 /**
