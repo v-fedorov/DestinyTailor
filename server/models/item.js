@@ -7,10 +7,6 @@ var StatRange = require('../lib/statRange');
 var Item = function() {
     this.itemId = null;
 
-    this.platform = null;
-    this.membershipId = null;
-    this.characterId = null;
-
     this.name = null;
     this.bucketHash = null;
     this.lightLevel = null;
@@ -25,22 +21,17 @@ var Item = function() {
  * @param {function} callback The callback triggered when the inventory's items have been fully loaded.
  */
 Item.prototype.expand = function(callback) {
-    // get the item
-    var BungieService = require('../lib/bungieService');
-    new BungieService().getInventoryItem(this.platform, this.membershipId, this.characterId, this.itemId, function(err, result) {
-        if (err) {
-            return callback(err);
-        };
+    // placeholder delegate for expanding the item to include the stats; this is currently mapped within the Bungie service.
+};
 
-        // map the stats
-        this.discipline = result.discipline;
-        this.intellect = result.intellect;
-        this.strength = result.strength;
-
-        callback(err, this);
-    }.bind(this), {
-        lightLevel: this.lightLevel
-    });
+/**
+ * Sets the light level on the item from the primary stat.
+ * @param {object} primaryStat The primary stat containing the light level value.
+ */
+Item.prototype.setLightLevel = function(primaryStat) {
+    if (primaryStat && primaryStat.value) {
+        this.lightLevel = primaryStat.value;
+    };
 };
 
 module.exports = Item;

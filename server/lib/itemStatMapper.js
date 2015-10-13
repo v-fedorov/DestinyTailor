@@ -1,47 +1,20 @@
-var Item = require('../models/item');
+// main export
+var itemStatMapper = module.exports = {};
 
 // constants
-var STAT_MAP = {
+var STAT_MAP = itemStatMapper.STAT_MAP = {
     1735777505: 'discipline',
     144602215: 'intellect',
     4244567218: 'strength'
 };
 
 /**
- * Constructs a new item parser.
- * @constructor
- * @param {number} platform The platform of the account.
- * @param {string} membershipId The membership id.
- * @param {string} characterId The character id.
+ * Maps the stats from the data, to the item.
+ * @param {object} data The full data including the stats.
+ * @param {object} item The item to map to.
+ * @returns The modified item with the stats.
  */
-function ItemFormatter(platform, membershipId, characterId) {
-    this.platform = platform;
-    this.membershipId = membershipId;
-    this.characterId = characterId;
-};
-
-/**
- * Gets the item from the parser.
- * @param {number} data The data object containing the item, and optional stats.
- * @param {object} definitions The definitions.
- * @returns The item.
- */
-ItemFormatter.prototype.getItem = function(data, definitions) {
-    var item = new Item();
-    item.platform = this.platform;
-    item.membershipId = this.membershipId;
-    item.characterId = this.characterId;
-
-    // set the basic information
-    item.itemId = data.item.itemId || data.item.itemInstanceId;
-    item.name = definitions.items.hasOwnProperty(data.item.itemHash) ? definitions.items[data.item.itemHash].itemName : null;
-    item.bucketHash = data.item.bucketHash;
-
-    // set the light level if we can
-    if (data.item.primaryStat) {
-        item.lightLevel = data.item.primaryStat.value;
-    };
-
+itemStatMapper.map = function(data, item) {
     // set the default ranges
     withEachStat(item, function(range) {
         range.min = Infinity;
@@ -138,5 +111,3 @@ var withEachStat = function(item, fn) {
         fn(item[STAT_MAP[statHash]]);
     };
 };
-
-module.exports = ItemFormatter;

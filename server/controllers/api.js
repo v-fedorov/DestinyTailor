@@ -1,5 +1,4 @@
-var BungieService = require('../lib/bungieService'),
-    Character = require('../models/character'),
+var bungieService = require('../lib/bungieService'),
     express = require('express'),
     extend = require('extend'),
     router = express.Router();
@@ -7,11 +6,9 @@ var BungieService = require('../lib/bungieService'),
 /*
     testing:
 
-    http://localhost:3000/psn/4611686018437908853/2305843009230541270
+    http://localhost:3000/2/4611686018437908853/2305843009230541270
     itemId 6917529062061291933
 */
-
-var bungieService = new BungieService();
 
 /**
  * [GET] Searches for the character on the given platform.
