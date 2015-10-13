@@ -1,4 +1,5 @@
-var config = require('../config'),
+var Account = require('../models/account'),
+    config = require('../config'),
     Inventory = require('../models/inventory'),
     Item = require('../models/item'),
     itemStatMapper = require('./itemStatMapper'),
@@ -11,23 +12,13 @@ var bungieService = module.exports = {};
 
 // declare the item cache and enumerations
 var itemCache = new NodeCache(config.cache),
-    ErrorCodeType = bungieService.ErrorCodeType = {
-        SUCCESS: 1
+    ERROR_CODE_TYPE = bungieService.ERROR_CODE_TYPE = {
+        success: 1
+    },
+    PLATFORM_TYPE = bungieService.PLATFORM_TYPE = {
+        xbox: 1,
+        psn: 2
     };
-
-/**
- * Gets the character information from Bungie.
- * @param {number} platform The platform of the character.
- * @param {string} membershipId The membership id the character is on.
- * @param {string} characterId The character id.
- * @param {function} callback The callback triggered when the character has loaded; result is a character.
- */
-bungieService.getCharacter = function(platform, membershipId, characterId, callback) {
-    var path = util.format('/%s/Account/%s/Character/%s/', platform, membershipId, characterId);
-    request(path, function(err, result) {
-        callback(err, result.data);
-    });
-};
 
 /**
  * Gets the character's inventory from Bungie.
@@ -62,14 +53,52 @@ bungieService.getInventory = function(platform, membershipId, characterId, callb
 };
 
 /**
- * Searches for the account for the given platform.
+ * Searches for the account for the given platform and returns the summary of the account.
  * @param {number} platform The platform to search on; either Xbox (1) or PSN (2).
  * @param {string} displayName The account's display name.
  * @param {function} callback The callback triggered when the search has completed.
  */
 bungieService.searchCharacter = function(platform, displayName, callback) {
     var path = util.format('/SearchDestinyPlayer/%s/%s/', platform, displayName);
-    request(path, callback);
+    request(path, function(err, result) {
+        if (err) {
+            return callback(err);
+        };
+
+        // check if the character was found
+        if (result.length === 0) {
+            return callback({
+                code: 404,
+                message: 'Character not found'
+            });
+        }
+
+        // construct the basic account information and load the summary
+        var account = new Account(platform, result[0]);
+        getAccountSummary(account, callback);
+    });
+};
+
+/**
+ * Gets the account summary for the given account.
+ * @param {object} account The account to load.
+ * @param {function} callback Triggered when the account summary has loaded.
+ */
+var getAccountSummary = function(account, callback) {
+    var path = util.format('/%s/Account/%s/?definitions=true', account.platform, account.membershipId);
+    request(path, function(err, result) {
+        if (err) {
+            return callback(err);
+        };
+
+        // bind the clan information
+        account.clanName = result.data.clanName;
+        account.clanTag = result.data.clanTag;
+
+        // most importantly, set the characters
+        account.setCharacters(result.data.characters);
+        callback(err, account);
+    });
 };
 
 /**
@@ -155,7 +184,7 @@ var request = function(options, callback) {
                 });
             } else {
                 var result = JSON.parse(data);
-                if (result.ErrorCode !== ErrorCodeType.SUCCESS) {
+                if (result.ErrorCode !== ERROR_CODE_TYPE.success) {
                     // call as error
                     callback({
                         code: result.ErrorCode,

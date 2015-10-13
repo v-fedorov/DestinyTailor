@@ -1,18 +1,27 @@
-var Inventory = require('./inventory');
+var definitions = require('../lib/definitions'),
+    Inventory = require('./inventory');
 
 /**
  * Creates a new character.
  * @constructor
- * @param {number} platform The platform of the character.
- * @param {string} membershipId The membership id.
- * @param {string} characterId The character's id.
+ * @param {object} data The data containing information about the character.
  */
-var Character = function(platform, membershipId, characterId) {
-    this.platform = platform;
-    this.membershipId = membershipId;
-    this.characterId = characterId;
-    
-    this.name = '';
+var Character = function(data) {
+    this.characterId = data.characterBase.characterId;
+
+    // set the character aesthetics
+    this.race = definitions.RACE_TYPE[data.characterBase.raceHash];
+    this.gender = definitions.GENDER_TYPE[data.characterBase.genderHash];
+    this.class = definitions.CLASS_TYPE[data.characterBase.classHash];
+
+    // set their light level
+    this.level = data.characterLevel;
+    this.lightLevel = data.characterBase.powerLevel;
+
+    // set their emblem
+    this.emblemPath = data.emblemPath;
+    this.backgroundPath = data.backgroundPath;
+
     this.inventory = new Inventory();
 };
 

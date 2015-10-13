@@ -13,33 +13,28 @@ var bungieService = require('../lib/bungieService'),
 /**
  * [GET] Searches for the character on the given platform.
  */
-router.get('/search/:platform/:displayName', function(req, res, next) {
-    var callback = getResponseHandler(res);
-    bungieService.searchCharacter(req.params.platform, req.params.displayName, callback);
-});
+router.get('/:platformName/:displayName', function(req, res, next) {
+    // validate platform name
+    if (!bungieService.PLATFORM_TYPE.hasOwnProperty(req.params.platformName)) {
+        res.status(400).send('Invalid platform name');
+        return;
+    }
 
-/**
- * [GET] Gets the character information.
- */
-router.get('/:platform/:membershipId/:characterId', function(req, res, next) {
-    var callback = getResponseHandler(res);
-    bungieService.getCharacter(req.params.platform, req.params.membershipId, req.params.characterId, callback);
+    bungieService.searchCharacter(bungieService.PLATFORM_TYPE[req.params.platformName], req.params.displayName, function(err, result) {
+        if (err) {
+            return res.status(err.code).send('Error ' + err.code + ': ' + err.message);
+        }
+
+        res.json(result);
+    });
 });
 
 /**
  * [GET] Gets the inventory information for the character.
  */
-router.get('/:platform/:membershipId/:characterId/inventory', function(req, res, next) {
+router.get('/:platform/:membershipId/:characterId', function(req, res, next) {
     var callback = getResponseHandler(res);
     bungieService.getInventory(req.params.platform, req.params.membershipId, req.params.characterId, callback);
-});
-
-/**
- * [GET] Gets the instance specific item information for the given character.
- */
-router.get('/:platform/:membershipId/:characterId/inventory/:itemId', function(req, res, next) {
-    var callback = getResponseHandler(res);
-    bungieService.getInventoryItem(req.params.platform, req.params.membershipId, req.params.characterId, req.params.itemId, callback);
 });
 
 /**
@@ -51,7 +46,7 @@ var getResponseHandler = function(res) {
     // construct the handler
     return function(err, result) {
         if (err) {
-            res.status(err.code).send(err.message);
+            res.status(err.code).send('Error ' + err.code + ': ' + err.message);
         } else {
             res.json(result);
         };
