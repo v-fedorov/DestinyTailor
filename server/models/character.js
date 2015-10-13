@@ -22,7 +22,7 @@ var Character = function(data) {
     this.emblemPath = data.emblemPath;
     this.backgroundPath = data.backgroundPath;
 
-    this.inventoryPath = util.format('/api/%s/%s/%s', data.characterBase.membershipType, data.characterBase.membershipId, this.characterId);
+    this.inventoryPath = util.format('/api/%s/%s/%s/', data.characterBase.membershipType, data.characterBase.membershipId, this.characterId);
 };
 
 module.exports = Character;
