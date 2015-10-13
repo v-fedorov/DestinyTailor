@@ -1,5 +1,4 @@
-var definitions = require('../lib/definitions'),
-    Inventory = require('./inventory');
+var definitions = require('../lib/definitions');
 
 /**
  * Creates a new character.
@@ -21,8 +20,6 @@ var Character = function(data) {
     // set their emblem
     this.emblemPath = data.emblemPath;
     this.backgroundPath = data.backgroundPath;
-
-    this.inventory = new Inventory();
 };
 
 module.exports = Character;
