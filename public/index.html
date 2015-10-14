@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="destinyTailorApp">
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -34,23 +34,23 @@
     </nav>
 
     <!-- container -->
-    <div class="container">
+    <div class="container" ng-controller="SearchCtrl">
         <div class="row top-buffer">
             <div class="col-md-8 col-md-offset-2">
                 <div class="input-group">
                     <!-- platform -->
                     <span class="input-group-btn">
-                        <input type="checkbox" checked data-toggle="toggle" data-size="large"
+                        <input id="platform" type="checkbox" checked data-toggle="toggle" data-size="large"
                             data-on="PSN" data-onstyle="primary"
                             data-off="XBox" data-offstyle="success" />
                     </span>
 
                     <!-- character name -->
-                    <input type="text" class="form-control input-lg" aria-label="Search" />
+                    <input type="text" class="form-control input-lg" aria-label="Search" ng-model="searchCriteria" />
 
                     <!-- search -->
                     <span class="input-group-btn">
-                        <button class="btn btn-default btn-lg" type="button">Search</button>
+                        <button class="btn btn-default btn-lg" type="button" ng-click="search()">Search</button>
                     </span>
                 </div>
             </div>
@@ -60,12 +60,13 @@
     <!-- footer -->
     <footer class="top-buffer">
         <div class="container">
-            <p>Made with <span class="octicon octicon-mark-github"></span> by @GeekyEggo, on <a href="https://github.com/geekyeggo/destinytailor" title="View Destiny Tailors' source code on GitHub, come fork around!" rel="author">GitHub</a>.</p>
+            <p>Made with <span class="octicon octicon-mark-github"></span> by @GeekyEggo, on <a href="https://github.com/geekyeggo/destinytailor" title="View Destiny Tailor's source code on GitHub, come fork around!" rel="author">GitHub</a>.</p>
             <p>Special thanks to <a href="https://www.bungie.net/" title="Visit Bungie.net" rel="nofollow">Bungie</a>, and their API.</p>
         </div>
     </footer>
 
     <script type="text/javascript" src="./js/vendor.js"></script>
+    <script type="text/javascript" src="./js/main.js"></script>
 </body>
 
 </html>

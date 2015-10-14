@@ -11,22 +11,11 @@ var bungieService = require('../lib/bungieService'),
 */
 
 /**
- * [GET] Searches for the character on the given platform (membership type).
+ * [GET] Searches for the character on the given membership type.
  */
-router.get('/:platform/:displayName', function(req, res, next) {
-    // validate platform
-    if (!bungieService.MEMBERSHIP_TYPE.hasOwnProperty(req.params.platform)) {
-        res.status(400).send('Invalid platform.');
-        return;
-    }
-
-    bungieService.searchCharacter(bungieService.MEMBERSHIP_TYPE[req.params.platform], req.params.displayName, function(err, result) {
-        if (err) {
-            return res.status(err.code).send('Error ' + err.code + ': ' + err.message);
-        }
-
-        res.status(200).json(result);
-    });
+router.get('/:membershipType/:displayName', function(req, res, next) {
+    var callback = getResponseHandler(res);
+    bungieService.searchCharacter(req.params.membershipType, req.params.displayName, callback);
 });
 
 /**
