@@ -1,10 +1,14 @@
+var dotenv = require('dotenv');
+
 module.exports = function (grunt) {
-    var localConfigPath = 'server/config/local.json';
+    dotenv.load();
 
     // configure the tasks
     grunt.initConfig({
+        env: {
+            apiKey: process.env.API_KEY || ''
+        },
         pkg: grunt.file.readJSON('package.json'),
-        local: grunt.file.exists(localConfigPath) ? grunt.file.readJSON(localConfigPath) : {},
         concat: {
             // concats and moves the required files from the bower components
             bower: {
@@ -26,12 +30,6 @@ module.exports = function (grunt) {
                 flatten: true
             }
         },
-        exec: {
-            // installs the bower components
-            bower: {
-                cmd: 'bower install'
-            }
-        },
         prompt: {
             target: {
                 options: {
@@ -41,7 +39,7 @@ module.exports = function (grunt) {
                             name: "grunt-prompt.apiKey",
                             message: 'Bungie API Key:',
                             type: 'input',
-                            default: '<%= local.apiKey %>',
+                            default: '<%= env.apiKey %>',
                             validate: function(value) {
                                 return value !== undefined && value !== null && value !== '';
                             }
@@ -55,7 +53,6 @@ module.exports = function (grunt) {
     // load the tasks
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-contrib-copy');
-    grunt.loadNpmTasks('grunt-exec');
     grunt.loadNpmTasks('grunt-prompt');
 
     // register the task to save the local config
@@ -64,10 +61,11 @@ module.exports = function (grunt) {
                 apiKey: grunt.config('grunt-prompt.apiKey')
             };
 
-        grunt.file.write(localConfigPath, JSON.stringify(config));
-        grunt.log.ok('Saved to [' + localConfigPath + ']');
+        grunt.file.write('.env', 'API_KEY=' + config.apiKey);
+        grunt.log.ok('Saved to [.env]');
     });
 
     // register the available tasks
-    grunt.registerTask('default', ['prompt:target', 'save-local-config', 'exec:bower', 'concat:bower', 'copy:bower']);
+    grunt.registerTask('default', ['concat:bower', 'copy:bower']);
+    grunt.registerTask('dev', ['prompt:target', 'save-local-config']);
 };
