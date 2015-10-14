@@ -15,16 +15,27 @@ module.exports = function (grunt) {
                 files: {
                     'public/css/vendor.css': [
                         'bower_components/bootstrap/dist/css/bootstrap.min.css',
-                        'bower_components/bootstrap/dist/css/bootstrap-theme.min.css'
+                        'bower_components/bootstrap-toggle/css/bootstrap-toggle.min.css',
+                        'bower_components/octicons/octicons/octicons.css'
                     ],
-                    'public/js/vendor.js': ['bower_components/angular/angular.min.js'],
+                    'public/js/vendor.js': [
+                        'bower_components/angular/angular.min.js',
+                        'bower_components/jquery/dist/jquery.min.js',
+                        'bower_components/bootstrap/dist/js/bootstrap.min.js',
+                        'bower_components/bootstrap-toggle/js/bootstrap-toggle.min.js'
+                    ],
                 }
             },
         },
         copy: {
             // copies the required files from the bower components
             bower: {
-                src: 'bower_components/bootstrap/dist/fonts/*',
+                src: [
+                    '!bower_components/octicons/octicons/*-local.ttf',
+                    'bower_components/bootstrap/dist/fonts/*',
+                    'bower_components/octicons/octicons/*.ttf',
+                    'bower_components/octicons/octicons/*.woff'
+                ],
                 dest: 'public/fonts/',
                 expand: true,
                 flatten: true
