@@ -25,7 +25,7 @@ router.get('/:platform/:displayName', function(req, res, next) {
             return res.status(err.code).send('Error ' + err.code + ': ' + err.message);
         }
 
-        res.json(result);
+        res.status(200).json(result);
     });
 });
 
@@ -48,7 +48,7 @@ var getResponseHandler = function(res) {
         if (err) {
             res.status(err.code).send('Error ' + err.code + ': ' + err.message);
         } else {
-            res.json(result);
+            res.status(200).json(result);
         };
     };
 };
