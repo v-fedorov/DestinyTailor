@@ -21,7 +21,7 @@ module.exports = function (grunt) {
                     'public/js/vendor.js': [
                         'bower_components/angular/angular.min.js',
                         'bower_components/jquery/dist/jquery.min.js',
-                        'bower_components/bootstrap/dist/js/bootstrap.min.js',
+                         // 'bower_components/bootstrap/dist/js/bootstrap.min.js',
                         'bower_components/bootstrap-toggle/js/bootstrap-toggle.min.js'
                     ],
                 }
