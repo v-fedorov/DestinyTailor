@@ -9,7 +9,7 @@
   },
   "scripts": {
     "postinstall": "bower install && grunt",
-    "start": "nodemon ./bin/www"
+    "start": "node ./bin/www"
   },
   "dependencies": {
     "async": "^1.4.2",
