@@ -5,41 +5,50 @@ module.exports = function (grunt) {
 
     // configure the tasks
     grunt.initConfig({
-        env: {
-            apiKey: process.env.API_KEY || ''
-        },
-        pkg: grunt.file.readJSON('package.json'),
         concat: {
             // concats and moves the required files from the bower components
             bower: {
                 files: {
-                    'public/css/vendor.css': [
+                    'dist/css/main.css': [
+                        'src/css/main.css'
+                    ],
+                    'dist/css/vendor.css': [
                         'bower_components/bootstrap/dist/css/bootstrap.min.css',
                         'bower_components/bootstrap-toggle/css/bootstrap-toggle.min.css',
                         'bower_components/octicons/octicons/octicons.css'
-                    ],
-                    'public/js/vendor.js': [
-                        'bower_components/angular/angular.min.js',
+                    ]/*,
+                    'dist/js/vendor.js': [
+                        'bower_components/angular/angular.js',
                         'bower_components/jquery/dist/jquery.min.js',
-                         // 'bower_components/bootstrap/dist/js/bootstrap.min.js',
+                        'bower_components/bootstrap/dist/js/bootstrap.min.js',
                         'bower_components/bootstrap-toggle/js/bootstrap-toggle.min.js'
-                    ],
+                    ]*/
                 }
             },
         },
         copy: {
-            // copies the required files from the bower components
-            bower: {
+            fonts: {
                 src: [
                     '!bower_components/octicons/octicons/*-local.ttf',
                     'bower_components/bootstrap/dist/fonts/*',
                     'bower_components/octicons/octicons/*.ttf',
                     'bower_components/octicons/octicons/*.woff'
                 ],
-                dest: 'public/fonts/',
+                dest: 'dist/fonts/',
+                expand: true,
+                flatten: true
+            },
+            html: {
+                src: [
+                    'src/*.html'
+                ],
+                dest: 'dist/',
                 expand: true,
                 flatten: true
             }
+        },
+        env: {
+            apiKey: process.env.API_KEY || ''
         },
         prompt: {
             target: {
@@ -59,11 +68,27 @@ module.exports = function (grunt) {
                 }
             },
         },
+        uglify: {
+            main: {
+                files: {
+                    'dist/js/main.min.js': [
+                        'src/js/main.js'
+                    ],
+                    'dist/js/vendor.min.js': [
+                        'bower_components/angular/angular.js',
+                        'bower_components/jquery/dist/jquery.min.js',
+                        'bower_components/bootstrap/dist/js/bootstrap.min.js',
+                        'bower_components/bootstrap-toggle/js/bootstrap-toggle.min.js'
+                    ]
+                }
+            }
+        }
     });
 
     // load the tasks
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-contrib-copy');
+    grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-prompt');
 
     // register the task to save the local config
@@ -77,6 +102,7 @@ module.exports = function (grunt) {
     });
 
     // register the available tasks
-    grunt.registerTask('default', ['concat:bower', 'copy:bower']);
+    grunt.registerTask('default', ['concat', 'copy', 'uglify']);
+
     grunt.registerTask('dev', ['prompt:target', 'save-local-config']);
 };
