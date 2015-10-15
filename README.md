@@ -6,11 +6,11 @@ Easily discover how to get the most from your armour, and still look dapper.
 
 Currently only available locally, Destiny Tailor is built in Node.js running Express as the backend server. Getting started locally is easy, here's what you'll need.
 
-### Prerequisites
+#### Prerequisites
 * Node.js installed
 * An API key from [Bungie.net](https://www.bungie.net/en/User/API)
 
-### Setup
+#### Setup
 1. `clone` the repository to a local directoy
 1. Install the node and bower dependencies using `npm i`
 2. Run `grunt dev` to install your Bungie API key (this will only be stored locally and won't be shared)
