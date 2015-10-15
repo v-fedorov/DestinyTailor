@@ -1,7 +1,7 @@
 (function() {
     var app = angular.module('destinyTailorApp', []);
 
-    app.controller('SearchCtrl', function ($scope, $http) {
+    app.controller('SearchCtrl', ['$scope', '$http', function ($scope, $http) {
         $scope.searchCriteria = 'GeekyEggo';
 
         $scope.search = function() {
@@ -13,5 +13,5 @@
                 console.log(err);
             });
         };
-    });
+    }]);
 })();
