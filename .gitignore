@@ -31,5 +31,5 @@ node_modules
 bower_components
 
 # Local config
-/*.vscode
+.vscode
 /*.env
