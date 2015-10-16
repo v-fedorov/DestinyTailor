@@ -13,7 +13,7 @@ Currently only available locally, Destiny Tailor is built in Node.js running Exp
 #### Setup
 1. `clone` the repository to a local directoy
 1. Install the node and bower dependencies using `npm i`
-2. Run `grunt dev` to install your Bungie API key (this will only be stored locally and won't be shared)
+2. Run `grunt config` to install your Bungie API key (this will only be stored locally and won't be shared)
 3. Finally, `npm start` will start the site locally; default address [http://localhost:3000/](http://localhost:3000/)
 
 ## About the project

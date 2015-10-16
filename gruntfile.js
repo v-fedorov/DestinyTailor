@@ -7,22 +7,20 @@ module.exports = function (grunt) {
     grunt.initConfig({
         concat: {
             // concats and moves the required files from the bower components
-            bower: {
+            css: {
                 files: {
                     'dist/css/main.css': [
                         'src/css/main.css'
                     ],
+                }
+            },
+            vendor: {
+                files: {
                     'dist/css/vendor.css': [
                         'bower_components/bootstrap/dist/css/bootstrap.min.css',
                         'bower_components/bootstrap-toggle/css/bootstrap-toggle.min.css',
                         'bower_components/octicons/octicons/octicons.css'
-                    ]/*,
-                    'dist/js/vendor.js': [
-                        'bower_components/angular/angular.js',
-                        'bower_components/jquery/dist/jquery.min.js',
-                        'bower_components/bootstrap/dist/js/bootstrap.min.js',
-                        'bower_components/bootstrap-toggle/js/bootstrap-toggle.min.js'
-                    ]*/
+                    ]
                 }
             },
         },
@@ -51,7 +49,7 @@ module.exports = function (grunt) {
             apiKey: process.env.API_KEY || ''
         },
         prompt: {
-            target: {
+            apiKey: {
                 options: {
                     questions: [
                         {
@@ -69,11 +67,15 @@ module.exports = function (grunt) {
             },
         },
         uglify: {
-            main: {
+            js: {
                 files: {
                     'dist/js/main.min.js': [
                         'src/js/main.js'
-                    ],
+                    ]
+                }
+            },
+            vendor: {
+                files: {
                     'dist/js/vendor.min.js': [
                         'bower_components/angular/angular.js',
                         'bower_components/jquery/dist/jquery.min.js',
@@ -82,6 +84,21 @@ module.exports = function (grunt) {
                     ]
                 }
             }
+        },
+        watch: {
+            css: {
+                files: 'src/css/*.css',
+                tasks: 'concat:css'
+            },
+            js: {
+                files: 'src/js/*.js',
+                tasks: 'uglify:js'
+            },
+            html: {
+                files: 'src/**/*.html',
+                tasks: 'copy:html'
+            }
+            
         }
     });
 
@@ -89,10 +106,11 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-contrib-uglify');
+    grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-prompt');
 
     // register the task to save the local config
-    grunt.registerTask('save-local-config', 'Saves the local configuration.', function() {
+    grunt.registerTask('save-config', 'Saves the local configuration.', function() {
         var config = {
                 apiKey: grunt.config('grunt-prompt.apiKey')
             };
@@ -103,6 +121,5 @@ module.exports = function (grunt) {
 
     // register the available tasks
     grunt.registerTask('default', ['concat', 'copy', 'uglify']);
-
-    grunt.registerTask('dev', ['prompt:target', 'save-local-config']);
+    grunt.registerTask('config', ['prompt:apiKey', 'save-config']);
 };
