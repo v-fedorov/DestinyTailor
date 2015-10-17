@@ -19,10 +19,12 @@ Currently only available locally, Destiny Tailor is built in Node.js running Exp
 ## About the project
 
 This is very much a "discovery" project; after realising it was possible via the Bungie API, I've decided to step outside of my comfort realms of .NET, and have a proper go with Node.js. Some of the technologies I've set out to experiment with include:
-* Node.js
-* Express
-* Grunt
-* Bower
-* Angular
+- [x] Node.js
+- [x] Express
+- [x] Grunt
+- [x] Bower
+- [ ] Web components
+- [ ] Angular
+- [ ] Routing
 
 All feedback is appreciated; both positive or ~~negative~~ *constructive*, so please feel free to contact me here, or on PSN via @GeekyEggo.
