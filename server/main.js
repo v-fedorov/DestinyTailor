@@ -1,4 +1,5 @@
-var express = require('express'),
+var apiController = require('./controllers/api'), 
+    express = require('express'),
     path = require('path'),
     favicon = require('serve-favicon'),
     logger = require('morgan'),
@@ -20,7 +21,10 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, '../dist')));
 
 // configure the routes, including error handling
-app.use('/api', require('./controllers/api'));
+app.get('*', function(req, res) {
+    res.sendfile('./dist/index.html')
+})
+app.use('/api', apiController);
 app.use(function(err, req, res, next) {
     res.status(err.status || 500).render('error', {
         message: err.message,

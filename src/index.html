@@ -1,18 +1,20 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="destinyTailorApp">
+<html lang="en">
 
 <head>
+    <!-- content -->
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <meta name="description" content="">
+    <!-- information -->
+    <title>Destiny Tailor</title>
+    <meta name="description" content="Easily discover how to get the most from your armour, and still look dapper.">
     <meta name="author" content="Richard Herman">
     <link rel="icon" href="http://getbootstrap.com/favicon.ico">
 
-    <title>Destiny Tailor</title>
-
+    <!-- styles -->
     <link href="./css/vendor.css" rel="stylesheet" />
     <link href="./css/main.css" rel="stylesheet" />
 </head>
@@ -34,7 +36,7 @@
     </nav>
 
     <!-- container -->
-    <div class="container" ng-controller="SearchCtrl">
+    <div class="container">
         <div class="row top-buffer">
             <div class="col-md-8 col-md-offset-2">
                 <div class="input-group">
@@ -46,11 +48,11 @@
                     </span>
 
                     <!-- character name -->
-                    <input type="text" class="form-control input-lg" aria-label="Search" ng-model="searchCriteria" />
+                    <input type="text" class="form-control input-lg" aria-label="Search" />
 
                     <!-- search -->
                     <span class="input-group-btn">
-                        <button class="btn btn-default btn-lg" type="button" ng-click="search()">Search</button>
+                        <button class="btn btn-default btn-lg" type="button">Search</button>
                     </span>
                 </div>
             </div>
@@ -65,8 +67,10 @@
         </div>
     </footer>
 
-    <script type="text/javascript" src="./js/vendor.min.js"></script>
-    <script type="text/javascript" src="./js/main.min.js"></script>
+    <!-- load jQuery, our local concat bootstrap, and out scripts -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="./js/bootstrap.min.js"></script>
+    <script src="./js/main.min.js"></script>
 </body>
 
 </html>

@@ -37,12 +37,10 @@ module.exports = function (grunt) {
                 flatten: true
             },
             html: {
-                src: [
-                    'src/*.html'
-                ],
+                src: ['src/*.html'],
                 dest: 'dist/',
                 expand: true,
-                flatten: true
+                flatten: true                
             }
         },
         env: {
@@ -74,11 +72,9 @@ module.exports = function (grunt) {
                     ]
                 }
             },
-            vendor: {
+            bootstrap: {
                 files: {
-                    'dist/js/vendor.min.js': [
-                        'bower_components/angular/angular.js',
-                        'bower_components/jquery/dist/jquery.min.js',
+                    'dist/js/bootstrap.min.js': [
                         'bower_components/bootstrap/dist/js/bootstrap.min.js',
                         'bower_components/bootstrap-toggle/js/bootstrap-toggle.min.js'
                     ]
@@ -95,10 +91,9 @@ module.exports = function (grunt) {
                 tasks: 'uglify:js'
             },
             html: {
-                files: 'src/**/*.html',
+                files: ['src/**/*.html', '!src/**/*.tmpl.html'],
                 tasks: 'copy:html'
             }
-            
         }
     });
 
