@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="destinyTailorApp">
 
 <head>
     <!-- content -->
@@ -37,26 +37,42 @@
 
     <!-- container -->
     <div class="container">
-        <div class="row top-buffer">
-            <div class="col-md-8 col-md-offset-2">
-                <div class="input-group">
-                    <!-- platform -->
-                    <span class="input-group-btn">
-                        <input id="platform" type="checkbox" checked data-toggle="toggle" data-size="large"
-                            data-on="PSN" data-onstyle="primary"
-                            data-off="XBox" data-offstyle="success" />
-                    </span>
-
-                    <!-- character name -->
-                    <input type="text" class="form-control input-lg" aria-label="Search" />
-
-                    <!-- search -->
-                    <span class="input-group-btn">
-                        <button class="btn btn-default btn-lg" type="button">Search</button>
-                    </span>
+        <!-- search -->
+        <form ng-controller="searchController">
+            <div class="row top-buffer">
+                <div class="col-md-8 col-md-offset-2">
+                    <div class="input-group">
+                        <!-- platform -->
+                        <span class="input-group-btn">
+                            <input id="platform" type="checkbox" checked data-toggle="toggle" data-size="large"
+                                data-on="PSN" data-onstyle="primary"
+                                data-off="XBox" data-offstyle="success" />
+                        </span>
+    
+                        <!-- character name -->
+                        <input type="text" class="form-control input-lg" aria-label="Search" 
+                            ng-model="name"
+                            ng-keyup="$event.keyCode == 13 && search()"" />
+    
+                        <!-- search -->
+                        <span class="input-group-btn" ng-class="{'loading': isLoading}">
+                            <button class="btn btn-default btn-lg" type="button" ng-click="search()">
+                                <span class="octicon octicon-search">&nbsp;</span>
+                            </button>
+                        </span>
+                    </div>
                 </div>
             </div>
-        </div>
+            <div ng-show="error" class="row top-buffer ng-hide">
+                <div class="col-md-8 col-md-offset-2">
+                    <div class="alert alert-danger" role="alert">
+                        <span class="glyphicon glyphicon-user"></span>
+                        <span class="sr-only">Error:</span>
+                        <span>{{error}}</span>
+                    </div>
+                </div>
+            </div>
+        </form>
     </div>
 
     <!-- footer -->
@@ -67,9 +83,12 @@
         </div>
     </footer>
 
-    <!-- load jQuery, our local concat bootstrap, and out scripts -->
+    <!-- vendor scripts -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular.min.js"></script>
     <script src="./js/bootstrap.min.js"></script>
+    
+    <!-- local scripts -->
     <script src="./js/main.min.js"></script>
 </body>
 

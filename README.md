@@ -24,7 +24,7 @@ This is very much a "discovery" project; after realising it was possible via the
 - [x] Grunt
 - [x] Bower
 - [ ] Web components
-- [ ] Angular
+- [x] Angular
 - [ ] Routing
 
 All feedback is appreciated; both positive or ~~negative~~ *constructive*, so please feel free to contact me here, or on PSN via @GeekyEggo.

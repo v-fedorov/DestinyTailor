@@ -67,10 +67,7 @@ bungieService.searchCharacter = function(membershipType, displayName, callback) 
 
         // check if the character was found
         if (result.length === 0) {
-            return callback({
-                code: 404,
-                message: 'Character not found'
-            });
+            return callback(null, null);
         }
 
         // construct the basic account information and load the summary

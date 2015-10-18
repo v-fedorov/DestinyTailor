@@ -21,9 +21,6 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, '../dist')));
 
 // configure the routes, including error handling
-app.get('*', function(req, res) {
-    res.sendfile('./dist/index.html')
-})
 app.use('/api', apiController);
 app.use(function(err, req, res, next) {
     res.status(err.status || 500).render('error', {
