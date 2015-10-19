@@ -64,7 +64,7 @@
                     </div>
                 </div>
             </div>
-            <div ng-show="error" class="row top-buffer ng-hide">
+            <div class="row top-buffer ng-hide">
                 <div class="col-md-8 col-md-offset-2">
                     <div class="alert alert-danger" role="alert">
                         <span class="glyphicon glyphicon-user"></span>
@@ -74,6 +74,9 @@
                 </div>
             </div>
         </form>
+        <div class="row ng-hide" ng-controller="characterController" ng-show="membership">
+            {{membership.displayName}}
+        </div>
     </div>
 
     <!-- footer -->
