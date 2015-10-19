@@ -9,22 +9,31 @@ module.exports = function (grunt) {
             // concats and moves the required files from the bower components
             css: {
                 files: {
-                    'dist/css/main.css': [
+                    'public/dist/css/main.css': [
                         'src/css/main.css'
                     ],
                 }
             },
-            vendor: {
+            bootstrap: {
                 files: {
-                    'dist/css/vendor.css': [
+                    'public/vendor/css/bootstrap.css': [
                         'bower_components/bootstrap/dist/css/bootstrap.min.css',
-                        'bower_components/bootstrap-toggle/css/bootstrap-toggle.min.css',
-                        'bower_components/octicons/octicons/octicons.css'
+                        'bower_components/bootstrap-toggle/css/bootstrap-toggle.min.css'
                     ]
                 }
-            },
+            }
         },
+        clean: [
+            'public/dist',
+            'public/vendor'
+        ],
         copy: {
+            css: {
+                src: ['bower_components/octicons/octicons/octicons.css'],
+                dest: 'public/vendor/css/',
+                expand: true,
+                flatten: true
+            },
             fonts: {
                 src: [
                     '!bower_components/octicons/octicons/*-local.ttf',
@@ -32,19 +41,24 @@ module.exports = function (grunt) {
                     'bower_components/octicons/octicons/*.ttf',
                     'bower_components/octicons/octicons/*.woff'
                 ],
-                dest: 'dist/fonts/',
+                dest: 'public/vendor/fonts/',
                 expand: true,
                 flatten: true
-            },
-            html: {
-                src: ['src/*.html'],
-                dest: 'dist/',
-                expand: true,
-                flatten: true                
             }
         },
         env: {
             apiKey: process.env.API_KEY || ''
+        },
+        htmlmin: {
+            dist: {
+                options: {
+                    removeComments: true,
+                    collapseWhitespace: true
+                },
+                files: {
+                    'public/dist/index.html': 'src/index.html'
+                }
+            },
         },
         prompt: {
             apiKey: {
@@ -67,14 +81,14 @@ module.exports = function (grunt) {
         uglify: {
             js: {
                 files: {
-                    'dist/js/main.min.js': [
+                    'public/dist/js/main.js': [
                         'src/js/main.js'
                     ]
                 }
             },
             bootstrap: {
                 files: {
-                    'dist/js/bootstrap.min.js': [
+                    'public/vendor/js/bootstrap.min.js': [
                         'bower_components/bootstrap/dist/js/bootstrap.min.js',
                         'bower_components/bootstrap-toggle/js/bootstrap-toggle.min.js'
                     ]
@@ -91,15 +105,17 @@ module.exports = function (grunt) {
                 tasks: 'uglify:js'
             },
             html: {
-                files: ['src/**/*.html', '!src/**/*.tmpl.html'],
-                tasks: 'copy:html'
+                files: ['src/index.html'],
+                tasks: 'htmlmin:dist'
             }
         }
     });
 
     // load the tasks
+    grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-contrib-copy');
+    grunt.loadNpmTasks('grunt-contrib-htmlmin');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-prompt');
@@ -115,6 +131,6 @@ module.exports = function (grunt) {
     });
 
     // register the available tasks
-    grunt.registerTask('default', ['concat', 'copy', 'uglify']);
+    grunt.registerTask('default', ['clean', 'concat', 'copy', 'uglify', 'htmlmin']);
     grunt.registerTask('config', ['prompt:apiKey', 'save-config']);
 };

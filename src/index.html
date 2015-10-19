@@ -15,8 +15,9 @@
     <link rel="icon" href="http://getbootstrap.com/favicon.ico">
 
     <!-- styles -->
-    <link href="./css/vendor.css" rel="stylesheet" />
-    <link href="./css/main.css" rel="stylesheet" />
+    <link href="./vendor/css/bootstrap.css" rel="stylesheet" />
+    <link href="./vendor/css/octicons.css" rel="stylesheet" />
+    <link href="./dist/css/main.css" rel="stylesheet" />
 </head>
 
 <body data-feedly-mini="yes" cz-shortcut-listen="true">
@@ -48,12 +49,12 @@
                                 data-on="PSN" data-onstyle="primary"
                                 data-off="XBox" data-offstyle="success" />
                         </span>
-    
+
                         <!-- character name -->
-                        <input type="text" class="form-control input-lg" aria-label="Search" 
+                        <input type="text" class="form-control input-lg" aria-label="Search"
                             ng-model="name"
-                            ng-keyup="$event.keyCode == 13 && search()"" />
-    
+                            ng-keyup="$event.keyCode == 13 && search()" />
+
                         <!-- search -->
                         <span class="input-group-btn" ng-class="{'loading': isLoading}">
                             <button class="btn btn-default btn-lg" type="button" ng-click="search()">
@@ -86,10 +87,10 @@
     <!-- vendor scripts -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular.min.js"></script>
-    <script src="./js/bootstrap.min.js"></script>
-    
+    <script src="./vendor/js/bootstrap.min.js"></script>
+
     <!-- local scripts -->
-    <script src="./js/main.min.js"></script>
+    <script src="./dist/js/main.js"></script>
 </body>
 
 </html>

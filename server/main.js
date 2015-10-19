@@ -1,4 +1,5 @@
-var apiController = require('./controllers/api'), 
+var apiController = require('./controllers/api'),
+    config = require('./config'),
     express = require('express'),
     path = require('path'),
     favicon = require('serve-favicon'),
@@ -18,9 +19,22 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, '../dist')));
+
+// setup the static files and home page
+var indexPath;
+if (config.env === 'dev') {
+    indexPath = path.join(__dirname, '../src/index.html');
+    app.use('/dist', express.static(path.join(__dirname, '../src')));
+} else {
+    indexPath = path.join(__dirname, '../public/dist/index.html');
+};
+
+app.use(express.static(path.join(__dirname, '../public')));
 
 // configure the routes, including error handling
+app.get('/', function(req, res) {
+    res.sendFile(indexPath);
+});
 app.use('/api', apiController);
 app.use(function(err, req, res, next) {
     res.status(err.status || 500).render('error', {
@@ -28,6 +42,5 @@ app.use(function(err, req, res, next) {
         error: app.get('env') === 'development' ? err : {}
     });
 });
-
 
 module.exports = app;
