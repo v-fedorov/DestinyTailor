@@ -4,6 +4,7 @@
   "dependencies": {
     "bootstrap": "3.3.5",
     "bootstrap-toggle": "2.2.1",
-    "octicons": "3.1.0"
+    "octicons": "3.1.0",
+    "roboto-fontface": "0.4.3"
   }
 }

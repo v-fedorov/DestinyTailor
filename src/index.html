@@ -21,66 +21,83 @@
 </head>
 
 <body data-feedly-mini="yes" cz-shortcut-listen="true">
-    <!-- navigation -->
-    <nav class="navbar navbar-inverse navbar-fixed-top">
+    <div id="wrap">
+        <!-- navigation -->
+        <nav class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="http://getbootstrap.com/examples/starter-template/#">Destiny Tailor</a>
+                </div>
+                <div id="navbar" class="collapse navbar-collapse">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="./about" rel="author">About</a></li>
+                        <li><a href="https://github.com/geekyeggo/destinytailor" rel="author"><span class="octicon octicon-mark-github"></span> GitHub</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <!-- container -->
         <div class="container">
-            <div class="navbar-header">
-                <a class="navbar-brand" href="http://getbootstrap.com/examples/starter-template/#">Destiny Tailor</a>
-            </div>
-            <div id="navbar" class="collapse navbar-collapse">
-                <ul class="nav navbar-nav navbar-right">
-                    <li><a href="./about" rel="author">About</a></li>
-                    <li><a href="https://github.com/geekyeggo/destinytailor" rel="author"><span class="octicon octicon-mark-github"></span> GitHub</a></li>
-                </ul>
-            </div>
-        </div>
-    </nav>
+            <!-- search -->
+            <form ng-controller="searchController">
+                <div class="row top-buffer">
+                    <div class="col-md-8 col-md-offset-2">
+                        <p>
+                            <div class="input-group">
+                                <!-- platform -->
+                                <span class="input-group-btn">
+                                    <input id="platform" type="checkbox" checked data-toggle="toggle" data-size="large"
+                                        data-on="PSN" data-onstyle="primary"
+                                        data-off="XBox" data-offstyle="success" />
+                                </span>
 
-    <!-- container -->
-    <div class="container">
-        <!-- search -->
-        <form ng-controller="searchController">
-            <div class="row top-buffer">
-                <div class="col-md-8 col-md-offset-2">
-                    <div class="input-group">
-                        <!-- platform -->
-                        <span class="input-group-btn">
-                            <input id="platform" type="checkbox" checked data-toggle="toggle" data-size="large"
-                                data-on="PSN" data-onstyle="primary"
-                                data-off="XBox" data-offstyle="success" />
-                        </span>
+                                <!-- character name -->
+                                <input type="text" class="form-control input-lg" aria-label="Search" ng-disabled="isLoading" ng-keyup="$event.keyCode == 13 && search()" ng-model="name" />
 
-                        <!-- character name -->
-                        <input type="text" class="form-control input-lg" aria-label="Search"
-                            ng-model="name"
-                            ng-keyup="$event.keyCode == 13 && search()" />
-
-                        <!-- search -->
-                        <span class="input-group-btn" ng-class="{'loading': isLoading}">
-                            <button class="btn btn-default btn-lg" type="button" ng-click="search()">
-                                <span class="octicon octicon-search">&nbsp;</span>
-                            </button>
-                        </span>
+                                <!-- search -->
+                                <span class="input-group-btn" ng-class="{'loading': isLoading}">
+                                    <button class="btn btn-default btn-lg" type="button" ng-click="search()" ng-disabled="isLoading">
+                                        <span class="octicon octicon-search"></span>
+                                    </button>
+                                </span>
+                            </div>
+                        </p>
+                        <p class="text-center ng-hide" ng-show="isLoading">
+                            <span class="octicon octicon-sync spin"></span> Loading character...
+                        </p>
                     </div>
                 </div>
-            </div>
-            <div class="row top-buffer ng-hide">
-                <div class="col-md-8 col-md-offset-2">
-                    <div class="alert alert-danger" role="alert">
-                        <span class="glyphicon glyphicon-user"></span>
-                        <span class="sr-only">Error:</span>
-                        <span>{{error}}</span>
+                <div class="row top-buffer ng-hide">
+                    <div class="col-md-8 col-md-offset-2">
+                        <div class="alert alert-danger" role="alert">
+                            <span class="glyphicon glyphicon-user"></span>
+                            <span class="sr-only">Error:</span>
+                            <span>{{error}}</span>
+                        </div>
                     </div>
                 </div>
+            </form>
+            <div class="row ng-hide" ng-controller="characterController" ng-show="membership">
+                <div class="col-sm-4" ng-repeat="character in membership.characters">
+                    <a href="#" class="show character" ge-background-img="http://bungie.net{{character.backgroundPath}}">
+                        <img class="pull-left" height="59" ng-src="http://www.bungie.net{{character.emblemPath}}" />
+                        <span class="character-info pull-left">
+                            <p class="lead">{{character.class}}</p>
+                            <p><small>{{character.race}} {{character.gender}}</small></p>
+                        </span>
+                        <span class="character-info pull-right text-right">
+                            <p class="lead">{{character.level}}</p>
+                            <p class="character-light-level"><small><span class="glyphicon glyphicon-star"></span>{{character.lightLevel}}</small></p>
+                        </span>
+                    </a>
+                </div>
             </div>
-        </form>
-        <div class="row ng-hide" ng-controller="characterController" ng-show="membership">
-            {{membership.displayName}}
         </div>
     </div>
 
     <!-- footer -->
-    <footer class="top-buffer">
+    <footer>
         <div class="container">
             <p>Made with <span class="octicon octicon-mark-github"></span> by @GeekyEggo, on <a href="https://github.com/geekyeggo/destinytailor" title="View Destiny Tailor's source code on GitHub, come fork around!" rel="author">GitHub</a>.</p>
             <p>Special thanks to <a href="https://www.bungie.net/" title="Visit Bungie.net" rel="nofollow">Bungie</a>, and their API.</p>

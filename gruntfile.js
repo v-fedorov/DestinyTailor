@@ -39,7 +39,8 @@ module.exports = function (grunt) {
                     '!bower_components/octicons/octicons/*-local.ttf',
                     'bower_components/bootstrap/dist/fonts/*',
                     'bower_components/octicons/octicons/*.ttf',
-                    'bower_components/octicons/octicons/*.woff'
+                    'bower_components/octicons/octicons/*.woff',
+                    'bower_components/roboto-fontface/fonts/Roboto-Regular.*'
                 ],
                 dest: 'public/vendor/fonts/',
                 expand: true,
