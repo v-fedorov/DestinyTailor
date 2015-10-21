@@ -7,6 +7,12 @@ var gulp = require('gulp'),
     minifyHtml = require('gulp-minify-html'),
     uglify = require('gulp-uglify');
 
+var jsSrc = [
+    '!src/js/main.min.js',
+    'src/js/main.js',
+    'src/js/**/*.js'
+];
+
 gulp.task('clean', function(callback) {
     del.sync([
         'public/dist',
@@ -29,12 +35,6 @@ gulp.task('main:html', function() {
 });
 
 gulp.task('main:js', function() {
-    var jsSrc = [
-        '!src/js/main.min.js',
-        'src/js/main.js',
-        'src/js/**/*.js'
-    ];
-
     return gulp.src(jsSrc)
         .pipe(concat('main.min.js'))
         .pipe(gulp.dest('src/js'))
@@ -84,7 +84,12 @@ gulp.task('vendor:js', function() {
         .pipe(gulp.dest('public/vendor/js/'));
 });
 
+gulp.task('watch:js', function() {
+     gulp.watch(jsSrc, ['main:js']);
+});
+
 gulp.task('main', ['main:css', 'main:html', 'main:js']);
 gulp.task('vendor', ['vendor:css', 'vendor:fonts', 'vendor:js']);
+gulp.task('watch', ['watch:js']);
 
 gulp.task('default', ['clean', 'vendor', 'main']);

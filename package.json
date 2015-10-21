@@ -32,8 +32,5 @@
     "morgan": "~1.5.3",
     "node-cache": "^3.0.0",
     "serve-favicon": "~2.2.1"
-  },
-  "devDependencies": {
-    "gulp-watch": "^4.3.5"
   }
 }
