@@ -29,7 +29,15 @@ gulp.task('main:html', function() {
 });
 
 gulp.task('main:js', function() {
-    return gulp.src('src/js/main.js')
+    var jsSrc = [
+        '!src/js/main.min.js',
+        'src/js/main.js',
+        'src/js/**/*.js'
+    ];
+
+    return gulp.src(jsSrc)
+        .pipe(concat('main.min.js'))
+        .pipe(gulp.dest('src/js'))
         .pipe(uglify())
         .pipe(gulp.dest('public/dist/js'));
 });
