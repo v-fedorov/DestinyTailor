@@ -20,15 +20,12 @@ coverage
 .lock-wscript
 
 # Compiled binary addons (http://nodejs.org/api/addons.html)
-build/Release
 public/*
-
-# Dependency directory
-# https://www.npmjs.org/doc/misc/npm-faq.html#should-i-check-my-node_modules-folder-into-git
-node_modules
+src/js/main.min.js
 
 # Package managers
 bower_components
+node_modules
 
 # Local config
 .vscode
