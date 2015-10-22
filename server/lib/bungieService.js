@@ -158,7 +158,7 @@ var request = function(options, callback) {
         : options;
 
     // log how long each request takes
-    var timeLabel = '> GET ' + requestOptions.path;
+    var timeLabel = '> GET BUNGIE ' + requestOptions.path;
     console.time(timeLabel);
 
     // make the request

@@ -20,10 +20,13 @@ function Account(data) {
  * @param {object[]} dataArray The data for the characters.
  */
 Account.prototype.setCharacters = function(dataArray) {
+    this.characters = {};
+
     // bind the characters
-    this.characters = dataArray.map(function(data) {
-        return new Character(data);
-    });
+    dataArray.forEach(function(data) {
+        var character = new Character(data);
+        this.characters[character.characterId] = character;
+    }.bind(this));
 };
 
 module.exports = Account;

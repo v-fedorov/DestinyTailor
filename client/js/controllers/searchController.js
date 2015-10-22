@@ -12,7 +12,7 @@
         $scope.platform = PLATFORM_PSN;
 
         /**
-         * Searches for a character and updates the membership in the user service.
+         * Searches for a character and updates the account in the user service.
          */
         $scope.search = function() {
             var path = "/api/" + ($scope.platform === PLATFORM_PSN ? 2 : 1) + '/' + encodeURIComponent($scope.name) + '/';
@@ -24,7 +24,7 @@
                 if (result.data === null) {
                     $scope.error = 'Unable to find character.';
                 } else {
-                    userService.membership = result.data;
+                    userService.setAccount(result.data);
                 };
             }, function(err) {
                 $scope.isLoading = false;

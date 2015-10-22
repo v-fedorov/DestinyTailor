@@ -6,7 +6,7 @@ var bungieService = require('../lib/bungieService'),
 /*
     testing:
 
-    http://localhost:3000/2/4611686018437908853/2305843009230541270
+    http://localhost:3000/api/2/4611686018437908853/2305843009230541270
     itemId 6917529062061291933
 */
 

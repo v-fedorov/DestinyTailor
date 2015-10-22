@@ -27,11 +27,11 @@ switch (config.env) {
         console.log('*** [dev] environment ***');
         app.use(express.static(path.join(__dirname, '../client/')));
         app.use(express.static(path.join(__dirname, '../')));
+        app.use('/api', apiController);
         app.use('/*', express.static(path.join(__dirname, '../client/index.html')));
 };
 
-// configure the routes, including error handling
-app.use('/api', apiController);
+// configure error handling
 app.use(function(err, req, res, next) {
     res.status(err.status || 500).render('error', {
         message: err.message,

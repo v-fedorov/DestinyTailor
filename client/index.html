@@ -83,9 +83,9 @@
                     </div>
                 </div>
             </form>
-            <div class="row ng-hide" ng-controller="characterController" ng-show="membership">
-                <div class="col-sm-4" ng-repeat="character in membership.characters">
-                    <a href="#" class="show character" ge-background-img="http://bungie.net{{character.backgroundPath}}">
+            <div class="row ng-hide" ng-controller="accountController" ng-show="account">
+                <div class="col-sm-4" ng-repeat="(characterId, character) in account.characters">
+                    <a href="#" class="show character" ge-background-img="http://bungie.net{{character.backgroundPath}}" ng-click="selectCharacter(character)">
                         <img class="pull-left" height="59" ng-src="http://www.bungie.net{{character.emblemPath}}" />
                         <span class="character-info pull-left">
                             <p class="lead">{{character.class}}</p>
@@ -118,7 +118,7 @@
 
     <!-- inject:js -->
     <script src="/client/js/main.js"></script>
-    <script src="/client/js/controllers/characterController.js"></script>
+    <script src="/client/js/controllers/accountController.js"></script>
     <script src="/client/js/controllers/searchController.js"></script>
     <script src="/client/js/directives/backgroundImage.js"></script>
     <script src="/client/js/directives/bootstrapToggle.js"></script>
