@@ -14,10 +14,14 @@
     <meta name="author" content="Richard Herman">
     <link rel="icon" href="http://getbootstrap.com/favicon.ico">
 
-    <!-- styles -->
-    <link href="./vendor/css/bootstrap.css" rel="stylesheet" />
-    <link href="./vendor/css/octicons.css" rel="stylesheet" />
-    <link href="./dist/css/main.css" rel="stylesheet" />
+    <!-- bower:css -->
+    <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="/bower_components/bootstrap-toggle/css/bootstrap-toggle.min.css" />
+    <link rel="stylesheet" href="/bower_components/octicons/octicons/octicons.css" />
+    <link rel="stylesheet" href="/bower_components/roboto-fontface/css/roboto-fontface.css" />
+    <!-- endbower -->
+
+    <link href="./css/main.css" rel="stylesheet" />
 </head>
 
 <body data-feedly-mini="yes" cz-shortcut-listen="true">
@@ -105,13 +109,21 @@
         </div>
     </footer>
 
-    <!-- vendor scripts -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular.min.js"></script>
-    <script src="./vendor/js/bootstrap.min.js"></script>
+    <!-- bower:js -->
+    <script src="/bower_components/jquery/dist/jquery.js"></script>
+    <script src="/bower_components/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="/bower_components/bootstrap-toggle/js/bootstrap-toggle.min.js"></script>
+    <script src="/bower_components/angular/angular.js"></script>
+    <!-- endbower -->
 
-    <!-- local scripts -->
-    <script src="./dist/js/main.min.js"></script>
+    <!-- inject:js -->
+    <script src="/src/js/main.js"></script>
+    <script src="/src/js/controllers/characterController.js"></script>
+    <script src="/src/js/controllers/searchController.js"></script>
+    <script src="/src/js/directives/backgroundImage.js"></script>
+    <script src="/src/js/directives/bootstrapToggle.js"></script>
+    <script src="/src/js/services/userService.js"></script>
+    <!-- endinject -->
 </body>
 
 </html>

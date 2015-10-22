@@ -20,26 +20,24 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-// setup the static files and home page
-var indexPath;
-if (config.env === 'dev') {
-    indexPath = path.join(__dirname, '../src/index.html');
-    app.use('/dist', express.static(path.join(__dirname, '../src')));
-} else {
-    indexPath = path.join(__dirname, '../public/dist/index.html');
+// setup the environment
+switch (config.env) {
+    case 'build':
+    default:
+        console.log('*** [dev] environment ***');
+        app.use(express.static(path.join(__dirname, '../src/')));
+        app.use(express.static(path.join(__dirname, '../')));
+        app.use('/*', express.static(path.join(__dirname, '../src/index.html')));
 };
 
 app.use(express.static(path.join(__dirname, '../public')));
 
 // configure the routes, including error handling
-app.get('/', function(req, res) {
-    res.sendFile(indexPath);
-});
 app.use('/api', apiController);
 app.use(function(err, req, res, next) {
     res.status(err.status || 500).render('error', {
         message: err.message,
-        error: app.get('env') === 'development' ? err : {}
+        error: config.env === 'dev' ? err : {}
     });
 });
 

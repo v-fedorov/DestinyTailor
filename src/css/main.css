@@ -1,20 +1,4 @@
 /* declarations */
-@font-face {
-    font-family: 'octicons';
-    src: url('../../vendor/fonts/octicons.eot?#iefix') format('embedded-opentype'),
-        url('../../vendor/fonts/octicons.woff') format('woff'),
-        url('../../vendor/fonts/octicons.ttf') format('truetype'),
-        url('../../vendor/fonts/octicons.svg#octicons') format('svg');
-}
-@font-face {
-    font-family: 'Roboto';
-    src: url('../../vendor/fonts/Roboto-Regular.eot');
-    src: url('../../vendor/fonts/Roboto-Regular.eot?#iefix') format('embedded-opentype'),
-        url('../../vendor/fonts/Roboto-Regular.woff2') format('woff2'),
-        url('../../vendor/fonts/Roboto-Regular.woff') format('woff'),
-        url('../../vendor/fonts/Roboto-Regular.ttf') format('truetype'),
-        url('../../vendor/fonts/Roboto-Regular.svg#Roboto') format('svg');
-}
 @keyframes spin {
     0% {
         -webkit-transform: rotate(0deg);
