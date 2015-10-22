@@ -1,8 +1,12 @@
 (function(app) {
+    'use strict';
+    
     /**
      * The user service, primarily used to share the current membership, and selected character.
+     * @param {object} $http The http utils from Angular.
+     * @returns The user service.
      */
-    app.factory('userService', ['$http', function($http) {
+    function userService($http) {
         return {
             getAccount: getAccount,
             getAccountId: getAccountId,
@@ -34,5 +38,9 @@
         function getAccountId() {
             return account ? account.membershipId : 0;
         };
-    }]);
-})(angular.module('destinyTailorApp'));
+    };
+    
+    // register the factory and dependencies
+    angular.module('destinyTailorApp').factory('userService', userService);
+    userService.$inject = ['$http'];
+})();

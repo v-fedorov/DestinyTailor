@@ -7,7 +7,11 @@ var gulp = require('gulp'),
 var config = {
     // local
     html: './client/index.html',
-    js: './client/**/*.js',
+    js: [
+        './client/js/main.js',
+        './client/js/services/*.js',
+        './client/js/**/*.js'
+    ],
 
     // bower
     bowerOverrides: {

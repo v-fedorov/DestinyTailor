@@ -1,9 +1,12 @@
 (function(app) {
+    'use strict';
+    
     /**
      * Provides a directive for the Bootstrap toggle control.
      * @link https://gist.github.com/jjmontesl/54457bf1342edeb218b7
+     * @returns The directive.
      */
-    app.directive('geBootstrapToggle', function () {
+    function bootstrapToggle() {
         return {
             restrict: 'A',
             transclude: true,
@@ -36,5 +39,9 @@
                 });
             }
         };
-    });
-})(angular.module('destinyTailorApp'));
+    };
+    
+    // register the directive
+    angular.module('destinyTailorApp')
+        .directive('geBootstrapToggle', bootstrapToggle);
+})();

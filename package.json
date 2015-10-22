@@ -21,7 +21,7 @@
     "dotenv": "1.2.0",
     "express": "~4.12.4",
     "extend": "^3.0.0",
-    "gulp": "^3.9.0",
+    "gulp": "3.9.0",
     "gulp-inject": "3.0.0",
     "gulp-load-plugins": "1.0.0",
     "hbs": "~2.9.0",

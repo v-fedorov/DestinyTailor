@@ -1,8 +1,11 @@
 (function(app) {
+    'use strict';
+    
     /**
      * Defines a directive for showing a character's item.
+     * @retuns The directive.
      */
-    app.directive('geInstanceItem', function () {
+    function instanceItem() {
         return {
             restrict: 'AE',
             scope: {
@@ -10,5 +13,9 @@
             },
             templateUrl: 'js/templates/instanceItem.tmp.html'
         };
-    });
-})(angular.module('destinyTailorApp'));
+    };
+    
+    // register the directive
+    angular.module('destinyTailorApp')
+        .directive('geBootstrapToggle', instanceItem);
+})();
