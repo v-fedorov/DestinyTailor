@@ -98,6 +98,9 @@
                     </a>
                 </div>
             </div>
+            <div class="row" ng-controller="characterController" ng-show="character.inventory">
+                <div ge-instance-item ng-model="character.inventory.helmet"></div>
+            </div>
         </div>
     </div>
 
@@ -120,6 +123,7 @@
     <script src="/client/js/main.js"></script>
     <script src="/client/js/services/userService.js"></script>
     <script src="/client/js/controllers/accountController.js"></script>
+    <script src="/client/js/controllers/characterController.js"></script>
     <script src="/client/js/controllers/searchController.js"></script>
     <script src="/client/js/directives/backgroundImage.js"></script>
     <script src="/client/js/directives/bootstrapToggle.js"></script>

@@ -6,11 +6,11 @@ var gulp = require('gulp'),
 
 var config = {
     // local
-    html: './client/index.html',
+    html: 'client/index.html',
     js: [
-        './client/js/main.js',
-        './client/js/services/*.js',
-        './client/js/**/*.js'
+        'client/js/main.js',
+        'client/js/services/*.js',
+        'client/js/**/*.js'
     ],
 
     // bower
@@ -62,8 +62,12 @@ gulp.task('serve', ['inject'], function () {
         env: {
             'NODE_ENV': 'development'
         }
-    }).on('start', function () {
-        gulp.watch(config.js, ['inject']);
+    }).on('start', function (ev) {
+        gulp.watch(config.js, function(ev) {
+            if (ev.type === 'added' || ev.type === 'deleted') {
+                gulp.start('inject');
+            };
+        });
     });
 });
 

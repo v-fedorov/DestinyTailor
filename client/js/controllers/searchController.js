@@ -26,7 +26,7 @@
                 if (result.data === null) {
                     $scope.error = 'Unable to find character.';
                 } else {
-                    userService.setAccount(result.data);
+                    userService.account = result.data;
                 };
             }, function(err) {
                 $scope.isLoading = false;

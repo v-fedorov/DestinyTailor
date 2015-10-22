@@ -17,5 +17,5 @@
     
     // register the directive
     angular.module('destinyTailorApp')
-        .directive('geBootstrapToggle', instanceItem);
+        .directive('geInstanceItem', instanceItem);
 })();

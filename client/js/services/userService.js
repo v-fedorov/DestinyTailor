@@ -7,36 +7,57 @@
      * @returns The user service.
      */
     function userService($http) {
-        return {
-            getAccount: getAccount,
+        var scope = {
+            account: null,
+            character: null,
             getAccountId: getAccountId,
-            setAccount: setAccount
+            getCharacterId: getCharacterId,
+            selectCharacter: selectCharacter
         };
-
-        var account = null;
+        
+        return scope;
 
         /**
-         * Gets the current loaded account.
-         * @returns The account.
-         */
-        function getAccount() {
-            return account;
-        };
-
-        /**
-         * Sets the current account.
-         * @param {object} val The account.
-         */
-        function setAccount(val) {
-            account = val;
-        };
-
-        /**
-         * Gets the current account id; otherwise 0.
+         * Gets the current account id.
          * @returns The account id.
          */
         function getAccountId() {
-            return account ? account.membershipId : 0;
+            return scope.account ? scope.account.membershipId : null;
+        };
+        
+        /**
+         * Gets the currently selected character id.
+         * @returns The character id.
+         */
+        function getCharacterId() {
+            return scope.character ? scope.character.characterId : null;
+        }
+        
+        function selectCharacter(characterId) {
+            var character = scope.account.characters[characterId];
+            
+            // validate the character exists on the account
+            if (!character) {
+                return;
+            }
+            
+            // check if the character already has inventory
+            if (character.inventory) {
+                scope.character = character;
+                return;
+            };
+            
+            // otherwise load it
+            $http.get(character.inventoryPath).then(function(result) {
+                if (result.data === null) {
+                    throw 'todo: No data.'
+                } else {
+                    character.inventory = result.data;
+                    scope.character = character;
+                };
+            }, function(err) {
+                throw 'todo: Handle errors.';
+            });
         };
     };
     

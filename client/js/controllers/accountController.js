@@ -10,15 +10,18 @@
         $scope.character = null;
 
         $scope.$watch(function() {
-            console.log(userService.getAccountId());
             return userService.getAccountId();
         }, function() {
-            $scope.account = userService.getAccount();
+            $scope.account = userService.account;
             $scope.character = null;
         }, true);
 
+        /**
+         * Changes the current character.
+         * @param {object} character The character to select.
+         */
         $scope.selectCharacter = function(character) {
-            console.log('Selected: ', character);
+            userService.selectCharacter(character.characterId);
         };
     };
     
