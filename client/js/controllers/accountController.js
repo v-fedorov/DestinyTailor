@@ -8,6 +8,7 @@
         $scope.character = null;
 
         $scope.$watch(function() {
+            console.log(userService.getAccountId());
             return userService.getAccountId();
         }, function() {
             $scope.account = userService.getAccount();
