@@ -25,12 +25,10 @@ switch (config.env) {
     case 'build':
     default:
         console.log('*** [dev] environment ***');
-        app.use(express.static(path.join(__dirname, '../src/')));
+        app.use(express.static(path.join(__dirname, '../client/')));
         app.use(express.static(path.join(__dirname, '../')));
-        app.use('/*', express.static(path.join(__dirname, '../src/index.html')));
+        app.use('/*', express.static(path.join(__dirname, '../client/index.html')));
 };
-
-app.use(express.static(path.join(__dirname, '../public')));
 
 // configure the routes, including error handling
 app.use('/api', apiController);

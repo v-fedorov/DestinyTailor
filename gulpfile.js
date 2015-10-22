@@ -6,8 +6,8 @@ var gulp = require('gulp'),
 
 var config = {
     // local
-    html: './src/index.html',
-    js: './src/**/*.js',
+    html: './client/index.html',
+    js: './client/**/*.js',
 
     // bower
     bowerOverrides: {
@@ -40,7 +40,7 @@ gulp.task('inject', function () {
             overrides: config.bowerOverrides
         }))
         .pipe($.inject(gulp.src(config.js)))
-        .pipe(gulp.dest('./src/'));
+        .pipe(gulp.dest('./client/'));
 });
 
 /**
@@ -52,7 +52,7 @@ gulp.task('serve', ['inject'], function () {
         script: './bin/www',
         ignore: [
             'bower_components/*',
-            'src/*',
+            'client/*',
             'gulpfile.js'
         ],
         env: {
