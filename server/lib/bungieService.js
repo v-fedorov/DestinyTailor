@@ -108,18 +108,24 @@ var getAccountSummary = function(account, callback) {
 var getStatMapperDelegate = function(membershipType, membershipId, characterId, item) {
     return function(callback) {
         // check if we have the item cached locally before making a request
-        itemCache.get(item.itemId + '|' + item.lightLevel, function(err, value) {
-            // check if we can return the value, or if we have to load it externally
-            if (err || value) {
-                return callback(err, value);
+        itemCache.get(item.itemId + '|' + item.lightLevel, function(err, cachedValue) {
+            if (err) {
+                return callback(err);
+            }
+            
+            // check if we have a cached value, if we do, map the stats
+            if (cachedValue) {
+                itemStatMapper.map(cachedValue, item);
+                return callback(null, cachedValue);
             };
 
+            // otherwise load the stats from Bungie
             var path = util.format('/%s/Account/%s/Character/%s/Inventory/%s/?definitions=true', membershipType, membershipId, characterId, item.itemId);
             request(path, function(err, result) {
                 if (err !== null) {
                     return callback(err);
                 }
-
+                
                 // map the stats and cache the item
                 itemStatMapper.map(result.data, item);
                 itemCache.set(item.itemId + '|' + item.lightLevel, item, function(err, success) {

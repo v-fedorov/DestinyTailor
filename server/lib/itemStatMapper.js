@@ -1,3 +1,5 @@
+var Item = require('../models/item');
+
 // main export
 var itemStatMapper = module.exports = {};
 
@@ -10,104 +12,58 @@ var STAT_MAP = itemStatMapper.STAT_MAP = {
 
 /**
  * Maps the stats from the data, to the item.
- * @param {object} data The full data including the stats.
+ * @param {object} dataSource Either the data from Bungie, or an item.
  * @param {object} item The item to map to.
  * @returns The modified item with the stats.
  */
-itemStatMapper.map = function(data, item) {
-    // set the default ranges
-    withEachStat(item, function(range) {
-        range.min = Infinity;
-        range.max = -Infinity;
-    });
-
-    // loop through the current stats
-    if (data.item.stats) {
-        data.item.stats.forEach(function(stat) {
-            item[STAT_MAP[stat.statHash]].current = stat.value;
-        });
+itemStatMapper.map = function(dataSource, item) {
+    // if the data source is an item, map the stats
+    if (dataSource.constructor === Item) {
+        for (var stat in STAT_MAP) {
+            item[STAT_MAP[stat]] = dataSource[STAT_MAP[stat]];
+        };
+    } else {
+        setMinimums(dataSource, item);
+        setMaximums(dataSource, item);
     }
-
-    // loop through the nodes to determine the min and max
-    for (var hash in data.statsOnNodes) {
-        var talentNode = getTalentNode(data, parseInt(hash, 10));
-
-        // check both the current, and next, node stats
-        setStats(item, talentNode, data.statsOnNodes[hash].currentNodeStats);
-        setStats(item, talentNode, data.statsOnNodes[hash].nextNodeStats);
-    }
-
-    sanitiseDefaultRanges(item);
+    
     return item;
 };
 
 /**
- * Gets the item's talent node based on its hash.
- * @param {object} data The item's data.
- * @param {number} hash The talent node's hash.
- * @returns The talent node.
+ * Sets the minimum stat values on an item.
+ * @param {object} data The item's raw data.
+ * @param {object} item the item being modified.
  */
-var getTalentNode = function(data, hash) {
+function setMinimums(data, item) {
     for (var i = 0; i < data.talentNodes.length; i++) {
-        if (data.talentNodes[i].nodeHash === hash) {
-            return data.talentNodes[i];
+        var node = data.talentNodes[i];
+        
+        // assume we have found the minimum values when
+        if (node.stateId === 'CreationOnly' && data.statsOnNodes.hasOwnProperty(node.nodeHash)) {
+            data.statsOnNodes[node.nodeHash].currentNodeStats.forEach(function(stat) {
+                item[STAT_MAP[stat.statHash]].min = stat.value;
+                item[STAT_MAP[stat.statHash]].current = stat.value;
+            });
+            
+            return;
         };
     };
-
-    return null;
 };
 
 /**
- * Sanitises the default ranges on stats for an item.
- * @param {object} item The item.
+ * Sets the maximum stat values available on an item.
+ * @param {object} data The item's raw data.
+ * @param {object} item The item being modified.
  */
-var sanitiseDefaultRanges = function(item) {
-    withEachStat(item, function(range) {
-        // check if a range has been set
-        range.min = range.min !== Infinity ? range.min : -Infinity;
-        range.max = range.max !== -Infinity ? range.max : Infinity;
-
-        // when the range is classified as unspecified, set to 0
-        if (range.min === -Infinity && range.max === Infinity) {
-            range.min = 0;
-            range.max = 0;
+function setMaximums(data, item) {
+    // with each node, evaluate those that have stats, and aren't considered on creation
+    data.talentNodes.forEach(function(node) {
+        if (node.stateId !== 'CreationOnly' && data.statsOnNodes.hasOwnProperty(node.nodeHash)) {
+            data.statsOnNodes[node.nodeHash][node.isActivated ? 'currentNodeStats' : 'nextNodeStats'].forEach(function(stat) {
+                var itemStat = item[STAT_MAP[stat.statHash]];
+                itemStat.max = Math.max(itemStat.min + stat.value, itemStat.max);
+            });
         };
     });
-};
-
-/**
- * Set the stats on the item, based on the node stats.
- * @param {object} item The item being updated.
- * @param {object} talentNode The node containing the talent's information
- * @param {array} nodeStats Collection of stats on a node.
- */
-var setStats = function(item, talentNode, nodeStats) {
-    for (var i = 0; i < nodeStats.length; i++) {
-        var stat = nodeStats[i],
-            range = item[STAT_MAP[stat.statHash]];
-
-        // check we have a range to play with
-        if (!range) {
-            continue;
-        };
-
-        if (talentNode.hidden) {
-            // is it safe to assume that because it's 'hidden', that it's the default value
-            range.min = Math.min(range.min, stat.value);
-        } else {
-            // otherwise we increment
-            range.max = Math.max(range.max, range.min + stat.value);
-        }
-    }
-};
-
-/**
- * Iterates over each stat within the map and selects it from the item.
- * @param {object} item The item.
- * @param {function} fn The callback function called for each stat.
- */
-var withEachStat = function(item, fn) {
-    for (var statHash in STAT_MAP) {
-        fn(item[STAT_MAP[statHash]]);
-    };
 };

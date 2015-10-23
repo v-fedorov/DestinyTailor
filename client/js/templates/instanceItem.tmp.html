@@ -1,8 +1,13 @@
-{{item}}
-<br />
-id: {{item.itemId}}
-name: {{item.name}}
-lightLevel: {{item.lightLevel}}
-disc: {{item.discipline.current}}
-int: {{item.intellect.current}}
-str: {{item.strength.current}}
+<div class="row">
+    name: {{item.name}}
+
+    <div class="ng-hide" ng-show="item.intellect.max">
+        Intellect +{{item.intellect.current}} / {{item.intellect.max}}
+    </div>
+    <div class="ng-hide" ng-show="item.discipline.max">
+        Discipline +{{item.discipline.current}} / {{item.discipline.max}}
+    </div>
+    <div class="ng-hide" ng-show="item.strength.max">
+        Strength +{{item.strength.current}} / {{item.strength.max}}
+    </div>
+</div>
