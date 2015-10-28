@@ -1,13 +1,13 @@
 /* declarations */
-@keyframes spin {
-    0% {
-        -webkit-transform: rotate(0deg);
-        transform: rotate(0deg);
-    }
-    100% {
-        -webkit-transform: rotate(359deg);
-        transform: rotate(359deg);
-    }
+@font-face {
+    font-family: 'destinytailor';
+    src: url('../fonts/destinytailor.eot?79049591');
+    src: url('../fonts/destinytailor.eot?79049591#iefix') format('embedded-opentype'),
+             url('../fonts/destinytailor.woff?79049591') format('woff'),
+             url('../fonts/destinytailor.ttf?79049591') format('truetype'),
+             url('../fonts/destinytailor.svg?79049591#destinytailor') format('svg');
+    font-weight: normal;
+    font-style: normal;
 }
 
 /* vendor */
@@ -29,6 +29,28 @@ body {
     height: 100%;
     margin: 0 auto -60px;
 }
+.dticon:before {
+    display: inline-block;
+    font-family: "destinytailor";
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-style: normal;
+    font-variant: normal;
+    font-weight: normal;
+    line-height: 1em;
+    speak: none;
+    text-decoration: inherit;
+    text-align: center;
+    text-transform: none;
+    width: 1em;
+}
+.dticon.animate-spin {
+    margin-left: .2em;
+    margin-right: .2em;
+}
+.dticon-github {
+    font-size: 1.25em;
+}
 
 /* footer */
 footer {
@@ -44,10 +66,6 @@ footer p {
 }
 
 /* miscellaneous */
-.spin {
-    -webkit-animation: spin 1s infinite linear;
-    animation: spin 1s infinite linear;
-}
 .top-buffer {
     margin-top: 20px;
 }

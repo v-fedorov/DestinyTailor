@@ -17,11 +17,12 @@
     <!-- bower:css -->
     <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.css" />
     <link rel="stylesheet" href="/bower_components/bootstrap-toggle/css/bootstrap-toggle.min.css" />
-    <link rel="stylesheet" href="/bower_components/octicons/octicons/octicons.css" />
     <link rel="stylesheet" href="/bower_components/roboto-fontface/css/roboto-fontface.css" />
     <!-- endbower -->
 
     <link href="./css/main.css" rel="stylesheet" />
+    <link href="./css/animation.css" rel="stylesheet" />
+    <link href="./css/destinytailor-codes.css" rel="stylesheet" />
 </head>
 
 <body data-feedly-mini="yes" cz-shortcut-listen="true">
@@ -35,7 +36,7 @@
                 <div id="navbar" class="collapse navbar-collapse">
                     <ul class="nav navbar-nav navbar-right">
                         <li><a href="./about" rel="author">About</a></li>
-                        <li><a href="https://github.com/geekyeggo/destinytailor" rel="author"><span class="octicon octicon-mark-github"></span> GitHub</a></li>
+                        <li><a href="https://github.com/geekyeggo/destinytailor" rel="author"><span class="dticon dticon-github"></span> GitHub</a></li>
                     </ul>
                 </div>
             </div>
@@ -63,20 +64,19 @@
                                 <!-- search -->
                                 <span class="input-group-btn" ng-class="{'loading': isLoading}">
                                     <button class="btn btn-default btn-lg" type="button" ng-click="search()" ng-disabled="isLoading">
-                                        <span class="octicon octicon-search"></span>
+                                        <span class="dticon dticon-search"></span>
                                     </button>
                                 </span>
                             </div>
                         </p>
                         <p class="text-center ng-hide" ng-show="isLoading">
-                            <span class="octicon octicon-sync spin"></span> Loading character...
+                            <span class="dticon dticon-spin-split-5 spin"></span> Loading character...
                         </p>
                     </div>
                 </div>
                 <div class="row top-buffer ng-hide">
                     <div class="col-md-8 col-md-offset-2">
                         <div class="alert alert-danger" role="alert">
-                            <span class="glyphicon glyphicon-user"></span>
                             <span class="sr-only">Error:</span>
                             <span>{{error}}</span>
                         </div>
@@ -113,7 +113,7 @@
     <!-- footer -->
     <footer>
         <div class="container">
-            <p>Made with <span class="octicon octicon-mark-github"></span> by @GeekyEggo, on <a href="https://github.com/geekyeggo/destinytailor" title="View Destiny Tailor's source code on GitHub, come fork around!" rel="author">GitHub</a>.</p>
+            <p>Made with <span class="dticon dticon-github"></span> by @GeekyEggo, on <a href="https://github.com/geekyeggo/destinytailor" title="View Destiny Tailor's source code on GitHub, come fork around!" rel="author">GitHub</a>.</p>
             <p>Special thanks to <a href="https://www.bungie.net/" title="Visit Bungie.net" rel="nofollow">Bungie</a>, and their API.</p>
         </div>
     </footer>
