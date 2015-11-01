@@ -23,8 +23,11 @@ itemStatMapper.map = function(dataSource, item) {
             item[STAT_MAP[stat]] = dataSource[STAT_MAP[stat]];
         };
     } else {
-        setMinimums(dataSource, item);
-        setMaximums(dataSource, item);
+        if (setMinimums(dataSource, item)) {
+            setMaximums(dataSource, item);    
+        } else {
+            setStatsWithFallback(dataSource, item);
+        }
     }
     
     return item;
@@ -34,6 +37,7 @@ itemStatMapper.map = function(dataSource, item) {
  * Sets the minimum stat values on an item.
  * @param {object} data The item's raw data.
  * @param {object} item the item being modified.
+ * @returns True when the stats were successfully set.
  */
 function setMinimums(data, item) {
     for (var i = 0; i < data.talentNodes.length; i++) {
@@ -46,9 +50,12 @@ function setMinimums(data, item) {
                 item[STAT_MAP[stat.statHash]].current = stat.value;
             });
             
-            return;
+            return true;
         };
     };
+    
+    console.warn('Setting the stats failed, using fallback');
+    return false;
 };
 
 /**
@@ -67,3 +74,37 @@ function setMaximums(data, item) {
         };
     });
 };
+
+/**
+ * Sets the stats more ignorantly as we can't use node hashes.
+ * @param {object} data The item's raw data.
+ * @param {object} item The item being modified.
+ */
+function setStatsWithFallback(data, item) {
+    // set all of the stats based on the stat nodes
+    for (var nodeHash in data.statsOnNodes) {
+        var stats = data.statsOnNodes[nodeHash];
+        stats.currentNodeStats.forEach(function(stat) {
+            var itemStat = item[STAT_MAP[stat.statHash]];
+            
+            // update all stats, we'll adjust the min and max at the end to fix items with a min of 0
+            itemStat.min = itemStat.min === 0 ? stat.value : Math.max(itemStat.min, stat.value);
+            itemStat.current += stat.value;
+            itemStat.max += stat.value;
+        });
+        stats.nextNodeStats.forEach(function(stat) {
+            // update the max
+            item[STAT_MAP[stat.statHash]].max += stat.value;
+        });
+    };
+    
+    // adjust the min to 0 if the max is the same, and remove the stat if they're both 0
+    for (var statHash in STAT_MAP) {
+        var itemStat = item[STAT_MAP[statHash]];
+        if (itemStat.min === 0 && itemStat.max === 0) {
+            item[STAT_MAP[statHash]] = null;
+        } else if (itemStat.min === itemStat.max) {
+            itemStat.min = 0;
+        }
+    }
+}
