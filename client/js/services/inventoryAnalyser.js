@@ -114,9 +114,9 @@
      * Calculates the stat tiers.
      */
     StatProfile.prototype.calculateTiers = function() {
-        this.discipline.tier = Math.floor(this.discipline.value / 60);
-        this.intellect.tier = Math.floor(this.intellect.value / 60);
-        this.strength.tier = Math.floor(this.strength.value / 60);
+        this.discipline.calculateTier();
+        this.intellect.calculateTier();
+        this.strength.calculateTier();
         
         this.tierCount = this.discipline.tier + this.intellect.tier + this.strength.tier;
     };
@@ -141,6 +141,10 @@
         this.value = stat ? stat.value : 0;
         this.tier = stat ? stat.tier : 0;
     };
+    
+    Stat.prototype.calculateTier = function() {
+        this.tier = Math.floor(Math.min(this.value, 300) / 60);
+    }
 
     /**
     * Iterates over each stat, by name, and executes the function delegate.
