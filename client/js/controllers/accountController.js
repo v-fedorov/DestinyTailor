@@ -1,12 +1,12 @@
-(function() {
+(function(app) {
     'use strict';
-    
+
     /**
      * Defines the account controller, allowing the user to swap their selected character.
      * @param {object} $scope The scope of the contorller.
      * @param {object} userService The user service.
      */
-    function accountController($scope, userService) {
+    app.controller('accountController', ['$scope', 'userService', function($scope, userService) {
         $scope.character = null;
 
         $scope.$watch(function() {
@@ -23,9 +23,5 @@
         $scope.selectCharacter = function(character) {
             userService.selectCharacter(character.characterId);
         };
-    };
-    
-    // register the controller and dependencies
-    angular.module('destinyTailorApp').controller('accountController', accountController);
-    accountController.$inject = ['$scope', 'userService'];
-})();
+    }]);
+})(angular.module('destinyTailorApp'));

@@ -9,6 +9,7 @@ var config = {
     html: 'client/index.html',
     js: [
         'client/js/main.js',
+        'client/js/models/*.js',
         'client/js/services/*.js',
         'client/js/**/*.js'
     ],

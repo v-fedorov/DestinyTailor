@@ -99,13 +99,13 @@
                 </div>
             </div>
             <div class="row" ng-controller="characterController" ng-show="character.inventory">
-                <div ge-instance-item ng-model="character.inventory.helmet"></div>
-                <div ge-instance-item ng-model="character.inventory.gauntlets"></div>
-                <div ge-instance-item ng-model="character.inventory.chest"></div>
-                <div ge-instance-item ng-model="character.inventory.legs"></div>
-                <div ge-instance-item ng-model="character.inventory.classItem"></div>
-                <div ge-instance-item ng-model="character.inventory.artifact"></div>
-                <div ge-instance-item ng-model="character.inventory.ghost"></div>
+                <div ge-character-item ng-model="character.inventory.helmet"></div>
+                <div ge-character-item ng-model="character.inventory.gauntlets"></div>
+                <div ge-character-item ng-model="character.inventory.chest"></div>
+                <div ge-character-item ng-model="character.inventory.legs"></div>
+                <div ge-character-item ng-model="character.inventory.classItem"></div>
+                <div ge-character-item ng-model="character.inventory.artifact"></div>
+                <div ge-character-item ng-model="character.inventory.ghost"></div>
             </div>
         </div>
     </div>
@@ -127,6 +127,8 @@
 
     <!-- inject:js -->
     <script src="/client/js/main.js"></script>
+    <script src="/client/js/models/stat.js"></script>
+    <script src="/client/js/models/statProfile.js"></script>
     <script src="/client/js/services/inventoryAnalyser.js"></script>
     <script src="/client/js/services/userService.js"></script>
     <script src="/client/js/controllers/accountController.js"></script>
@@ -134,7 +136,7 @@
     <script src="/client/js/controllers/searchController.js"></script>
     <script src="/client/js/directives/backgroundImage.js"></script>
     <script src="/client/js/directives/bootstrapToggle.js"></script>
-    <script src="/client/js/directives/instanceItem.js"></script>
+    <script src="/client/js/directives/characterItem.js"></script>
     <!-- endinject -->
 </body>
 
