@@ -5,7 +5,8 @@ var apiController = require('./controllers/api'),
     favicon = require('serve-favicon'),
     logger = require('morgan'),
     cookieParser = require('cookie-parser'),
-    bodyParser = require('body-parser');
+    bodyParser = require('body-parser'),
+    request = require('request');
 
 var app = express();
 
@@ -27,9 +28,23 @@ switch (config.env) {
         console.log('*** [dev] environment ***');
         app.use(express.static(path.join(__dirname, '../client/')));
         app.use(express.static(path.join(__dirname, '../')));
-        app.use('/api', apiController);
-        app.use('/*', express.static(path.join(__dirname, '../client/index.html')));
 };
+
+app.use('/api', apiController);
+
+app.use('/Platform/Destiny/*?', function(req, res) {
+    var options = {
+        url: 'http://www.bungie.net' + req.originalUrl,
+        headers: {
+            'Content-Type': 'application/json',
+            'X-API-KEY': config.apiKey
+        }
+    };
+
+    req.pipe(request(options)).pipe(res);
+});
+
+app.use('/*', express.static(path.join(__dirname, '../client/index.html')));
 
 // configure error handling
 app.use(function(err, req, res, next) {
