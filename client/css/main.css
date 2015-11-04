@@ -42,7 +42,7 @@ body {
     text-decoration: inherit;
     text-align: center;
     text-transform: none;
-    width: 1em;
+    width: 1.3em;
 }
 .dticon.animate-spin {
     margin-left: .2em;
@@ -70,6 +70,7 @@ footer p {
     margin-top: 20px;
 }
 
+/* main */
 .character {
     background-size: cover;
     border-radius: 3px;
@@ -97,4 +98,24 @@ footer p {
     font-size: 0.5em;
     top: -1px;
     margin-right: 2px;
+}
+.stat-profile .dticon {
+    font-size: 21px;
+}
+.stat-progress {
+    padding: 2%;
+}
+.stat-progress .step {
+    background-color: #ddd;
+    float: left;
+    height: 4px;
+    margin: 0 1%;
+    width: 18%;
+}
+.stat-progress .step.full {
+    background-color: #333;
+}
+.stat-progress .partial {
+    background-color: #aaa;
+    height: 100%;
 }

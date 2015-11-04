@@ -13,13 +13,15 @@
         function Stat(stat) {
             this.value = stat ? stat.value : 0;
             this.tier = stat ? stat.tier : 0;
+            this.max = stat ? stat.max : 300;
         };
 
         /**
          * Calculates the tiers for each stat.
          */
         Stat.prototype.calculateTier = function() {
-            this.tier = Math.floor(Math.min(this.value, 300) / 60);
+            var tierValue = this.max / 5;
+            this.tier = Math.floor(Math.min(this.value, this.max) / tierValue);
         };
 
         return Stat;

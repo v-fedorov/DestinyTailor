@@ -98,14 +98,19 @@
                     </a>
                 </div>
             </div>
-            <div class="row" ng-controller="characterController" ng-show="character.inventory">
-                <div ge-character-item ng-model="character.inventory.helmet"></div>
-                <div ge-character-item ng-model="character.inventory.gauntlets"></div>
-                <div ge-character-item ng-model="character.inventory.chest"></div>
-                <div ge-character-item ng-model="character.inventory.legs"></div>
-                <div ge-character-item ng-model="character.inventory.classItem"></div>
-                <div ge-character-item ng-model="character.inventory.artifact"></div>
-                <div ge-character-item ng-model="character.inventory.ghost"></div>
+            <div ng-controller="characterController">
+                <div class="row" ng-show="statProfiles.length">
+                    <ge-stat-profile ng-model="statProfile" select="selectStatProfile" ng-repeat="statProfile in statProfiles | orderBy: '0 - discipline.tier - intellect.tier - strength.tier'" />
+                </div>
+                <div class="row" ng-show="character.inventory">
+                    <div ge-character-item ng-model="character.inventory.helmet"></div>
+                    <div ge-character-item ng-model="character.inventory.gauntlets"></div>
+                    <div ge-character-item ng-model="character.inventory.chest"></div>
+                    <div ge-character-item ng-model="character.inventory.legs"></div>
+                    <div ge-character-item ng-model="character.inventory.classItem"></div>
+                    <div ge-character-item ng-model="character.inventory.artifact"></div>
+                    <div ge-character-item ng-model="character.inventory.ghost"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -137,6 +142,8 @@
     <script src="/client/js/directives/backgroundImage.js"></script>
     <script src="/client/js/directives/bootstrapToggle.js"></script>
     <script src="/client/js/directives/characterItem.js"></script>
+    <script src="/client/js/directives/statProfile.js"></script>
+    <script src="/client/js/directives/statProgress.js"></script>
     <!-- endinject -->
 </body>
 

@@ -1,13 +1,13 @@
 <div class="row">
-    name: {{item.name}}
+    name: {{data.name}}
 
     <div class="ng-hide" ng-show="item.intellect.max">
-        Intellect +{{item.intellect.current}} / {{item.intellect.max}}
+        Intellect +{{data.intellect.current}} / {{data.intellect.max}}
     </div>
     <div class="ng-hide" ng-show="item.discipline.max">
-        Discipline +{{item.discipline.current}} / {{item.discipline.max}}
+        Discipline +{{data.discipline.current}} / {{data.discipline.max}}
     </div>
     <div class="ng-hide" ng-show="item.strength.max">
-        Strength +{{item.strength.current}} / {{item.strength.max}}
+        Strength +{{data.strength.current}} / {{data.strength.max}}
     </div>
 </div>

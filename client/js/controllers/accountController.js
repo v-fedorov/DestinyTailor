@@ -7,10 +7,11 @@
      * @param {object} userService The user service.
      */
     app.controller('accountController', ['$scope', 'userService', function($scope, userService) {
+        $scope.account = null;
         $scope.character = null;
 
         $scope.$watch(function() {
-            return userService.getAccountId();
+            return userService.account ? userService.account.membershipId : null;
         }, function() {
             $scope.account = userService.account;
             $scope.character = null;

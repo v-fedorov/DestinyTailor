@@ -9,33 +9,14 @@
     app.factory('userService', ['$http', function($http) {
         var scope = {
             account: null,
-            character: null,
-            getAccountId: getAccountId,
-            getCharacterId: getCharacterId,
-            selectCharacter: selectCharacter
+            character: null
         };
-
-        /**
-        * Gets the current account id.
-        * @returns The account id.
-        */
-        function getAccountId() {
-            return scope.account ? scope.account.membershipId : null;
-        };
-
-        /**
-        * Gets the currently selected character id.
-        * @returns The character id.
-        */
-        function getCharacterId() {
-            return scope.character ? scope.character.characterId : null;
-        }
 
         /**
          * Selects the character, updating the current scope.
          * @param {string} characterId The character to select.
          */
-        function selectCharacter(characterId) {
+        scope.selectCharacter = function(characterId) {
             var character = scope.account.characters[characterId];
 
             // validate the character exists on the account

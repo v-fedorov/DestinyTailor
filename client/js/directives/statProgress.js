@@ -2,15 +2,15 @@
     'use strict';
 
     /**
-     * Defines a directive for showing a character's item.
+     * Defines a directive for showing a character's stat tier progress.
      */
-    app.directive('geCharacterItem', function() {
+    app.directive('geStatProgress', function() {
         return {
             restrict: 'AE',
             scope: {
                 data: '=ngModel'
             },
-            templateUrl: 'js/views/characterItem.html'
+            templateUrl: 'js/views/statProgress.html'
         };
     });
 })(angular.module('destinyTailorApp'));

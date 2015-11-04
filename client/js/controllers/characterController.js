@@ -9,18 +9,23 @@
      */
     app.controller('characterController', ['$scope', 'userService', 'inventoryAnalyser', function($scope, userService, inventoryAnalyser) {
         $scope.character = null;
+        $scope.statProfiles = [];
 
+        /**
+         * Selects the desired stat profile.
+         * @param {object} statProfile The stat profile that was selected.
+         */
+        $scope.selectStatProfile = function(statProfile) {
+            console.log(statProfile);
+        };
+
+        // watch for the character changing
         $scope.$watch(function() {
-            return userService.getCharacterId();
-        }, onCharacterChange, true);
-
-        function onCharacterChange() {
+            return userService.character ? userService.character.characterId : null;
+        }, function() {
+            // update the scope
             $scope.character = userService.character;
-
-            if ($scope.character !== null) {
-                var profiles = inventoryAnalyser.getStatProfiles($scope.character);
-                console.log(profiles);
-            }
-        }
+            $scope.statProfiles = $scope.character ? inventoryAnalyser.getStatProfiles($scope.character) : [];
+        });
     }]);
 })(angular.module('destinyTailorApp'));

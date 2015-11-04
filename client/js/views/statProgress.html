@@ -1,0 +1,10 @@
+<div class="stat-progress">
+    <span ng-repeat="i in [1, 2, 3, 4, 5]">
+        <div class="step" ng-class="{ full: data.tier >= i }">
+            <div
+                class="partial ng-hide"
+                ng-show="data.tier < i && (data.tier + 1) === i"
+                ng-style="{width: (100 / (data.max / 5)) * (data.value % (data.max / 5)) + '%'}" />
+        </div>
+    <span>
+</div>

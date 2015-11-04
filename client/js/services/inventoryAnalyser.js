@@ -7,15 +7,13 @@
      * @param {object} StatProfile The stat profile model constructor.
      */
     app.factory('inventoryAnalyser', ['STAT_NAMES', 'StatProfile', function(STAT_NAMES, StatProfile) {
-        var scope = {
-            getStatProfiles: getStatProfiles
-        };
+        var scope = {};
 
         /**
          * Gets the unique stat profiles for the given character.
          * @param {object} character The character to analyse.
          */
-        function getStatProfiles(character) {
+        scope.getStatProfiles = function(character) {
             var analyser = new InventoryAnalyser(character);
             return analyser.profiles;
         };
@@ -36,10 +34,12 @@
                 character.inventory.classItem,
                 character.inventory.artifact
             ]);
+
+            this.filterProfiles();
         };
 
         /**
-        * Visits all of the items in a tree-like structure to evaluate all possible paths.
+        * Visits all of the items in a tree-like structure to evaluate all possible paths, adding unique paths to the statProfiles.
         * @param {object[]} items Remaining items.
         * @param {object} currentProfile The current stat profile being evaluated.
         */
@@ -87,6 +87,38 @@
             statProfile.calculateTiers();
             for (var i = 0; i < this.profiles.length; i++) {
                 if (statProfile.isEqual(this.profiles[i])) {
+                    return false;
+                };
+            };
+
+            return true;
+        };
+
+        /**
+         * Filters the profiles, removing those that are considered redundant or inferior, e.g. 4-3-2, when compared to 4-4-2.
+         */
+        InventoryAnalyser.prototype.filterProfiles = function() {
+            var i = 0;
+            while (i < this.profiles.length) {
+                if (this.isStatProfileInferior(this.profiles[i])) {
+                    this.profiles.splice(i, 1);
+                } else {
+                    i++;
+                }
+            };
+        };
+
+        /**
+         * Determines if the stat profile is considered inferior, when compared to the available stat profiles.
+         * @param {object} statProfile The stat profile being compared.
+         * @returns True when the stat profile is inferior; otherwise false.
+         */
+        InventoryAnalyser.prototype.isStatProfileInferior = function(statProfile) {
+            for (var i = 0; i < this.profiles.length; i++) {
+                if (statProfile !== this.profiles[i]
+                    && statProfile.discipline.tier >= this.profiles[i].discipline.tier
+                    && statProfile.intellect.tier >= this.profiles[i].intellect.tier
+                    && statProfile.strength.tier >= this.profiles[i].strength.tier) {
                     return false;
                 };
             };
