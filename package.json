@@ -8,7 +8,7 @@
     "npm": "2.14.x"
   },
   "scripts": {
-    "postinstall": "bower install && gulp",
+    "postinstall": "bower install && gulp inject",
     "start": "node ./bin/www"
   },
   "dependencies": {
@@ -23,6 +23,7 @@
     "extend": "^3.0.0",
     "gulp": "3.9.0",
     "gulp-inject": "3.0.0",
+    "gulp-jscs": "3.0.2",
     "gulp-load-plugins": "1.0.0",
     "hbs": "~2.9.0",
     "merge-stream": "^1.0.0",

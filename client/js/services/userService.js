@@ -28,18 +28,18 @@
             if (character.inventory) {
                 scope.character = character;
                 return;
-            };
+            }
 
             // otherwise load it
             $http.get(character.inventoryPath).then(function(result) {
                 if (result.data === null) {
-                    throw 'todo: No data.'
+                    throw 'todo: No data.';
                 } else {
                     character.inventory = result.data;
                     scope.character = character;
-                };
+                }
             }, function(err) {
-                throw 'todo: Handle errors.';
+                throw err;
             });
         };
 

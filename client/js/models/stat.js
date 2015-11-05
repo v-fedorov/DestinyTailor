@@ -14,7 +14,7 @@
             this.value = stat ? stat.value : 0;
             this.tier = stat ? stat.tier : 0;
             this.max = stat ? stat.max : 300;
-        };
+        }
 
         /**
          * Calculates the tiers for each stat.

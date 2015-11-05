@@ -35,10 +35,20 @@ var config = {
 };
 
 /**
+ * Validates the styling of the client-side JavaScript.
+ * @returns {stream} The stream.
+ */
+gulp.task('jscs', function() {
+    return gulp.src(config.js)
+        .pipe($.jscs())
+        .pipe($.jscs.reporter());
+});
+
+/**
  * Injects the dependencies into the html.
  * @returns {stream} The stream.
  */
-gulp.task('inject', function () {
+gulp.task('inject', function() {
     return gulp.src(config.html)
         .pipe(wiredep({
             ignorePath: '..',
@@ -52,18 +62,18 @@ gulp.task('inject', function () {
  * Injects the CSS and JS into the HTML, and runs the server; everything is monitored.
  * @returns {stream} The stream.
  */
-gulp.task('serve', ['inject'], function () {
+gulp.task('serve', ['inject'], function() {
     return $.nodemon({
         script: './bin/www',
         ignore: [
-            'bower_components/*',
-            'client/*',
+            'bower_components/**/*',
+            'client/**/*',
             'gulpfile.js'
         ],
         env: {
             'NODE_ENV': 'development'
         }
-    }).on('start', function (ev) {
+    }).on('start', function(ev) {
         gulp.watch(config.js, function(ev) {
             if (ev.type === 'added' || ev.type === 'deleted') {
                 gulp.start('inject');

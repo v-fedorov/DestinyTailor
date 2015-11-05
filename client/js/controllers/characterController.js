@@ -7,7 +7,7 @@
      * @param {object} userService The user service.
      * @param {function} inventoryAnalyser The inventory analyser used to assess the stat paths.
      */
-    app.controller('characterController', ['$scope', 'userService', 'inventoryAnalyser', function($scope, userService, inventoryAnalyser) {
+    var CharacterController = function($scope, userService, inventoryAnalyser) {
         $scope.character = null;
         $scope.statProfiles = [];
 
@@ -27,5 +27,8 @@
             $scope.character = userService.character;
             $scope.statProfiles = $scope.character ? inventoryAnalyser.getStatProfiles($scope.character) : [];
         });
-    }]);
+    };
+
+    CharacterController.$inject = ['$scope', 'userService', 'inventoryAnalyser'];
+    app.controller('characterController', CharacterController);
 })(angular.module('destinyTailorApp'));

@@ -6,7 +6,7 @@
      * @param {object} $scope The scope of the contorller.
      * @param {object} userService The user service.
      */
-    app.controller('accountController', ['$scope', 'userService', function($scope, userService) {
+    var AccountController = function($scope, userService) {
         $scope.account = null;
         $scope.character = null;
 
@@ -24,5 +24,8 @@
         $scope.selectCharacter = function(character) {
             userService.selectCharacter(character.characterId);
         };
-    }]);
+    };
+
+    AccountController.$inject = ['$scope', 'userService'];
+    app.controller('accountController', AccountController); 
 })(angular.module('destinyTailorApp'));

@@ -11,9 +11,9 @@
             transclude: true,
             replace: false,
             require: 'ngModel',
-            link: function ($scope, $element, $attr, $ngModel) {
+            link: function($scope, $element, $attr, $ngModel) {
                 // update the model on element change
-                $element.on('change', function () {
+                $element.on('change', function() {
                     if ($element[0].checked !== $ngModel.$viewValue) {
                         $ngModel.$setViewValue($element[0].checked);
                         $scope.$apply();
@@ -21,20 +21,20 @@
                 });
 
                 // observe the model changes
-                $scope.$watch(function () {
+                $scope.$watch(function() {
                     return $ngModel.$viewValue;
-                }, function () {
+                }, function() {
                     var isDisabled = $element[0].disabled;
                     $($element).bootstrapToggle('enable')
                         .trigger('change')
-                        .bootstrapToggle(isDisabled ? 'disable': 'enable');
+                        .bootstrapToggle(isDisabled ? 'disable' : 'enable');
                 });
 
                 // observe the attribute set by ngDisabled
-                $scope.$watch(function () {
+                $scope.$watch(function() {
                     return $element[0].disabled;
-                }, function (isDisabled) {
-                    $($element).bootstrapToggle(isDisabled ? 'disable': 'enable');
+                }, function(isDisabled) {
+                    $($element).bootstrapToggle(isDisabled ? 'disable' : 'enable');
                 });
             }
         };

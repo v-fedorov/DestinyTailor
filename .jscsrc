@@ -1,0 +1,13 @@
+{
+    "preset": "google",
+    
+    "disallowTabs": true,
+    "maximumLineLength": 120,
+    "requireOperatorBeforeLineBreak": false,
+    "validateIndentation": 4,
+    
+    /* jsdoc */
+    "jsDoc": {
+        "disallowNewlineAfterDescription": true
+    }
+}

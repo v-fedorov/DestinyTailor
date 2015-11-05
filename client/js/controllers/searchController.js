@@ -5,19 +5,20 @@
      * The search controller, primarily used to search for a user's account / membership with Bungie.
      * @param {object} $scope The scope of the controller.
      * @param {object} $http The http utils from Angular.
+     * @param {object} PLATFORM The constant containing the platform API numbers.
      * @param {object} userService The user service.
      */
-    app.controller('searchController', ['$scope', '$http', 'userService', function($scope, $http, userService) {
+    var SearchController = function($scope, $http, PLATFORM, userService) {
         var PLATFORM_PSN = true;
-        var PLATFORM_XBOX = false;
-
         $scope.platform = PLATFORM_PSN;
 
         /**
          * Searches for a character and updates the account in the user service.
          */
         $scope.search = function() {
-            var path = "/api/" + ($scope.platform === PLATFORM_PSN ? 2 : 1) + '/' + encodeURIComponent($scope.name) + '/';
+            var platformId = $scope.platform === PLATFORM_PSN ? PLATFORM.psn : PLATFORM.xbox;
+            var path = '/api/' + platformId + '/' + encodeURIComponent($scope.name) + '/';
+
             $scope.isLoading = true;
 
             // begin the request
@@ -27,11 +28,14 @@
                     $scope.error = 'Unable to find character.';
                 } else {
                     userService.account = result.data;
-                };
+                }
             }, function(err) {
                 $scope.isLoading = false;
                 $scope.error = err.statusText;
             });
         };
-    }]);
+    };
+
+    SearchController.$inject = ['$scope', '$http', 'PLATFORM', 'userService'];
+    app.controller('searchController', SearchController);
 })(angular.module('destinyTailorApp'));

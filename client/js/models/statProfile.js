@@ -20,7 +20,7 @@
             this.strength = new Stat(statProfile.strength);
             this.items = statProfile.items ? statProfile.items.concat([]) : [];
             this.tierCount = 0;
-        };
+        }
 
         /**
         * Adds the item to the profile, using the selected stat name as the max value.
@@ -42,8 +42,8 @@
                 if (item[statName] && statName !== selectedStatName) {
                     option[statName] = item[statName].min;
                     this[statName].value += item[statName].min;
-                };
-            };
+                }
+            }
 
             this.items.push(option);
             return this;
