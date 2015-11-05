@@ -84,14 +84,16 @@ function setStatsWithFallback(data, item) {
     // set all of the stats based on the stat nodes
     for (var nodeHash in data.statsOnNodes) {
         var stats = data.statsOnNodes[nodeHash];
+        
         stats.currentNodeStats.forEach(function(stat) {
             var itemStat = item[STAT_MAP[stat.statHash]];
             
             // update all stats, we'll adjust the min and max at the end to fix items with a min of 0
-            itemStat.min = itemStat.min === 0 ? stat.value : Math.max(itemStat.min, stat.value);
+            itemStat.min = itemStat.min === 0 ? stat.value : itemStat.min;
             itemStat.current += stat.value;
             itemStat.max += stat.value;
         });
+        
         stats.nextNodeStats.forEach(function(stat) {
             // update the max
             item[STAT_MAP[stat.statHash]].max += stat.value;
