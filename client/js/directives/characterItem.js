@@ -10,7 +10,7 @@
             scope: {
                 data: '=ngModel'
             },
-            templateUrl: 'js/views/characterItem.html'
+            templateUrl: '/js/views/characterItem.html'
         };
     });
 })(angular.module('destinyTailorApp'));
