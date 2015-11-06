@@ -3,14 +3,14 @@
 
     /**
      * Defines the stat profile model.
-     * @param {string[]} STAT_NAMES The constant stat names.
-     * @param {object} Stat The stat model constructor.
+     * @param {String[]} STAT_NAMES The constant stat names.
+     * @param {Object} Stat The stat model constructor.
      */
     app.factory('StatProfile', ['STAT_NAMES', 'Stat', function(STAT_NAMES, Stat) {
         /**
         * Provides a stat profile for a given path.
         * @constructor
-        * @param {object} statProfile The optional stat profile to copy.
+        * @param {Object} statProfile The optional stat profile to copy.
         */
         function StatProfile(statProfile) {
             statProfile = statProfile || {};
@@ -24,9 +24,9 @@
 
         /**
         * Adds the item to the profile, using the selected stat name as the max value.
-        * @param {object} item The item being added.
-        * @param {string} selectedStatName The stat being selected as the max.
-        * @returns The modified stat profile.
+        * @param {Object} item The item being added.
+        * @param {String} selectedStatName The stat being selected as the max.
+        * @returns {Object} The modified stat profile.
         */
         StatProfile.prototype.add = function(item, selectedStatName) {
             var option = {};
@@ -62,8 +62,8 @@
 
         /**
         * Determines if the stat profile is equal to the other stat profile, based on the tiers.
-        * @param {object} other The stat profile to compare.
-        * @returns True when the stat profiles are considered equal.
+        * @param {Object} other The stat profile to compare.
+        * @returns {Boolean} True when the stat profiles are considered equal.
         */
         StatProfile.prototype.isEqual = function(other) {
             return this.discipline.tier === other.discipline.tier

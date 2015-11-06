@@ -28,7 +28,7 @@ router.get('/:membershipType/:membershipId/:characterId', function(req, res, nex
 
 /**
  * Gets a response handler callback delegate for a Bungie service method.
- * @param {object} res The response from the router.
+ * @param {Object} res The response from the router.
  * @returns The method callback handler.
  */
 var getResponseHandler = function(res) {

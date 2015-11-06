@@ -3,9 +3,9 @@
 
     /**
      * Defines the character controller, allowing the user to view their gear and stat profiles.
-     * @param {object} $scope The scope of the contorller.
-     * @param {object} userService The user service.
-     * @param {function} inventoryAnalyser The inventory analyser used to assess the stat paths.
+     * @param {Object} $scope The scope of the contorller.
+     * @param {Object} userService The user service.
+     * @param {Function} inventoryAnalyser The inventory analyser used to assess the stat paths.
      */
     var CharacterController = function($scope, userService, inventoryAnalyser) {
         $scope.character = null;
@@ -13,7 +13,7 @@
 
         /**
          * Selects the desired stat profile.
-         * @param {object} statProfile The stat profile that was selected.
+         * @param {Object} statProfile The stat profile that was selected.
          */
         $scope.selectStatProfile = function(statProfile) {
             console.log(statProfile);

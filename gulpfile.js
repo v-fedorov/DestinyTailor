@@ -36,7 +36,7 @@ var config = {
 
 /**
  * Validates the styling of the client-side JavaScript.
- * @returns {stream} The stream.
+ * @returns {Object} The stream.
  */
 gulp.task('jscs', function() {
     return gulp.src(config.js)
@@ -46,7 +46,7 @@ gulp.task('jscs', function() {
 
 /**
  * Injects the dependencies into the html.
- * @returns {stream} The stream.
+ * @returns {Object} The stream.
  */
 gulp.task('inject', function() {
     return gulp.src(config.html)
@@ -60,7 +60,7 @@ gulp.task('inject', function() {
 
 /**
  * Injects the CSS and JS into the HTML, and runs the server; everything is monitored.
- * @returns {stream} The stream.
+ * @returns {Object} The stream.
  */
 gulp.task('serve', ['inject'], function() {
     return $.nodemon({

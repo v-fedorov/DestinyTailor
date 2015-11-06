@@ -18,7 +18,7 @@ server.listen(config.port, function() {
 
 /**
  * Handle any errors when starting the server.
- * @param {object} error The error.
+ * @param {Object} error The error.
  */
 server.on('error', function(error) {
   if (error.syscall !== 'listen') {

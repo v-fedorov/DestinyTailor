@@ -22,10 +22,10 @@ var itemCache = new NodeCache(config.cache),
 
 /**
  * Gets the character's inventory from Bungie.
- * @param {number} membershipType The membership type of the character.
- * @param {string} membershipId The membership id the character is on.
- * @param {string} characterId The character id.
- * @param {function} callback The callback triggered when the inventory has loaded.
+ * @param {Number} membershipType The membership type of the character.
+ * @param {String} membershipId The membership id the character is on.
+ * @param {String} characterId The character id.
+ * @param {Function} callback The callback triggered when the inventory has loaded.
  */
 bungieService.getInventory = function(membershipType, membershipId, characterId, callback) {
     var path = util.format('/%s/Account/%s/Character/%s/Inventory/Summary/?definitions=true', membershipType, membershipId, characterId);
@@ -54,9 +54,9 @@ bungieService.getInventory = function(membershipType, membershipId, characterId,
 
 /**
  * Searches for the account for the given membership type and returns the summary of the account.
- * @param {number} membershipType The membership type to search on; either Xbox (1) or PSN (2).
- * @param {string} displayName The account's display name.
- * @param {function} callback The callback triggered when the search has completed.
+ * @param {Number} membershipType The membership type to search on; either Xbox (1) or PSN (2).
+ * @param {String} displayName The account's display name.
+ * @param {Function} callback The callback triggered when the search has completed.
  */
 bungieService.searchCharacter = function(membershipType, displayName, callback) {
     var path = util.format('/SearchDestinyPlayer/%s/%s/', membershipType, displayName);
@@ -78,8 +78,8 @@ bungieService.searchCharacter = function(membershipType, displayName, callback) 
 
 /**
  * Gets the account summary for the given account.
- * @param {object} account The account to load.
- * @param {function} callback Triggered when the account summary has loaded.
+ * @param {Object} account The account to load.
+ * @param {Function} callback Triggered when the account summary has loaded.
  */
 var getAccountSummary = function(account, callback) {
     var path = util.format('/%s/Account/%s/?definitions=true', account.membershipType, account.membershipId);
@@ -100,10 +100,10 @@ var getAccountSummary = function(account, callback) {
 
 /**
  * Gets the item delegate used to expand the item stats.
- * @param {number} membershipType The membership type of the character.
- * @param {string} membershipId The membership id the character is on.
- * @param {string} characterId The character id.
- * @param {string} item The item.
+ * @param {Number} membershipType The membership type of the character.
+ * @param {String} membershipId The membership id the character is on.
+ * @param {String} characterId The character id.
+ * @param {String} item The item.
  */
 var getStatMapperDelegate = function(membershipType, membershipId, characterId, item) {
     return function(callback) {
@@ -112,7 +112,7 @@ var getStatMapperDelegate = function(membershipType, membershipId, characterId, 
             if (err) {
                 return callback(err);
             }
-            
+
             // check if we have a cached value, if we do, map the stats
             if (cachedValue) {
                 itemStatMapper.map(cachedValue, item);
@@ -125,7 +125,7 @@ var getStatMapperDelegate = function(membershipType, membershipId, characterId, 
                 if (err !== null) {
                     return callback(err);
                 }
-                
+
                 // map the stats and cache the item
                 itemStatMapper.map(result.data, item);
                 itemCache.set(item.itemId + '|' + item.lightLevel, item, function(err, success) {
@@ -138,8 +138,8 @@ var getStatMapperDelegate = function(membershipType, membershipId, characterId, 
 
 /**
  * Gets the default options for making a request to the Bungie API.
- * @param {string} methodPath The path to the method to be used within the options.
- * @returns {object} The options.
+ * @param {String} methodPath The path to the method to be used within the options.
+ * @returns {Object} The options.
  */
 var getRequestOptions = function(methodPath) {
     return {
@@ -155,8 +155,8 @@ var getRequestOptions = function(methodPath) {
 
 /**
  * Makes a get request to the Bungie API with the specified options.
- * @param {object|string} options The request options or path.
- * @param {function} callback The callback used when the request finishes, or errors.
+ * @param {Object|String} options The request options or path.
+ * @param {Function} callback The callback used when the request finishes, or errors.
  */
 var request = function(options, callback) {
     var requestOptions = typeof options === 'string'

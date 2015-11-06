@@ -3,10 +3,10 @@
 
     /**
      * The search controller, primarily used to search for a user's account / membership with Bungie.
-     * @param {object} $scope The scope of the controller.
-     * @param {object} $http The http utils from Angular.
-     * @param {object} PLATFORM The constant containing the platform API numbers.
-     * @param {object} userService The user service.
+     * @param {Object} $scope The scope of the controller.
+     * @param {Object} $http The http utils from Angular.
+     * @param {Object} PLATFORM The constant containing the platform API numbers.
+     * @param {Object} userService The user service.
      */
     var SearchController = function($scope, $http, PLATFORM, userService) {
         var PLATFORM_PSN = true;

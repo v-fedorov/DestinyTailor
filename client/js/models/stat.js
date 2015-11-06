@@ -8,7 +8,7 @@
         /**
         * Provides information about a stat for a character.
         * @constructor
-        * @param {object} stat The optional stat to copy.
+        * @param {Object} stat The optional stat to copy.
         */
         function Stat(stat) {
             this.value = stat ? stat.value : 0;

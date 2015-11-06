@@ -3,7 +3,7 @@
 
     /**
      * Provides a directive for the Bootstrap toggle control.
-     * @link https://gist.github.com/jjmontesl/54457bf1342edeb218b7
+     * {@link https://gist.github.com/jjmontesl/54457bf1342edeb218b7}.
      */
     app.directive('geBootstrapToggle', function() {
         return {
@@ -11,6 +11,13 @@
             transclude: true,
             replace: false,
             require: 'ngModel',
+            /**
+             * Registers the directive and its events.
+             * @param {Object} $scope The directive's scope.
+             * @param {Object} $element The main element.
+             * @param {Object} $attr The attributes of the directive.
+             * @param {Object} $ngModel The model.
+             */
             link: function($scope, $element, $attr, $ngModel) {
                 // update the model on element change
                 $element.on('change', function() {

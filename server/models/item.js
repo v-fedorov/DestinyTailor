@@ -26,7 +26,7 @@ Item.prototype.expand = function(callback) {
 
 /**
  * Sets the light level on the item from the primary stat.
- * @param {object} primaryStat The primary stat containing the light level value.
+ * @param {Object} primaryStat The primary stat containing the light level value.
  */
 Item.prototype.setLightLevel = function(primaryStat) {
     if (primaryStat && primaryStat.value) {

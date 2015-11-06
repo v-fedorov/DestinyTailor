@@ -4,7 +4,7 @@ var definitions = require('../lib/definitions'),
 /**
  * Creates a new character.
  * @constructor
- * @param {object} data The data containing information about the character.
+ * @param {Object} data The data containing information about the character.
  */
 var Character = function(data) {
     this.characterId = data.characterBase.characterId;

@@ -12,6 +12,11 @@
                 select: '=select'
             },
             templateUrl: 'js/views/statProfile.html',
+            /**
+             * Registers the event for selecting the stat profile.
+             * @param {Object} $scope The directive's scope.
+             * @param {Object} $element The main element.
+             */
             link: function($scope, $element) {
                 $element.click(function() {
                     $scope.select($scope.data);

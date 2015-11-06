@@ -41,7 +41,7 @@ Inventory.prototype.expand = function(callback) {
 
 /**
  * Sets the item based on it's bucket hash.
- * @param {object} item The item to set.
+ * @param {Object} item The item to set.
  * @returns The modified inventory for chaining.
  */
 Inventory.prototype.setItem = function(item) {

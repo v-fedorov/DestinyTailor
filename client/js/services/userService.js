@@ -3,8 +3,8 @@
 
     /**
     * The user service, primarily used to share the current membership, and selected character.
-    * @param {object} $http The http utils from Angular.
-    * @returns The user service.
+    * @param {Object} $http The http utils from Angular.
+    * @returns {Object} The user service.
     */
     app.factory('userService', ['$http', function($http) {
         var scope = {
@@ -14,7 +14,7 @@
 
         /**
          * Selects the character, updating the current scope.
-         * @param {string} characterId The character to select.
+         * @param {String} characterId The character to select.
          */
         scope.selectCharacter = function(characterId) {
             var character = scope.account.characters[characterId];

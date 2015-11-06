@@ -3,7 +3,7 @@ var Character = require('./character');
 /**
  * Constructs a new account.
  * @constructor
- * @param {object} data The account's data.
+ * @param {Object} data The account's data.
  */
 function Account(data) {
     // set the identifiers
