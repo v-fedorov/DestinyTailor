@@ -119,3 +119,31 @@ footer p {
     background-color: #aaa;
     height: 100%;
 }
+.character-item {
+    margin-bottom: 15px;
+}
+.character-item img {
+    border: solid 1px #333;
+    border-radius: 3px;
+    height: 50px;
+    margin-right: 1%;
+    width: 50px;
+}
+.character-item p {
+    line-height: 25px;
+    margin: 0;
+}
+.character-item .dticon {
+    font-size: 16px;
+    margin-left: 2px;
+    margin-right: 5px;
+}
+.stat-value {
+    text-transform: capitalize;
+}
+.stat-maxed .stat-value {
+    font-weight: bold;
+}
+.stat-maxed .stat-value-max {
+    display: none;
+}

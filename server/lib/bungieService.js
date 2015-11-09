@@ -37,11 +37,7 @@ bungieService.getInventory = function(membershipType, membershipId, characterId,
         // construct the inventory and load the basic item information
         var inventory = new Inventory();
         result.data.items.forEach(function(data) {
-            var item = new Item();
-            item.itemId = data.itemId;
-            item.name = result.definitions.items.hasOwnProperty(data.itemHash) ? result.definitions.items[data.itemHash].itemName : null;
-            item.bucketHash = data.bucketHash;
-            item.setLightLevel(data.primaryStat);
+            var item = new Item(data, result.definitions);
             item.expand = getStatMapperDelegate(membershipType, membershipId, characterId, item);
 
             inventory.setItem(item);

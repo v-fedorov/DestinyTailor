@@ -1,13 +1,20 @@
-<div class="row">
-    name: {{data.name}}
+<div class="character-item clearfix">
+    <img ng-src="http://www.bungie.net/{{data.icon}}" class="pull-left" />
 
-    <div class="ng-hide" ng-show="item.intellect.max">
-        Intellect +{{data.intellect.current}} / {{data.intellect.max}}
-    </div>
-    <div class="ng-hide" ng-show="item.discipline.max">
-        Discipline +{{data.discipline.current}} / {{data.discipline.max}}
-    </div>
-    <div class="ng-hide" ng-show="item.strength.max">
-        Strength +{{data.strength.current}} / {{data.strength.max}}
+    <div ng-repeat="statType in ['intellect', 'discipline', 'strength']">
+        <p class="ng-hide pull-left" ng-class="{ 'stat-maxed': data[statType].current === data[statType].max }" ng-show="data[statType].max">
+            <!-- icon -->
+            <span class="dticon dticon-{{statType}}"></span>
+
+            <!-- type and value -->
+            <span class="stat-value">
+                {{statType}} + {{data[statType].current}}
+            </span>
+
+            <!-- max -->
+            <span class="stat-value-max">
+                ({{data[statType].max}})
+            </span>
+        </p>
     </div>
 </div>

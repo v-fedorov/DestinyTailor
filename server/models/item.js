@@ -3,13 +3,17 @@ var StatRange = require('../lib/statRange');
 /**
  * Creates a new item.
  * @constructor
+ * @param {Object} data The raw data from Bungie.
+ * @param {Object} definitions The supporting definitions.
  */
-var Item = function() {
-    this.itemId = null;
+var Item = function(data, definitions) {
+    var definition = definitions.items.hasOwnProperty(data.itemHash) ? definitions.items[data.itemHash] : {};
 
-    this.name = null;
-    this.bucketHash = null;
-    this.lightLevel = null;
+    this.itemId = data.itemId;
+    this.name = definition.itemName;
+    this.bucketHash = data.bucketHash;
+    this.setLightLevel(data.primaryStat);
+    this.icon = definition.icon;
 
     this.discipline = new StatRange(0, 0, 0);
     this.intellect = new StatRange(0, 0, 0);
