@@ -10,7 +10,7 @@
             scope: {
                 data: '=ngModel'
             },
-            templateUrl: '/js/views/statProgress.html'
+            templateUrl: 'js/views/statProgress.html'
         };
     });
 })(angular.module('destinyTailorApp'));

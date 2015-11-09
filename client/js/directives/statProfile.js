@@ -11,7 +11,7 @@
                 data: '=ngModel',
                 select: '=select'
             },
-            templateUrl: '/js/views/statProfile.html',
+            templateUrl: 'js/views/statProfile.html',
             /**
              * Registers the event for selecting the stat profile.
              * @param {Object} $scope The directive's scope.

@@ -1,7 +1,7 @@
 (function() {
     'use strict';
 
-    var app = angular.module('destinyTailorApp', ['ngRoute']);
+    var app = angular.module('destinyTailorApp', []);
 
     // platform
     app.constant('PLATFORM', {
@@ -25,20 +25,4 @@
         grendade:    ['1:00', '0:55', '0:49', '0:42', '0:34', '0:25'],
         melee:       ['1:00', '0:55', '0:49', '0:42', '0:34', '0:25']
     });
-
-    // configure our routes
-    app.config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
-        $locationProvider.html5Mode({
-            enabled: true,
-            requireBase: false
-        });
-
-        $routeProvider
-            .when('/', {
-                templateUrl: '/js/pages/index.html'
-            })
-            .when('/:platform/:name', {
-                templateUrl: '/js/pages/index.html'
-            });
-    }]);
 })();
