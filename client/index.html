@@ -48,27 +48,25 @@
             <form ng-controller="searchController">
                 <div class="row top-buffer">
                     <div class="col-md-8 col-md-offset-2">
-                        <p>
-                            <div class="input-group">
-                                <!-- platform -->
-                                <span class="input-group-btn">
-                                    <input id="platform" type="checkbox" checked data-toggle="toggle" data-size="large"
-                                        data-on="<span class='dticon dticon-psn'></span>" data-onstyle="primary"
-                                        data-off="<span class='dticon dticon-xbox'></span>" data-offstyle="success"
-                                        ge-bootstrap-toggle ng-model="platform" ng-disabled="isLoading" />
-                                </span>
+                        <div class="input-group">
+                            <!-- platform -->
+                            <span class="input-group-btn">
+                                <input id="platform" type="checkbox" checked data-toggle="toggle" data-size="large"
+                                    data-on="<span class='dticon dticon-psn'></span>" data-onstyle="primary"
+                                    data-off="<span class='dticon dticon-xbox'></span>" data-offstyle="success"
+                                    ge-bootstrap-toggle ng-model="platform" ng-disabled="isLoading" />
+                            </span>
 
-                                <!-- character name -->
-                                <input type="text" class="form-control input-lg" aria-label="Search" ng-disabled="isLoading" ng-keyup="$event.keyCode == 13 && search()" ng-model="name" />
+                            <!-- character name -->
+                            <input type="text" class="form-control input-lg" aria-label="Search" ng-disabled="isLoading" ng-keyup="$event.keyCode == 13 && search()" ng-model="name" />
 
-                                <!-- search -->
-                                <span class="input-group-btn" ng-class="{'loading': isLoading}">
-                                    <button class="btn btn-default btn-lg" type="button" ng-click="search()" ng-disabled="isLoading">
-                                        <span class="dticon dticon-search"></span>
-                                    </button>
-                                </span>
-                            </div>
-                        </p>
+                            <!-- search -->
+                            <span class="input-group-btn" ng-class="{'loading': isLoading}">
+                                <button class="btn btn-default btn-lg" type="button" ng-click="search()" ng-disabled="isLoading">
+                                    <span class="dticon dticon-search"></span>
+                                </button>
+                            </span>
+                        </div>
                         <p class="text-center ng-hide" ng-show="isLoading">
                             <span class="dticon dticon-spin-split-5 spin"></span> Loading character...
                         </p>
@@ -83,40 +81,48 @@
                     </div>
                 </div>
             </form>
+
+            <!-- list of characters -->
             <div class="row ng-hide" ng-controller="accountController" ng-show="account">
-                <div class="col-sm-4" ng-repeat="(characterId, character) in account.characters">
-                    <a href="#" class="show character" ge-background-img="http://bungie.net{{character.backgroundPath}}" ng-click="selectCharacter(character)">
-                        <img class="pull-left" height="59" ng-src="http://www.bungie.net{{character.emblemPath}}" />
-                        <span class="character-info pull-left">
-                            <p class="lead">{{character.class}}</p>
-                            <p><small>{{character.race}} {{character.gender}}</small></p>
-                        </span>
-                        <span class="character-info pull-right text-right">
-                            <p class="lead">{{character.level}}</p>
-                            <p class="character-light-level"><small><span class="glyphicon glyphicon-star"></span>{{character.lightLevel}}</small></p>
-                        </span>
-                    </a>
+                <div ng-repeat="(characterId, character) in account.characters">
+                    <div class="character col-sm-4" ng-class="{ 'character--selected': characterId === selectedCharacter.characterId }">
+                        <a href="#" class="character__emblem show" ge-background-img="http://bungie.net{{character.backgroundPath}}" ng-click="selectCharacter(character)">
+                            <img class="pull-left" height="59" ng-src="http://www.bungie.net{{character.emblemPath}}" />
+                            <span class="character__info pull-left">
+                                <p class="lead">{{character.class}}</p>
+                                <p><small>{{character.race}} {{character.gender}}</small></p>
+                            </span>
+                            <span class="character__info pull-right text-right">
+                                <p class="lead">{{character.level}}</p>
+                                <p class="character__light-level"><small><span class="glyphicon glyphicon-star"></span>{{character.lightLevel}}</small></p>
+                            </span>
+                        </a>
+                    </div>
                 </div>
             </div>
+
+            <!-- stat profiles and character information -->
             <div ng-controller="characterController">
-                <div class="row top-buffer" ng-show="statProfiles.length">
-                    <div class="col-xs-12 col-sm-6">
-                        <ge-stat-profile ng-model="statProfile" select="selectStatProfile" ng-repeat="statProfile in statProfiles | orderBy: '0 - discipline.tier - intellect.tier - strength.tier'" />
-                    </div>
-                    <div ng-show="character.inventory">
-                        <div class="col-xs-6 col-sm-3">
-                            <div ge-character-item ng-model="character.inventory.primaryWeapon"></div>
-                            <div ge-character-item ng-model="character.inventory.specialWeapon"></div>
-                            <div ge-character-item ng-model="character.inventory.heavyWeapon"></div>
-                            <div ge-character-item ng-model="character.inventory.ghost"></div>
+                <div class="row">
+                    <div class="col-sm-12 col-md-6" ng-show="statProfiles.length">
+                        <div class="col-xs-4" ng-repeat="statProfile in statProfiles | orderBy: '0 - discipline.tier - intellect.tier - strength.tier'">
+                            <ge-stat-profile ng-model="statProfile" select="selectStatProfile"  />
                         </div>
-                        <div class="col-xs-6 col-sm-3">
-                            <div ge-character-item ng-model="character.inventory.helmet"></div>
-                            <div ge-character-item ng-model="character.inventory.gauntlets"></div>
-                            <div ge-character-item ng-model="character.inventory.chest"></div>
-                            <div ge-character-item ng-model="character.inventory.legs"></div>
-                            <div ge-character-item ng-model="character.inventory.classItem"></div>
-                            <div ge-character-item ng-model="character.inventory.artifact"></div>
+                    </div>
+                    <div class="col-sm-12 col-md-6" ng-show="character.inventory">
+                        <div class="col-xs-6">
+                            <div ge-item ng-model="character.inventory.primaryWeapon"></div>
+                            <div ge-item ng-model="character.inventory.specialWeapon"></div>
+                            <div ge-item ng-model="character.inventory.heavyWeapon"></div>
+                            <div ge-item ng-model="character.inventory.ghost"></div>
+                        </div>
+                        <div class="col-xs-6">
+                            <div ge-item ng-model="character.inventory.helmet"></div>
+                            <div ge-item ng-model="character.inventory.gauntlets"></div>
+                            <div ge-item ng-model="character.inventory.chest"></div>
+                            <div ge-item ng-model="character.inventory.legs"></div>
+                            <div ge-item ng-model="character.inventory.classItem"></div>
+                            <div ge-item ng-model="character.inventory.artifact"></div>
                         </div>
                     </div>
                 </div>
@@ -150,7 +156,7 @@
     <script src="/client/js/controllers/searchController.js"></script>
     <script src="/client/js/directives/backgroundImage.js"></script>
     <script src="/client/js/directives/bootstrapToggle.js"></script>
-    <script src="/client/js/directives/characterItem.js"></script>
+    <script src="/client/js/directives/item.js"></script>
     <script src="/client/js/directives/statProfile.js"></script>
     <!-- endinject -->
 </body>

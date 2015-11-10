@@ -1,20 +1,24 @@
-<div class="character-item clearfix">
-    <img ng-src="http://www.bungie.net/{{data.icon}}" class="pull-left" />
+<div class="item media">
+    <div class="media-left">
+        <img ng-src="http://www.bungie.net/{{data.icon}}" class="item__icon media-object" alt="{{data.name}}" />
+    </div>
+    <div class="media-body">
+        <h5 class="item__name media-heading">{{data.name}}</h5>
+        <div ng-repeat="statType in ['intellect', 'discipline', 'strength']">
+            <span class="ng-hide" ng-class="{ 'item__stat--maxed': data[statType].current === data[statType].max }" ng-show="data[statType].max">
+                <!-- icon -->
+                <span class="item__stat__icon dticon dticon-{{statType}}"></span>
 
-    <div ng-repeat="statType in ['intellect', 'discipline', 'strength']">
-        <p class="ng-hide pull-left" ng-class="{ 'stat-maxed': data[statType].current === data[statType].max }" ng-show="data[statType].max">
-            <!-- icon -->
-            <span class="dticon dticon-{{statType}}"></span>
+                <!-- type and value -->
+                <span class="item__stat__value">
+                    {{statType}} + {{data[statType].current}}
+                </span>
 
-            <!-- type and value -->
-            <span class="stat-value">
-                {{statType}} + {{data[statType].current}}
+                <!-- max -->
+                <span class="item__stat__max">
+                    ({{data[statType].max}})
+                </span>
             </span>
-
-            <!-- max -->
-            <span class="stat-value-max">
-                ({{data[statType].max}})
-            </span>
-        </p>
+        </div>
     </div>
 </div>

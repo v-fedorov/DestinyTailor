@@ -28,6 +28,7 @@ body {
     height: auto !important;
     height: 100%;
     margin: 0 auto -60px;
+    padding-bottom: 60px;
 }
 .dticon:before {
     display: inline-block;
@@ -65,13 +66,26 @@ footer p {
     text-align: center;
 }
 
-/* miscellaneous */
+/* generic */
 .top-buffer {
     margin-top: 20px;
 }
 
-/* main */
+/* character */
 .character {
+    border-width: 1px;
+    border-color: #fff #fff #ddd #fff;
+    border-style: solid;
+    margin-bottom: 15px;
+    margin-top: 15px;
+    padding-bottom: 15px;
+    padding-top: 15px;
+}
+.character--selected {
+    border-color: #ddd #ddd #fff #ddd;
+    border-radius: 5px 5px 0 0;
+}
+.character__emblem {
     background-size: cover;
     border-radius: 3px;
     color: #f5f5f5;
@@ -79,71 +93,79 @@ footer p {
     overflow: hidden;
     padding: 2px;
 }
-.character:active .character-info,
-.character:hover .character-info,
-.character:visited .character-info {
+.character__emblem:hover {
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
+}
+.character__emblem:active .character__info,
+.character__emblem:hover .character__info,
+.character__emblem:visited .character__info {
     color: #f5f5f5;
 }
-.character-info {
+.character__info {
     margin: 2% 7px;
 }
-.character-info p {
+.character__info p {
     line-height: 1em;
     margin-bottom: 0.2em;
 }
-.character-light-level {
+.character__light-level {
     color: #f5dc56;
 }
-.character-light-level .glyphicon {
+.character__light-level .glyphicon {
     font-size: 0.5em;
     top: -1px;
     margin-right: 2px;
 }
-.stat-profile .dticon {
+
+/* stat profile */
+.stat-profile:hover {
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+}
+.stat__icon {
     font-size: 21px;
 }
-.stat-progress {
+.stat__progress {
     padding: 2%;
 }
-.stat-progress .step {
+.stat_progress__step {
     background-color: #ddd;
     float: left;
     height: 4px;
     margin: 0 1%;
     width: 18%;
 }
-.stat-progress .step.full {
+.stat_progress__step--full {
     background-color: #333;
 }
-.stat-progress .partial {
+.stat_progress__step--partial {
     background-color: #aaa;
     height: 100%;
 }
-.character-item {
+
+/* character item */
+.item {
     margin-bottom: 15px;
 }
-.character-item img {
-    border: solid 1px #333;
-    border-radius: 3px;
-    height: 50px;
-    margin-right: 1%;
-    width: 50px;
+.item__name {
+    color: #777;
 }
-.character-item p {
-    line-height: 25px;
-    margin: 0;
+.item__icon {
+    border-radius: 2px;
+    height: 64px;
+    width: 64px;
 }
-.character-item .dticon {
+.item__stat__icon {
     font-size: 16px;
     margin-left: 2px;
     margin-right: 5px;
 }
-.stat-value {
+.item__stat__value {
     text-transform: capitalize;
 }
-.stat-maxed .stat-value {
+.item__stat--maxed {
     font-weight: bold;
 }
-.stat-maxed .stat-value-max {
+.item__stat--maxed .item__stat__max {
     display: none;
 }

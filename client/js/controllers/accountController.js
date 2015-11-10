@@ -8,14 +8,14 @@
      */
     var AccountController = function($scope, userService) {
         $scope.account = null;
-        $scope.character = null;
+        $scope.selectedCharacter = null;
 
         $scope.$watch(function() {
             return userService.account ? userService.account.membershipId : null;
         }, function() {
             $scope.account = userService.account;
-            $scope.character = null;
-        }, true);
+            $scope.selectedCharacter = null;
+        });
 
         /**
          * Changes the current character.
@@ -23,6 +23,7 @@
          */
         $scope.selectCharacter = function(character) {
             userService.selectCharacter(character.characterId);
+            $scope.selectedCharacter = character;
         };
     };
 

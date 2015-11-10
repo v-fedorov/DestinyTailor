@@ -4,13 +4,13 @@
     /**
      * Defines a directive for showing a character's item.
      */
-    app.directive('geCharacterItem', function() {
+    app.directive('geItem', function() {
         return {
             restrict: 'AE',
             scope: {
                 data: '=ngModel'
             },
-            templateUrl: 'js/views/characterItem.html'
+            templateUrl: 'js/views/item.html'
         };
     });
 })(angular.module('destinyTailorApp'));
