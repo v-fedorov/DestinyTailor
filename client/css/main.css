@@ -76,9 +76,9 @@ footer p {
 
 /* character */
 .character {
-    border-width: 1px;
     border-color: #fff #fff #ddd #fff;
     border-style: solid;
+    border-width: 1px 0;
     margin-bottom: 15px;
     margin-top: 15px;
     padding-bottom: 15px;
@@ -87,6 +87,7 @@ footer p {
 .character--selected {
     border-color: #ddd #ddd #fff #ddd;
     border-radius: 5px 5px 0 0;
+    border-width: 1px 1px 0 1px;
 }
 .character__emblem {
     background-size: cover;
@@ -98,11 +99,6 @@ footer p {
 }
 .character__emblem:hover {
     box-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
-}
-.character__emblem:active .character__info,
-.character__emblem:hover .character__info,
-.character__emblem:visited .character__info {
-    color: #f5f5f5;
 }
 .character__emblem__icon {
     height: 59px;
