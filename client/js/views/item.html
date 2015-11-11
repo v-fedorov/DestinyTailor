@@ -4,19 +4,14 @@
     </div>
     <div class="media-body">
         <h5 class="item__name media-heading">{{data.name}}</h5>
-        <div ng-repeat="statType in ['intellect', 'discipline', 'strength']">
-            <span class="ng-hide" ng-class="{ 'item__stat--maxed': data[statType].current === data[statType].max }" ng-show="data[statType].max">
+        <div ng-repeat="statName in ['intellect', 'discipline', 'strength']">
+            <span class="ng-hide" ng-class="{ 'item__stat--maxed': isStatMaxed(statName) }" ng-show="data[statName].max">
                 <!-- icon -->
-                <span class="item__stat__icon dticon dticon-{{statType}}"></span>
+                <span class="item__stat__icon dticon dticon-{{statName}}"></span>
 
                 <!-- type and value -->
                 <span class="item__stat__value">
-                    {{statType}} + {{data[statType].current}}
-                </span>
-
-                <!-- max -->
-                <span class="item__stat__max">
-                    ({{data[statType].max}})
+                    {{statName}} + {{getCurrentValue(statName)}}
                 </span>
             </span>
         </div>

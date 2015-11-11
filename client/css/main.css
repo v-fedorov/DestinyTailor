@@ -101,6 +101,20 @@ footer p {
 .character__emblem:visited .character__info {
     color: #f5f5f5;
 }
+.character__emblem__icon {
+    height: 59px;
+    width: 59px;
+}
+@media (max-width: 769px) {
+    .character {
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+    .character__emblem__icon {
+        height: 42px;
+        width: 42px;
+    }
+}
 .character__info {
     margin: 2% 7px;
 }

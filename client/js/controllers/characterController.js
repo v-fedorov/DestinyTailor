@@ -9,6 +9,7 @@
      */
     var CharacterController = function($scope, userService, inventoryAnalyser) {
         $scope.character = null;
+        $scope.selectedStats = {};
         $scope.statProfiles = [];
 
         /**
@@ -16,16 +17,22 @@
          * @param {Object} statProfile The stat profile that was selected.
          */
         $scope.selectStatProfile = function(statProfile) {
-            console.log(statProfile);
+            $scope.selectedStats = statProfile.inventory;
         };
 
         // watch for the character changing
         $scope.$watch(function() {
             return userService.character ? userService.character.characterId : null;
         }, function() {
-            // update the scope
             $scope.character = userService.character;
-            $scope.statProfiles = $scope.character ? inventoryAnalyser.getStatProfiles($scope.character) : [];
+            $scope.selectedStats = {};
+
+            // update the scope
+            if ($scope.character) {
+                $scope.statProfiles = inventoryAnalyser.getStatProfiles($scope.character);
+            } else {
+                $scope.statProfiles = {};
+            }
         });
     };
 

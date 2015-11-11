@@ -20,9 +20,9 @@
     <link rel="stylesheet" href="/bower_components/roboto-fontface/css/roboto-fontface.css" />
     <!-- endbower -->
 
-    <link href="./css/main.css" rel="stylesheet" />
-    <link href="./css/animation.css" rel="stylesheet" />
-    <link href="./css/destinytailor-codes.css" rel="stylesheet" />
+    <link href="/css/main.css" rel="stylesheet" />
+    <link href="/css/animation.css" rel="stylesheet" />
+    <link href="/css/destinytailor-codes.css" rel="stylesheet" />
 </head>
 
 <body data-feedly-mini="yes" cz-shortcut-listen="true">
@@ -85,9 +85,9 @@
             <!-- list of characters -->
             <div class="row ng-hide" ng-controller="accountController" ng-show="account">
                 <div ng-repeat="(characterId, character) in account.characters">
-                    <div class="character col-sm-4" ng-class="{ 'character--selected': characterId === selectedCharacter.characterId }">
+                    <div class="character col-xs-4" ng-class="{ 'character--selected': characterId === selectedCharacter.characterId }">
                         <a href="#" class="character__emblem show" ge-background-img="http://bungie.net{{character.backgroundPath}}" ng-click="selectCharacter(character)">
-                            <img class="pull-left" height="59" ng-src="http://www.bungie.net{{character.emblemPath}}" />
+                            <img class="character__emblem__icon pull-left" ng-src="http://www.bungie.net{{character.emblemPath}}" />
                             <span class="character__info pull-left">
                                 <p class="lead">{{character.class}}</p>
                                 <p><small>{{character.race}} {{character.gender}}</small></p>
@@ -106,7 +106,7 @@
                 <div class="row">
                     <div class="col-sm-12 col-md-6" ng-show="statProfiles.length">
                         <div class="col-xs-4" ng-repeat="statProfile in statProfiles | orderBy: '0 - discipline.tier - intellect.tier - strength.tier'">
-                            <ge-stat-profile ng-model="statProfile" select="selectStatProfile"  />
+                            <ge-stat-profile ng-model="statProfile" ng-click="selectStatProfile(statProfile)"  />
                         </div>
                     </div>
                     <div class="col-sm-12 col-md-6" ng-show="character.inventory">
@@ -114,15 +114,15 @@
                             <div ge-item ng-model="character.inventory.primaryWeapon"></div>
                             <div ge-item ng-model="character.inventory.specialWeapon"></div>
                             <div ge-item ng-model="character.inventory.heavyWeapon"></div>
-                            <div ge-item ng-model="character.inventory.ghost"></div>
+                            <div ge-item ng-model="character.inventory.ghost" ng-selected-stats="selectedStats.ghost"></div>
                         </div>
                         <div class="col-xs-6">
-                            <div ge-item ng-model="character.inventory.helmet"></div>
-                            <div ge-item ng-model="character.inventory.gauntlets"></div>
-                            <div ge-item ng-model="character.inventory.chest"></div>
-                            <div ge-item ng-model="character.inventory.legs"></div>
-                            <div ge-item ng-model="character.inventory.classItem"></div>
-                            <div ge-item ng-model="character.inventory.artifact"></div>
+                            <div ge-item ng-model="character.inventory.helmet" ng-selected-stats="selectedStats.helmet"></div>
+                            <div ge-item ng-model="character.inventory.gauntlets" ng-selected-stats="selectedStats.gauntlets"></div>
+                            <div ge-item ng-model="character.inventory.chest" ng-selected-stats="selectedStats.chest"></div>
+                            <div ge-item ng-model="character.inventory.legs" ng-selected-stats="selectedStats.legs"></div>
+                            <div ge-item ng-model="character.inventory.classItem" ng-selected-stats="selectedStats.classItem"></div>
+                            <div ge-item ng-model="character.inventory.artifact" ng-selected-stats="selectedStats.artifact"></div>
                         </div>
                     </div>
                 </div>

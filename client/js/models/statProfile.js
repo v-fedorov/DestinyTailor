@@ -3,32 +3,34 @@
 
     /**
      * Defines the stat profile model.
+     * @param {Object} ITEM_BUCKET_HASHES Key-value-pair of bucket hashes and user friendly identifiers.
      * @param {String[]} STAT_NAMES The constant stat names.
      * @param {Object} Stat The stat model constructor.
      */
-    app.factory('StatProfile', ['STAT_NAMES', 'Stat', function(STAT_NAMES, Stat) {
+    function StatProfile(ITEM_BUCKET_HASHES, STAT_NAMES, Stat) {
         /**
-        * Provides a stat profile for a given path.
-        * @constructor
-        * @param {Object} statProfile The optional stat profile to copy.
-        */
-        function StatProfile(statProfile) {
-            statProfile = statProfile || {};
-
-            this.discipline = new Stat(statProfile.discipline);
-            this.intellect = new Stat(statProfile.intellect);
-            this.strength = new Stat(statProfile.strength);
-            this.items = statProfile.items ? statProfile.items.concat([]) : [];
+         * Provides a stat profile for a given path.
+         * @constructor
+         */
+        function Model() {
+            // main stats
+            this.discipline = new Stat();
+            this.intellect = new Stat();
+            this.strength = new Stat();
             this.tierCount = 0;
+
+            // inventory setup
+            this.inventory = {};
+            this.items = [];
         }
 
         /**
-        * Adds the item to the profile, using the selected stat name as the max value.
-        * @param {Object} item The item being added.
-        * @param {String} selectedStatName The stat being selected as the max.
-        * @returns {Object} The modified stat profile.
-        */
-        StatProfile.prototype.add = function(item, selectedStatName) {
+         * Adds the item to the profile, using the selected stat name as the max value.
+         * @param {Object} item The item being added.
+         * @param {String} selectedStatName The stat being selected as the max.
+         * @returns {Object} The modified stat profile.
+         */
+        Model.prototype.add = function(item, selectedStatName) {
             var option = {};
 
             // set the name and maximum
@@ -46,13 +48,14 @@
             }
 
             this.items.push(option);
+            this.inventory[ITEM_BUCKET_HASHES[item.bucketHash]] = option;
             return this;
         };
 
         /**
-        * Calculates the stat tiers.
-        */
-        StatProfile.prototype.calculateTiers = function() {
+         * Calculates the stat tiers.
+         */
+        Model.prototype.calculateTiers = function() {
             this.discipline.calculateTier();
             this.intellect.calculateTier();
             this.strength.calculateTier();
@@ -61,16 +64,19 @@
         };
 
         /**
-        * Determines if the stat profile is equal to the other stat profile, based on the tiers.
-        * @param {Object} other The stat profile to compare.
-        * @returns {Boolean} True when the stat profiles are considered equal.
-        */
-        StatProfile.prototype.isEqual = function(other) {
+         * Determines if the stat profile is equal to the other stat profile, based on the tiers.
+         * @param {Object} other The stat profile to compare.
+         * @returns {Boolean} True when the stat profiles are considered equal.
+         */
+        Model.prototype.isEqual = function(other) {
             return this.discipline.tier === other.discipline.tier
                 && this.intellect.tier === other.intellect.tier
                 && this.strength.tier === other.strength.tier;
         };
 
-        return StatProfile;
-    }]);
+        return Model;
+    };
+
+    StatProfile.$inject = ['ITEM_BUCKET_HASHES', 'STAT_NAMES', 'Stat'];
+    app.factory('StatProfile', StatProfile);
 })(angular.module('destinyTailorApp'));

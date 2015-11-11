@@ -11,10 +11,6 @@
          * @param {Object} $element The main element.
          */
         function link($scope, $element) {
-            $element.click(function() {
-                $scope.select($scope.data);
-            });
-
             /**
              * Determines if the specified tier, i, is complete for the stat.
              * @param {Object} stat The stat being checked.
@@ -50,8 +46,7 @@
         return {
             restrict: 'AE',
             scope: {
-                data: '=ngModel',
-                select: '=select'
+                data: '=ngModel'
             },
             templateUrl: 'js/views/statProfile.html',
             link: link

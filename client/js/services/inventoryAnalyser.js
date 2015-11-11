@@ -55,11 +55,11 @@
             while (items[0] && i < STAT_NAMES.length) {
                 // check if the item has a path we can follow for the current stat
                 if (items[0][STAT_NAMES[i]]) {
-                    var newProfile = new StatProfile(currentProfile)
+                    var newPath = angular.copy(currentProfile)
                         .add(items[0], STAT_NAMES[i]);
 
                     itemEvaluated = true;
-                    this.evaluatePaths(items.slice(1), newProfile);
+                    this.evaluatePaths(items.slice(1), newPath);
                 }
 
                 i++;
