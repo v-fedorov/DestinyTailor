@@ -34,7 +34,6 @@
             }, function(err) {
                 $scope.error = err.statusText;
             }).then(function() {
-                console.log('fuck yeah');
                 $scope.isSearching = false;
             });
         };
