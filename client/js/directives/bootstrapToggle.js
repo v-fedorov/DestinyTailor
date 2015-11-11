@@ -46,4 +46,4 @@
             }
         };
     });
-})(angular.module('destinyTailorApp'));
+})(angular.module('main'));

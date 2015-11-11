@@ -120,4 +120,4 @@
 
         return scope;
     }]);
-})(angular.module('destinyTailorApp'));
+})(angular.module('main'));

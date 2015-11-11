@@ -27,4 +27,4 @@
     };
 
     app.factory('Stat', Stat);
-})(angular.module('destinyTailorApp'));
+})(angular.module('main'));

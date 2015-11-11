@@ -39,4 +39,4 @@
 
     SearchController.$inject = ['$scope', '$http', 'PLATFORMS', 'userService'];
     app.controller('searchController', SearchController);
-})(angular.module('destinyTailorApp'));
+})(angular.module('main'));

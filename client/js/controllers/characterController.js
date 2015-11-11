@@ -38,4 +38,4 @@
 
     CharacterController.$inject = ['$scope', 'userService', 'inventoryAnalyser'];
     app.controller('characterController', CharacterController);
-})(angular.module('destinyTailorApp'));
+})(angular.module('main'));

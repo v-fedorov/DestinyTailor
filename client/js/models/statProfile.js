@@ -79,4 +79,4 @@
 
     StatProfile.$inject = ['ITEM_BUCKET_HASHES', 'STAT_NAMES', 'Stat'];
     app.factory('StatProfile', StatProfile);
-})(angular.module('destinyTailorApp'));
+})(angular.module('main'));

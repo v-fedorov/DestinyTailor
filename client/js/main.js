@@ -1,7 +1,7 @@
 (function() {
     'use strict';
 
-    var app = angular.module('destinyTailorApp', []);
+    var app = angular.module('main', []);
 
     // cooldown tiers for abilities
     app.constant('ABILITY_COOLDOWNS', {

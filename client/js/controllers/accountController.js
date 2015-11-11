@@ -29,4 +29,4 @@
 
     AccountController.$inject = ['$scope', 'userService'];
     app.controller('accountController', AccountController);
-})(angular.module('destinyTailorApp'));
+})(angular.module('main'));
