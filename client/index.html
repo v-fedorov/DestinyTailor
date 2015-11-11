@@ -104,7 +104,7 @@
             <div ng-controller="characterController">
                 <div class="row">
                     <div class="col-sm-12 col-md-6" ng-show="statProfiles.length">
-                        <div class="col-xs-4" ng-repeat="statProfile in statProfiles | orderBy: '0 - discipline.tier - intellect.tier - strength.tier'">
+                        <div class="col-xs-4 col-sm-3 col-md-4" ng-repeat="statProfile in statProfiles | orderBy: '0 - discipline.tier - intellect.tier - strength.tier'">
                             <ge-stat-profile ng-model="statProfile" ng-selected="statProfile === currentStatProfile" ng-click="selectStatProfile(statProfile)"  />
                         </div>
                     </div>
