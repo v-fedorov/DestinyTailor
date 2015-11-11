@@ -10,6 +10,8 @@
      */
     var SearchController = function($scope, $http, PLATFORMS, userService) {
         var PLATFORM_PSN = true;
+
+        $scope.isSearching = false;
         $scope.platform = PLATFORM_PSN;
 
         /**
@@ -19,11 +21,10 @@
             var platformId = $scope.platform === PLATFORM_PSN ? PLATFORMS.psn : PLATFORMS.xbox;
             var path = '/api/' + platformId + '/' + encodeURIComponent($scope.name) + '/';
 
-            $scope.isLoading = true;
+            $scope.isSearching = true;
 
             // begin the request
             $http.get(path).then(function(result) {
-                $scope.isLoading = false;
                 if (result.data === null) {
                     $scope.error = 'Unable to find character.';
                 } else {
@@ -31,8 +32,10 @@
                     userService.character = null;
                 }
             }, function(err) {
-                $scope.isLoading = false;
                 $scope.error = err.statusText;
+            }).then(function() {
+                console.log('fuck yeah');
+                $scope.isSearching = false;
             });
         };
     };

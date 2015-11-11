@@ -18,6 +18,7 @@
     <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.css" />
     <link rel="stylesheet" href="/bower_components/bootstrap-toggle/css/bootstrap-toggle.min.css" />
     <link rel="stylesheet" href="/bower_components/roboto-fontface/css/roboto-fontface.css" />
+    <link rel="stylesheet" href="/bower_components/angular-loading-bar/build/loading-bar.css" />
     <!-- endbower -->
 
     <link href="/css/main.css" rel="stylesheet" />
@@ -54,22 +55,20 @@
                                 <input id="platform" type="checkbox" checked data-toggle="toggle" data-size="large"
                                     data-on="<span class='dticon dticon-psn'></span>" data-onstyle="primary"
                                     data-off="<span class='dticon dticon-xbox'></span>" data-offstyle="success"
-                                    ge-bootstrap-toggle ng-model="platform" ng-disabled="isLoading" />
+                                    ge-bootstrap-toggle ng-model="platform" ng-disabled="isSearching" />
                             </span>
 
                             <!-- character name -->
-                            <input type="text" class="form-control input-lg" aria-label="Search" ng-disabled="isLoading" ng-keyup="$event.keyCode == 13 && search()" ng-model="name" />
+                            <input type="text" class="form-control input-lg" aria-label="Search" ng-disabled="isSearching" ng-keyup="$event.keyCode == 13 && search()" ng-model="name" />
 
                             <!-- search -->
-                            <span class="input-group-btn" ng-class="{'loading': isLoading}">
-                                <button class="btn btn-default btn-lg" type="button" ng-click="search()" ng-disabled="isLoading">
-                                    <span class="dticon dticon-search"></span>
+                            <span class="input-group-btn">
+                                <button class="btn btn-default btn-lg" type="button" ng-click="search()" ng-disabled="isSearching">
+                                    <span class="dticon dticon-search" ng-show="!isSearching"></span>
+                                    <span class="dticon dticon-spin-split-5 spin ng-hide" ng-show="isSearching"></span>
                                 </button>
                             </span>
                         </div>
-                        <p class="text-center ng-hide" ng-show="isLoading">
-                            <span class="dticon dticon-spin-split-5 spin"></span> Loading character...
-                        </p>
                     </div>
                 </div>
                 <div class="row top-buffer ng-hide">
@@ -106,7 +105,7 @@
                 <div class="row">
                     <div class="col-sm-12 col-md-6" ng-show="statProfiles.length">
                         <div class="col-xs-4" ng-repeat="statProfile in statProfiles | orderBy: '0 - discipline.tier - intellect.tier - strength.tier'">
-                            <ge-stat-profile ng-model="statProfile" ng-click="selectStatProfile(statProfile)"  />
+                            <ge-stat-profile ng-model="statProfile" ng-selected="statProfile === currentStatProfile" ng-click="selectStatProfile(statProfile)"  />
                         </div>
                     </div>
                     <div class="col-sm-12 col-md-6" ng-show="character.inventory">
@@ -114,15 +113,15 @@
                             <div ge-item ng-model="character.inventory.primaryWeapon"></div>
                             <div ge-item ng-model="character.inventory.specialWeapon"></div>
                             <div ge-item ng-model="character.inventory.heavyWeapon"></div>
-                            <div ge-item ng-model="character.inventory.ghost" ng-selected-stats="selectedStats.ghost"></div>
+                            <div ge-item ng-model="character.inventory.ghost" ng-selected-stats="currentStatProfile.inventory.ghost"></div>
                         </div>
                         <div class="col-xs-6">
-                            <div ge-item ng-model="character.inventory.helmet" ng-selected-stats="selectedStats.helmet"></div>
-                            <div ge-item ng-model="character.inventory.gauntlets" ng-selected-stats="selectedStats.gauntlets"></div>
-                            <div ge-item ng-model="character.inventory.chest" ng-selected-stats="selectedStats.chest"></div>
-                            <div ge-item ng-model="character.inventory.legs" ng-selected-stats="selectedStats.legs"></div>
-                            <div ge-item ng-model="character.inventory.classItem" ng-selected-stats="selectedStats.classItem"></div>
-                            <div ge-item ng-model="character.inventory.artifact" ng-selected-stats="selectedStats.artifact"></div>
+                            <div ge-item ng-model="character.inventory.helmet" ng-selected-stats="currentStatProfile.inventory.helmet"></div>
+                            <div ge-item ng-model="character.inventory.gauntlets" ng-selected-stats="currentStatProfile.inventory.gauntlets"></div>
+                            <div ge-item ng-model="character.inventory.chest" ng-selected-stats="currentStatProfile.inventory.chest"></div>
+                            <div ge-item ng-model="character.inventory.legs" ng-selected-stats="currentStatProfile.inventory.legs"></div>
+                            <div ge-item ng-model="character.inventory.classItem" ng-selected-stats="currentStatProfile.inventory.classItem"></div>
+                            <div ge-item ng-model="character.inventory.artifact" ng-selected-stats="currentStatProfile.inventory.artifact"></div>
                         </div>
                     </div>
                 </div>
@@ -143,6 +142,7 @@
     <script src="/bower_components/bootstrap/dist/js/bootstrap.js"></script>
     <script src="/bower_components/bootstrap-toggle/js/bootstrap-toggle.min.js"></script>
     <script src="/bower_components/angular/angular.js"></script>
+    <script src="/bower_components/angular-loading-bar/build/loading-bar.js"></script>
     <!-- endbower -->
 
     <!-- inject:js -->

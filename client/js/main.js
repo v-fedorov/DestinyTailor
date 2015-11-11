@@ -1,7 +1,12 @@
 (function() {
     'use strict';
 
-    var app = angular.module('main', []);
+    var app = angular.module('main', ['angular-loading-bar']);
+
+    // configure the loading bar
+    app.config(['cfpLoadingBarProvider', function(cfpLoadingBarProvider) {
+        cfpLoadingBarProvider.includeSpinner = false;
+    }]);
 
     // cooldown tiers for abilities
     app.constant('ABILITY_COOLDOWNS', {

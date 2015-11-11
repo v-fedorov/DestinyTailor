@@ -46,7 +46,8 @@
         return {
             restrict: 'AE',
             scope: {
-                data: '=ngModel'
+                data: '=ngModel',
+                selected: '=ngSelected'
             },
             templateUrl: 'js/views/statProfile.html',
             link: link

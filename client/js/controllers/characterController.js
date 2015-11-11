@@ -9,7 +9,7 @@
      */
     var CharacterController = function($scope, userService, inventoryAnalyser) {
         $scope.character = null;
-        $scope.selectedStats = {};
+        $scope.currentStatProfile = {};
         $scope.statProfiles = [];
 
         /**
@@ -17,7 +17,7 @@
          * @param {Object} statProfile The stat profile that was selected.
          */
         $scope.selectStatProfile = function(statProfile) {
-            $scope.selectedStats = statProfile.inventory;
+            $scope.currentStatProfile = statProfile;
         };
 
         // watch for the character changing
@@ -25,7 +25,7 @@
             return userService.character ? userService.character.characterId : null;
         }, function() {
             $scope.character = userService.character;
-            $scope.selectedStats = {};
+            $scope.currentStatProfile = {};
 
             // update the scope
             if ($scope.character) {

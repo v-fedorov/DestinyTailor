@@ -5,6 +5,7 @@
     "bootstrap": "3.3.5",
     "bootstrap-toggle": "2.2.1",
     "roboto-fontface": "0.4.3",
-    "angular": "1.4.7"
+    "angular": "1.4.7",
+    "angular-loading-bar": "0.8.0"
   }
 }
