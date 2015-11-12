@@ -7,13 +7,17 @@ var StatRange = require('../lib/statRange');
  * @param {Object} definitions The supporting definitions.
  */
 var Item = function(data, definitions) {
-    var definition = definitions.items.hasOwnProperty(data.itemHash) ? definitions.items[data.itemHash] : {};
+    var itemDefinition = definitions.items.hasOwnProperty(data.itemHash) ? definitions.items[data.itemHash] : {};
 
     this.itemId = data.itemId;
-    this.name = definition.itemName;
+    this.name = itemDefinition.itemName;
     this.bucketHash = data.bucketHash;
-    this.setLightLevel(data.primaryStat);
-    this.icon = definition.icon;
+    this.itemTypeName = itemDefinition.itemTypeName;
+    
+    this.icon = itemDefinition.icon;
+    this.setPrimaryStat(data, definitions);
+    this.tierType = itemDefinition.tierType;
+    this.tierTypeName = itemDefinition.tierTypeName;
 
     this.discipline = new StatRange(0, 0, 0);
     this.intellect = new StatRange(0, 0, 0);
@@ -29,13 +33,18 @@ Item.prototype.expand = function(callback) {
 };
 
 /**
- * Sets the light level on the item from the primary stat.
- * @param {Object} primaryStat The primary stat containing the light level value.
+ * Sets the primary stat on the item.
+ * @param {Object} data The data of the object.
+ * @param {Object} definitions The definitions for the item.
  */
-Item.prototype.setLightLevel = function(primaryStat) {
-    if (primaryStat && primaryStat.value) {
-        this.lightLevel = primaryStat.value;
-    };
+Item.prototype.setPrimaryStat = function(data, definitions) {
+    if (data.primaryStat === undefined) {
+        this.primaryStat = 0;
+        this.primaryStatName = '';
+    } else {
+        this.primaryStat = data.primaryStat.value;
+        this.primaryStatName = definitions.stats[data.primaryStat.statHash].statName;
+    }
 };
 
 module.exports = Item;
