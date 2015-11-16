@@ -177,6 +177,14 @@ footer p {
     background-color: #4f75a2;
     border-color: #4f75a2;
 }
+.item--uncommon {
+    background-color: #366f42;
+    border-color: #366f42;
+}
+.item--common {
+    background-color: #c3bcb4;
+    border-color: #c3bcb4
+}
 .item__name {
     color: #fff;
     font-size: 18px;
@@ -204,6 +212,12 @@ footer p {
 .item--rare .item__body {
     background-color: #d3dde8;
 }
+.item--uncommon .item__body {
+    background-color: #d6e2d9
+}
+.item--common .item__body {
+    background-color: #f3f2f0;
+}
 .item__primary-stat {
     padding: 3px 3px 0;
     text-align: center;
@@ -227,6 +241,12 @@ footer p {
 }
 .item--rare .item__primary-stat {
     color: #4f75a2;
+}
+.item--uncommon .item__primary-stat {
+    color: #366f42;
+}
+.item--common .item__primary-stat {
+    color: #c3bcb4;
 }
 .item__stat {
     display: block;
