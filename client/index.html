@@ -103,12 +103,12 @@
             <!-- stat profiles and character information -->
             <div ng-controller="characterController">
                 <div class="row">
-                    <div class="col-sm-12 col-md-6" ng-show="statProfiles.length">
-                        <div class="col-xs-4 col-sm-3 col-md-4" ng-repeat="statProfile in statProfiles | orderBy: '0 - discipline.tier - intellect.tier - strength.tier'">
+                    <div class="col-sm-12 col-md-8" ng-show="statProfiles.length">
+                        <div class="col-xs-4 col-sm-3" ng-repeat="statProfile in statProfiles | orderBy: '0 - discipline.tier - intellect.tier - strength.tier'">
                             <ge-stat-profile ng-model="statProfile" ng-selected="statProfile === currentStatProfile" ng-click="selectStatProfile(statProfile)"  />
                         </div>
                     </div>
-                    <div class="col-sm-12 col-md-6" ng-show="character.inventory">
+                    <div class="col-sm-12 col-md-4" ng-show="character.inventory">
                         <div ge-item ng-model="character.inventory.helmet" ng-selected-stats="currentStatProfile.inventory.helmet"></div>
                         <div ge-item ng-model="character.inventory.gauntlets" ng-selected-stats="currentStatProfile.inventory.gauntlets"></div>
                         <div ge-item ng-model="character.inventory.chest" ng-selected-stats="currentStatProfile.inventory.chest"></div>
