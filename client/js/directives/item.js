@@ -10,6 +10,16 @@
          * @param {Object} $scope The scope.
          */
         function link($scope) {
+            $scope.getTierTypeCssClass = function(tierType) {
+                switch (tierType) {
+                    case 3: return 'item--uncommon';
+                    case 4: return 'item--rare';
+                    case 5: return 'item--legendary';
+                    case 6: return 'item--exotic';
+                    default: return 'item--common';
+                }
+            };
+
             /**
              * Determines if the current stat is considered at the maximum value.
              * @param {String} statName The stat.

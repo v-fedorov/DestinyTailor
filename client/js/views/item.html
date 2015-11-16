@@ -1,5 +1,5 @@
-<div class="item" ng-class="{ 'item--common': data.tierType === 2, 'item--uncommon': data.tierType === 3, 'item--rare': data.tierType === 4, 'item--legendary': data.tierType === 5, 'item--exotic': data.tierType === 6 }">
-    <div class="item__header media">
+<div class="item" ng-class="getTierTypeCssClass(data.tierType)" ng-if="data">
+    <div class="item__header media" ng-class="data.primaryStatName">
         <h3 class="media-heading item__name">{{data.name}}</h3>
         <div class="media-left">
             <img class="item__icon" alt="{{data.name}}" ng-src="http://www.bungie.net/{{data.icon}}" />
@@ -11,7 +11,7 @@
             </div>
             <span>
                 <div ng-repeat="statName in ['intellect', 'discipline', 'strength']">
-                    <span class="item__stat ng-hide" ng-class="{ 'item__stat--maxed': isStatMaxed(statName) }" ng-show="data[statName].max">
+                    <span class="item__stat" ng-class="{ 'item__stat--maxed': isStatMaxed(statName) }" ng-if="data[statName].max">
                         <span class="item__stat__icon dticon dticon-{{statName}}"></span>
                         <span class="item__stat__value">{{statName}} + {{getCurrentValue(statName)}}</span>
                     </span>
