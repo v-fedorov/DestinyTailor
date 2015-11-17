@@ -7,13 +7,13 @@
      * @param {Object} StatProfile The stat profile model constructor.
      */
     app.factory('inventoryAnalyser', ['STAT_NAMES', 'StatProfile', function(STAT_NAMES, StatProfile) {
-        var scope = {};
+        var $scope = {};
 
         /**
          * Gets the unique stat profiles for the given character.
          * @param {Object} character The character to analyse.
          */
-        scope.getStatProfiles = function(character) {
+        $scope.getStatProfiles = function(character) {
             var analyser = new InventoryAnalyser(character);
             return analyser.profiles;
         };
@@ -119,6 +119,6 @@
             return true;
         };
 
-        return scope;
+        return $scope;
     }]);
 })(angular.module('main'));

@@ -32,6 +32,24 @@
         '2465295065': 'specialWeapon',
     });
 
+    // Bungie definitions
+    app.constant('DEFINITIONS', {
+        classType: {
+            '671679327':  'Hunter',
+            '2271682572': 'Warlock',
+            '3655393761': 'Titan'
+        },
+        genderType: {
+            '3111576190': 'Male',
+            '2204441813': 'Female'
+        },
+        raceType: {
+            '898834093':  'Exo',
+            '2803282938': 'Awoken',
+            '3887404748': 'Human'
+        }
+    });
+
     // platform
     app.constant('PLATFORMS', {
         psn: 2,

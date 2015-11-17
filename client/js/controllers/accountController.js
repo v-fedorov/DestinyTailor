@@ -22,7 +22,7 @@
          * @param {Object} character The character to select.
          */
         $scope.selectCharacter = function(character) {
-            userService.selectCharacter(character.characterId);
+            userService.selectCharacter(character);
             $scope.selectedCharacter = character;
         };
     };

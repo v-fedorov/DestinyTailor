@@ -7,12 +7,12 @@
      * @param {Object[]} STAT_NAMES The constant stat names.
      * @param {Object} Stat The stat model constructor.
      */
-    function StatProfile(ITEM_BUCKET_HASHES, STAT_NAMES, Stat) {
+    function Model(ITEM_BUCKET_HASHES, STAT_NAMES, Stat) {
         /**
          * Provides a stat profile for a given path.
          * @constructor
          */
-        function Model() {
+        function StatProfile() {
             // main stats
             this.discipline = new Stat();
             this.intellect = new Stat();
@@ -30,7 +30,7 @@
          * @param {String} selectedStatName The stat being selected as the max.
          * @returns {Object} The modified stat profile.
          */
-        Model.prototype.add = function(item, selectedStatName) {
+        StatProfile.prototype.add = function(item, selectedStatName) {
             var option = {};
 
             // set the name and maximum
@@ -55,7 +55,7 @@
         /**
          * Calculates the stat tiers.
          */
-        Model.prototype.calculateTiers = function() {
+        StatProfile.prototype.calculateTiers = function() {
             this.discipline.calculateTier();
             this.intellect.calculateTier();
             this.strength.calculateTier();
@@ -68,15 +68,15 @@
          * @param {Object} other The stat profile to compare.
          * @returns {Boolean} True when the stat profiles are considered equal.
          */
-        Model.prototype.isEqual = function(other) {
+        StatProfile.prototype.isEqual = function(other) {
             return this.discipline.tier === other.discipline.tier
                 && this.intellect.tier === other.intellect.tier
                 && this.strength.tier === other.strength.tier;
         };
 
-        return Model;
+        return StatProfile;
     };
 
-    StatProfile.$inject = ['ITEM_BUCKET_HASHES', 'STAT_NAMES', 'Stat'];
-    app.factory('StatProfile', StatProfile);
+    Model.$inject = ['ITEM_BUCKET_HASHES', 'STAT_NAMES', 'Stat'];
+    app.factory('StatProfile', Model);
 })(angular.module('main'));
