@@ -22,8 +22,10 @@
             $scope.isSearching = true;
 
             userService.getCharacters(platformId, $scope.name).then(function(result) {
-                userService.account = { characters: result };
                 userService.character = null;
+                userService.account = {
+                    characters: result
+                };
             }, function(err) {
                 console.log(err);
             }).then(function() {

@@ -21,34 +21,62 @@
          * @returns {Object} The characters, represented as a promise.
          */
         $scope.getCharacters = function(membershipType, displayName) {
-            return $q(function(resolve, reject) {
-                // get the membership information
-                getMembership(membershipType, displayName).then(function(membership) {
-                    $http.get('/Platform/Destiny/' + membership.membershipType + '/Account/' + membership.membershipId + '/?definitions=true').then(function(result) {
-                        // set the characters and definitions
-                        var characters = result.data.Response.data.characters;
-                        var definitions = result.data.Response.definitions;
+            var deferred = $q.defer();
 
-                        // map the character information
-                        for (var i = 0; i < characters.length; i++) {
-                            characters[i] = new Character(characters[i], definitions);
-                            characters[i].membershipType = membership.membershipType;
-                            characters[i].membershipId = membership.membershipId;
-                        }
+            // get the membership information
+            $scope.getMembership(membershipType, displayName).then(function(membership) {
+                var path = '/Platform/Destiny/' + membership.membershipType + '/Account/' + membership.membershipId + '/';
+                $http.get(path).then(function(result) {
+                    if (result.data.ErrorCode > 1) {
+                        // reject as there was an error from Bungie
+                        deferred.reject({
+                            statusText: result.data.Message
+                        });
+                    } else {
+                        // resolve the mapped characters
+                        deferred.resolve(result.data.Response.data.characters.map(function(data) {
+                            return new Character(membership, data);
+                        }));
+                    }
+                });
+            }, function(err) {
+                deferred.reject(err);
+            });
 
-                        resolve(characters);
-                    }, function(err) {
-                        reject(err);
+            return deferred.promise;
+        };
+
+        /**
+         * Gets the membership information for the given type and display name.
+         * @param {Number} membershipType The type that represents the platform, e.g. 1 for Xbox, or 2 for PSN.
+         * @param {String} displayName The account's display name.
+         * @returns {Object} The membership, represented as a promise.
+         */
+        $scope.getMembership = function(membershipType, displayName) {
+            var deferred = $q.defer();
+            var path = '/Platform/Destiny/SearchDestinyPlayer/' + membershipType + '/' + encodeURIComponent(displayName) + '/';
+
+            $http.get(path).then(function(result) {
+                // success when we have at least 1 character; we should only ever have 1...
+                if (result.data.Response !== undefined && result.data.Response.length === 1) {
+                    deferred.resolve(result.data.Response[0]);
+                } else {
+                    deferred.reject({
+                        statusText: 'Character not found'
                     });
-                }, function(err) {
-                    reject(err);
+                }
+            }, function(err) {
+                deferred.reject({
+                    statusText: err.status === 404 ? 'Character not found' : 'Unknown error'
                 });
             });
+
+            return deferred.promise;
         };
 
         /**
          * Selects the character, updating the current $scope.
-         * @param {String} characterId The character to select.
+         * @param {Object} character The character to select.
          */
         $scope.selectCharacter = function(character) {
             // validate the character exists on the account
@@ -63,7 +91,8 @@
             }
 
             // otherwise load it
-            $http.get('/api/' + character.membershipType + '/' + character.membershipId + '/' + character.characterId).then(function(result) {
+            var path = '/api/' + character.membershipType + '/' + character.membershipId + '/' + character.characterId;
+            $http.get(path).then(function(result) {
                 if (result.data === null) {
                     throw 'todo: No data.';
                 } else {
@@ -74,27 +103,6 @@
                 throw err;
             });
         };
-
-        /**
-         * Gets the membership information for the given type and display name.
-         * @param {Number} membershipType The type that represents the platform, e.g. 1 for Xbox, or 2 for PSN.
-         * @param {String} displayName The account's display name.
-         * @returns {Object} The membership, represented as a promise.
-         */
-        function getMembership(membershipType, displayName) {
-            return $q(function(resolve, reject) {
-                $http.get('/Platform/Destiny/SearchDestinyPlayer/' + membershipType + '/' + displayName + '/').then(function(result) {
-                    // success when we have at least 1 character; we should only ever have 1...
-                    if (result.data.Response !== null && result.data.Response.length === 1) {
-                        resolve(result.data.Response[0]);
-                    } else {
-                        reject({ statusText: "Character not found" });
-                    }
-                }, function(err) {
-                    reject(err);
-                });
-            });
-        }
 
         return $scope;
     }]);
