@@ -40,8 +40,17 @@
 
     // stat names
     app.constant('STAT_NAMES', [
-        'intellect',
-        'discipline',
-        'strength'
+        {
+            name: 'intellect',
+            abbreviation: 'int'
+        },
+        {
+            name: 'discipline',
+            abbreviation: 'disc'
+        },
+        {
+            name: 'strength',
+            abbreviation: 'str'
+        }
     ]);
 })();

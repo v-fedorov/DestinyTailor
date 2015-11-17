@@ -3,14 +3,17 @@
 
     /**
      * Defines a directive for showing a character's stat profile.
+     * @param {Object[]} STAT_NAMES The constant stat names.
      */
-    app.directive('geStatProfile', function() {
+    app.directive('geStatProfile', ['STAT_NAMES', function(STAT_NAMES) {
         /**
          * Registers the event for selecting the stat profile.
          * @param {Object} $scope The directive's scope.
          * @param {Object} $element The main element.
          */
         function link($scope, $element) {
+            $scope.STAT_NAMES = STAT_NAMES;
+
             /**
              * Determines if the specified tier, i, is complete for the stat.
              * @param {Object} stat The stat being checked.
@@ -52,5 +55,5 @@
             templateUrl: 'js/views/statProfile.html',
             link: link
         };
-    });
+    }]);
 })(angular.module('main'));

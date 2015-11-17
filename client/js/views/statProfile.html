@@ -4,21 +4,23 @@
         {{data.intellect.tier}} - {{data.discipline.tier}} - {{data.strength.tier}}
     </div>
     <div class="panel-body">
-        <div ng-repeat="statType in ['intellect', 'discipline', 'strength']">
-            <!-- icon and text -->
-            <span class="stat__icon dticon dticon-{{statType}}"></span><br />
-            {{data[statType].value}}
+        <div class="row">
+            <div class="col-xs-4 col-sm-12" ng-repeat="stat in STAT_NAMES">
+                <!-- icon and text -->
+                <span class="stat__icon dticon dticon-{{stat.name}}"></span><br />
+                {{data[stat.name].value}}<span class="stat__type visible-xs-inline hidden">&nbsp;{{stat.name}}</span>
 
-            <!-- progress of the stat tiers -->
-            <div class="stat__progress">
-                <span ng-repeat="i in [1, 2, 3, 4, 5]">
-                    <div class="stat_progress__step" ng-class="{ 'stat_progress__step--full': isTierComplete(data[statType], i) }">
-                        <div
-                            class="stat_progress__step--partial ng-hide"
-                            ng-show="isTierPartiallyComplete(data[statType], i)"
-                            ng-style="{width: getTierCompleteness(data[statType], i) + '%'}"></div>
-                    </div>
-                <span>
+                <!-- progress of the stat tiers -->
+                <div class="stat__progress">
+                    <span ng-repeat="i in [1, 2, 3, 4, 5]">
+                        <div class="stat_progress__step" ng-class="{ 'stat_progress__step--full': isTierComplete(data[stat.name], i) }">
+                            <div
+                                class="stat_progress__step--partial ng-hide"
+                                ng-show="isTierPartiallyComplete(data[stat.name], i)"
+                                ng-style="{width: getTierCompleteness(data[stat.name], i) + '%'}"></div>
+                        </div>
+                    <span>
+                </div>
             </div>
         </div>
     </div>

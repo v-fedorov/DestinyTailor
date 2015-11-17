@@ -103,19 +103,23 @@
             <!-- stat profiles and character information -->
             <div ng-controller="characterController">
                 <div class="row">
-                    <div class="col-sm-12 col-md-8" ng-show="statProfiles.length">
-                        <div class="col-xs-4 col-sm-3" ng-repeat="statProfile in statProfiles | orderBy: '0 - discipline.tier - intellect.tier - strength.tier'">
-                            <ge-stat-profile ng-model="statProfile" ng-selected="statProfile === currentStatProfile" ng-click="selectStatProfile(statProfile)"  />
+                    <div class="col-xs-12 col-md-8" ng-show="statProfiles.length">
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-3" ng-repeat="statProfile in statProfiles | orderBy: '0 - discipline.tier - intellect.tier - strength.tier'">
+                                <ge-stat-profile ng-model="statProfile" ng-selected="statProfile === currentStatProfile" ng-click="selectStatProfile(statProfile)"  />
+                            </div>
                         </div>
                     </div>
-                    <div class="col-sm-12 col-md-4" ng-show="character.inventory">
-                        <div ge-item ng-model="character.inventory.helmet" ng-selected-stats="currentStatProfile.inventory.helmet"></div>
-                        <div ge-item ng-model="character.inventory.gauntlets" ng-selected-stats="currentStatProfile.inventory.gauntlets"></div>
-                        <div ge-item ng-model="character.inventory.chest" ng-selected-stats="currentStatProfile.inventory.chest"></div>
-                        <div ge-item ng-model="character.inventory.legs" ng-selected-stats="currentStatProfile.inventory.legs"></div>
-                        <div ge-item ng-model="character.inventory.classItem" ng-selected-stats="currentStatProfile.inventory.classItem"></div>
-                        <div ge-item ng-model="character.inventory.artifact" ng-selected-stats="currentStatProfile.inventory.artifact"></div>
-                        <div ge-item ng-model="character.inventory.ghost" ng-selected-stats="currentStatProfile.inventory.ghost"></div>
+                    <div class="col-xs-12 col-md-4" ng-show="character.inventory">
+                        <div class="row">
+                            <div class="col-xs-4 col-xs-push-4 col-md-12 col-md-push-0" ge-item ng-model="character.inventory.helmet" ng-selected-stats="currentStatProfile.inventory.helmet"></div>
+                            <div class="col-xs-4 col-xs-push-4 col-md-12 col-md-push-0" ge-item ng-model="character.inventory.gauntlets" ng-selected-stats="currentStatProfile.inventory.gauntlets"></div>
+                            <div class="col-xs-4 col-xs-push-4 col-md-12 col-md-push-0 clear-both" ge-item ng-model="character.inventory.chest" ng-selected-stats="currentStatProfile.inventory.chest"></div>
+                            <div class="col-xs-4 col-xs-push-4 col-md-12 col-md-push-0" ge-item ng-model="character.inventory.legs" ng-selected-stats="currentStatProfile.inventory.legs"></div>
+                            <div class="col-xs-4 col-xs-push-4 col-md-12 col-md-push-0 clear-both" ge-item ng-model="character.inventory.classItem" ng-selected-stats="currentStatProfile.inventory.classItem"></div>
+                            <div class="col-xs-4 col-xs-push-4 col-md-12 col-md-push-0" ge-item ng-model="character.inventory.artifact" ng-selected-stats="currentStatProfile.inventory.artifact"></div>
+                            <div class="col-xs-4 col-xs-pull-8 col-md-12 col-md-pull-0" ge-item ng-model="character.inventory.ghost" ng-selected-stats="currentStatProfile.inventory.ghost"></div>
+                        </div>
                     </div>
                 </div>
             </div>

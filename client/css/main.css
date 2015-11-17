@@ -74,6 +74,9 @@ footer p {
 .top-buffer {
     margin-top: 20px;
 }
+.clear-both {
+    clear: both;
+}
 
 /* character */
 .character {
@@ -142,6 +145,10 @@ footer p {
 .stat__progress {
     padding: 2%;
 }
+.stat__type {
+    color: #aaa;
+    text-transform: capitalize;
+}
 .stat_progress__step {
     background-color: #ddd;
     float: left;
@@ -166,31 +173,54 @@ footer p {
     overflow: hidden;
 }
 .item--exotic {
-    background-color: #cdad32;
+    background-color: #f3ebcc;
     border-color: #cdad32;
 }
 .item--legendary {
-    background-color: #522f65;
+    background-color: #d4cbd9;
     border-color: #522f65
 }
 .item--rare {
-    background-color: #4f75a2;
+    background-color: #d3dde8;
     border-color: #4f75a2;
 }
 .item--uncommon {
-    background-color: #366f42;
+    background-color: #d6e2d9;
     border-color: #366f42;
 }
 .item--common {
-    background-color: #c3bcb4;
+    background-color: #f3f2f0;
     border-color: #c3bcb4
 }
 .item__name {
     color: #fff;
     font-size: 18px;
     margin-bottom: 0;
+    overflow: hidden;
     padding: 5px;
+    text-overflow: ellipsis;
     text-transform: uppercase;
+    white-space: nowrap;
+}
+.item--exotic .item__name,
+.item--exotic .item__icon-wrapper {
+    background: #cdad32;
+}
+.item--legendary .item__name,
+.item--legendary .item__icon-wrapper {
+    background: #522f65;
+}
+.item--rare .item__name,
+.item--rare .item__icon-wrapper {
+    background: #4f75a2;
+}
+.item--uncommon .item__name,
+.item--uncommon .item__icon-wrapper {
+    background: #366f42;
+}
+.item--common .item__name,
+.item--common .item__icon-wrapper {
+    background: #c3bcb4;
 }
 .item .media-left {
     padding: 0 3px 3px;
@@ -202,21 +232,6 @@ footer p {
 }
 .item__icon--complete {
     border: solid 2px #f5dc56;
-}
-.item--exotic .item__body {
-    background-color: #f3ebcc;
-}
-.item--legendary .item__body {
-    background-color: #d4cbd9;
-}
-.item--rare .item__body {
-    background-color: #d3dde8;
-}
-.item--uncommon .item__body {
-    background-color: #d6e2d9
-}
-.item--common .item__body {
-    background-color: #f3f2f0;
 }
 .item__primary-stat {
     padding: 3px 3px 0;

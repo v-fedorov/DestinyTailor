@@ -3,7 +3,7 @@
 
     /**
      * Defines the inventory analyser service.
-     * @param {String[]} STAT_NAMES The constant stat names.
+     * @param {Object[]} STAT_NAMES The constant stat names.
      * @param {Object} StatProfile The stat profile model constructor.
      */
     app.factory('inventoryAnalyser', ['STAT_NAMES', 'StatProfile', function(STAT_NAMES, StatProfile) {
@@ -54,9 +54,10 @@
 
             while (items[0] && i < STAT_NAMES.length) {
                 // check if the item has a path we can follow for the current stat
-                if (items[0][STAT_NAMES[i]]) {
+                var statName = STAT_NAMES[i].name;
+                if (items[0][statName]) {
                     var newPath = angular.copy(currentProfile)
-                        .add(items[0], STAT_NAMES[i]);
+                        .add(items[0], statName);
 
                     itemEvaluated = true;
                     this.evaluatePaths(items.slice(1), newPath);

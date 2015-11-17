@@ -4,7 +4,7 @@
     /**
      * Defines the stat profile model.
      * @param {Object} ITEM_BUCKET_HASHES Key-value-pair of bucket hashes and user friendly identifiers.
-     * @param {String[]} STAT_NAMES The constant stat names.
+     * @param {Object[]} STAT_NAMES The constant stat names.
      * @param {Object} Stat The stat model constructor.
      */
     function StatProfile(ITEM_BUCKET_HASHES, STAT_NAMES, Stat) {
@@ -40,7 +40,7 @@
 
             // set the reamining stats
             for (var i = 0; i < STAT_NAMES.length; i++) {
-                var statName = STAT_NAMES[i];
+                var statName = STAT_NAMES[i].name;
                 if (item[statName] && statName !== selectedStatName) {
                     option[statName] = item[statName].min;
                     this[statName].value += item[statName].min;
