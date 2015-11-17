@@ -83,8 +83,8 @@
 
             <!-- list of characters -->
             <div class="row ng-hide" ng-controller="accountController" ng-show="account">
-                <div ng-repeat="(characterId, character) in account.characters">
-                    <div class="character col-xs-4" ng-class="{ 'character--selected': characterId === selectedCharacter.characterId }">
+                <div ng-repeat="character in account.characters">
+                    <div class="character col-xs-4" ng-class="{ 'character--selected': character === selectedCharacter }">
                         <div class="character__emblem show" ge-background-img="http://bungie.net{{character.backgroundPath}}" ng-click="selectCharacter(character)">
                             <img class="character__emblem__icon pull-left" ng-src="http://www.bungie.net{{character.emblemPath}}" />
                             <span class="character__info pull-left">
