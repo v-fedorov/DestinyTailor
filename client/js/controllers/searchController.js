@@ -21,7 +21,20 @@
             var platformId = $scope.platform === PLATFORM_PSN ? PLATFORMS.psn : PLATFORMS.xbox;
             $scope.isSearching = true;
 
+            userService.getMembership(platformId, $scope.name).then(function(membership) {
+                return membership;
+            }, function(err) {
+                console.log(err);
+            }).then(function(membership) {
+                userService.getCharacters(membership.membershipType, membership.membershipId).then(function(characters) {
+                    console.log(characters);
+                }, function(err) {
+                    console.log(err);
+                });
+            });
+            /*
             userService.getCharacters(platformId, $scope.name).then(function(result) {
+                console.log('hi');
                 userService.character = null;
                 userService.account = {
                     characters: result
@@ -30,7 +43,7 @@
                 console.log(err);
             }).then(function() {
                 $scope.isSearching = false;
-            });
+            });*/
         };
     };
 

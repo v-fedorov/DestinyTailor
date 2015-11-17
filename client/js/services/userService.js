@@ -17,30 +17,30 @@
         /**
          * Gets the characters for a given membership type (platform), and display name.
          * @param {Number} membershipType The type that represents the platform, e.g. 1 for Xbox, or 2 for PSN.
-         * @param {String} displayName The account's display name.
+         * @param {String} membershipId The membership id.
          * @returns {Object} The characters, represented as a promise.
          */
-        $scope.getCharacters = function(membershipType, displayName) {
+        $scope.getCharacters = function(membershipType, membershipId) {
             var deferred = $q.defer();
+            var path = '/Platform/Destiny/' + membershipType + '/Account/' + membershipId + '/';
 
-            // get the membership information
-            $scope.getMembership(membershipType, displayName).then(function(membership) {
-                var path = '/Platform/Destiny/' + membership.membershipType + '/Account/' + membership.membershipId + '/';
-                $http.get(path).then(function(result) {
-                    if (result.data.ErrorCode > 1) {
-                        // reject as there was an error from Bungie
-                        deferred.reject({
-                            statusText: result.data.Message
-                        });
-                    } else {
-                        // resolve the mapped characters
-                        deferred.resolve(result.data.Response.data.characters.map(function(data) {
-                            return new Character(membership, data);
-                        }));
-                    }
-                });
-            }, function(err) {
-                deferred.reject(err);
+            // get the character information
+            $http.get(path).then(function(result) {
+                if (result.data.ErrorCode > 1) {
+                    // reject as there was an error from Bungie
+                    deferred.reject({
+                        statusText: result.data.Message
+                    });
+                } else {
+                    // resolve the mapped characters
+                    deferred.resolve(result.data.Response.data.characters.map(function(data) {
+                        var character = new Character(data);
+                        character.membershipType = membershipType;
+                        character.membershipId = membershipId;
+
+                        return character;
+                    }));
+                }
             });
 
             return deferred.promise;

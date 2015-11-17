@@ -9,12 +9,14 @@
         /**
          * Provides information about a character.
          * @constructor
-         * @param {Object} membership The membership, i.e. account, of the character.
+         * @param {Number} membershipType The membership type, i.e. 1 for XBox, or 2 for PSN.
+         * @param {String} membershipId The membership id.
          * @param {Object} data The data containing the character information.
          */
-        function Character(membership, data) {
-            this.membershipType = membership.membershipType;
-            this.membershipId = membership.membershipId;
+        function Character(membershipType, membershipId, data) {
+            console.log(data);
+            this.membershipType = membershipType;
+            this.membershipId = membershipId;
             this.characterId = data.characterBase.characterId;
 
             // set the character aesthetics
