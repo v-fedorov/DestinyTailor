@@ -20,30 +20,22 @@
         $scope.search = function() {
             var platformId = $scope.platform === PLATFORM_PSN ? PLATFORMS.psn : PLATFORMS.xbox;
             $scope.isSearching = true;
-
-            userService.getMembership(platformId, $scope.name).then(function(membership) {
-                return membership;
-            }, function(err) {
-                console.log(err);
-            }).then(function(membership) {
-                userService.getCharacters(membership.membershipType, membership.membershipId).then(function(characters) {
-                    console.log(characters);
-                }, function(err) {
-                    console.log(err);
-                });
-            });
-            /*
-            userService.getCharacters(platformId, $scope.name).then(function(result) {
-                console.log('hi');
+            
+            userService.getMembership(platformId, $scope.name).then(function(result) {
+                // load the characters
+                return userService.getCharacters(result.membershipType, result.membershipId);
+            }).then(function(characters) {
+                // set the characters
                 userService.character = null;
                 userService.account = {
-                    characters: result
+                    characters: characters
                 };
             }, function(err) {
-                console.log(err);
-            }).then(function() {
+                console.warn(err);
+            }).finally(function() {
+                // finish everything off
                 $scope.isSearching = false;
-            });*/
+            });
         };
     };
 

@@ -14,7 +14,6 @@
          * @param {Object} data The data containing the character information.
          */
         function Character(membershipType, membershipId, data) {
-            console.log(data);
             this.membershipType = membershipType;
             this.membershipId = membershipId;
             this.characterId = data.characterBase.characterId;

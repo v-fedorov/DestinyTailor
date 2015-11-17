@@ -21,29 +21,18 @@
          * @returns {Object} The characters, represented as a promise.
          */
         $scope.getCharacters = function(membershipType, membershipId) {
-            var deferred = $q.defer();
             var path = '/Platform/Destiny/' + membershipType + '/Account/' + membershipId + '/';
-
-            // get the character information
-            $http.get(path).then(function(result) {
+            return $http.get(path).then(function(result) {
+                // reject as there was an error from Bungie
                 if (result.data.ErrorCode > 1) {
-                    // reject as there was an error from Bungie
-                    deferred.reject({
-                        statusText: result.data.Message
-                    });
-                } else {
-                    // resolve the mapped characters
-                    deferred.resolve(result.data.Response.data.characters.map(function(data) {
-                        var character = new Character(data);
-                        character.membershipType = membershipType;
-                        character.membershipId = membershipId;
-
-                        return character;
-                    }));
+                    throw result.data.Message;
                 }
+                
+                // resolve the mapped characters
+                return result.data.Response.data.characters.map(function(data) {
+                    return new Character(membershipType, membershipId, data);
+                });
             });
-
-            return deferred.promise;
         };
 
         /**
@@ -53,25 +42,14 @@
          * @returns {Object} The membership, represented as a promise.
          */
         $scope.getMembership = function(membershipType, displayName) {
-            var deferred = $q.defer();
             var path = '/Platform/Destiny/SearchDestinyPlayer/' + membershipType + '/' + encodeURIComponent(displayName) + '/';
-
-            $http.get(path).then(function(result) {
+            return $http.get(path).then(function(result) {
                 // success when we have at least 1 character; we should only ever have 1...
                 if (result.data.Response !== undefined && result.data.Response.length === 1) {
-                    deferred.resolve(result.data.Response[0]);
-                } else {
-                    deferred.reject({
-                        statusText: 'Character not found'
-                    });
+                    return result.data.Response[0];
                 }
-            }, function(err) {
-                deferred.reject({
-                    statusText: err.status === 404 ? 'Character not found' : 'Unknown error'
-                });
+                throw 'Character not found';
             });
-
-            return deferred.promise;
         };
 
         /**

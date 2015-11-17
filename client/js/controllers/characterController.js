@@ -24,7 +24,6 @@
         $scope.$watch(function() {
             return userService.character ? userService.character.characterId : null;
         }, function() {
-            console.log('change');
             $scope.character = userService.character;
             $scope.currentStatProfile = {};
 
