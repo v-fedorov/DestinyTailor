@@ -1,5 +1,4 @@
-var Account = require('../models/account'),
-    config = require('../config'),
+var config = require('../config'),
     Inventory = require('../models/inventory'),
     Item = require('../models/item'),
     itemStatMapper = require('./itemStatMapper'),
@@ -45,52 +44,6 @@ bungieService.getInventory = function(membershipType, membershipId, characterId,
 
         // finally expand the inventories information to include instance based data
         inventory.expand(callback);
-    });
-};
-
-/**
- * Searches for the account for the given membership type and returns the summary of the account.
- * @param {Number} membershipType The membership type to search on; either Xbox (1) or PSN (2).
- * @param {String} displayName The account's display name.
- * @param {Function} callback The callback triggered when the search has completed.
- */
-bungieService.searchCharacter = function(membershipType, displayName, callback) {
-    var path = util.format('/SearchDestinyPlayer/%s/%s/', membershipType, displayName);
-    request(path, function(err, result) {
-        if (err) {
-            return callback(err);
-        };
-
-        // check if the character was found
-        if (result.length === 0) {
-            return callback(null, null);
-        }
-
-        // construct the basic account information and load the summary
-        var account = new Account(result[0]);
-        getAccountSummary(account, callback);
-    });
-};
-
-/**
- * Gets the account summary for the given account.
- * @param {Object} account The account to load.
- * @param {Function} callback Triggered when the account summary has loaded.
- */
-var getAccountSummary = function(account, callback) {
-    var path = util.format('/%s/Account/%s/?definitions=true', account.membershipType, account.membershipId);
-    request(path, function(err, result) {
-        if (err) {
-            return callback(err);
-        };
-
-        // bind the clan information
-        account.clanName = result.data.clanName;
-        account.clanTag = result.data.clanTag;
-
-        // most importantly, set the characters
-        account.setCharacters(result.data.characters);
-        callback(err, account);
     });
 };
 

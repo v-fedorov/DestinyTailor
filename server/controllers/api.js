@@ -11,14 +11,6 @@ var bungieService = require('../lib/bungieService'),
 */
 
 /**
- * [GET] Searches for the character on the given membership type.
- */
-router.get('/:membershipType/:displayName', function(req, res, next) {
-    var callback = getResponseHandler(res);
-    bungieService.searchCharacter(req.params.membershipType, req.params.displayName, callback);
-});
-
-/**
  * [GET] Gets the inventory information for the character.
  */
 router.get('/:membershipType/:membershipId/:characterId', function(req, res, next) {
