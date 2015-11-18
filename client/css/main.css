@@ -56,6 +56,14 @@ body {
 .dticon-github {
     font-size: 1.25em;
 }
+.light-level:before {
+    content: "\2726";
+    font-family: HelveticaNeue-Light, 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-size: 0.75em;
+    line-height: 1em;
+    margin-right: 2px;
+    vertical-align: middle;
+}
 
 /* footer */
 footer {

@@ -27,7 +27,7 @@
                 if (result.data.ErrorCode > 1) {
                     throw result.data.Message;
                 }
-                
+
                 // resolve the mapped characters
                 return result.data.Response.data.characters.map(function(data) {
                     return new Character(membershipType, membershipId, data);
@@ -48,6 +48,7 @@
                 if (result.data.Response !== undefined && result.data.Response.length === 1) {
                     return result.data.Response[0];
                 }
+
                 throw 'Character not found';
             });
         };

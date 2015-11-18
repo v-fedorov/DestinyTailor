@@ -10,32 +10,42 @@
      */
     var SearchController = function($scope, $http, PLATFORMS, userService) {
         var PLATFORM_PSN = true;
-
-        $scope.isSearching = false;
-        $scope.platform = PLATFORM_PSN;
+        $scope = {
+            error: '',
+            isSearching: false,
+            platform: PLATFORM_PSN
+        };
 
         /**
          * Searches for a character and updates the account in the user service.
          */
         $scope.search = function() {
             var platformId = $scope.platform === PLATFORM_PSN ? PLATFORMS.psn : PLATFORMS.xbox;
+            $scope.error = '';
             $scope.isSearching = true;
-            
+
             userService.getMembership(platformId, $scope.name).then(function(result) {
                 // load the characters
                 return userService.getCharacters(result.membershipType, result.membershipId);
             }).then(function(characters) {
-                // set the characters
+                // update the user service scope
                 userService.character = null;
                 userService.account = {
-                    characters: characters
+                    characters: characters,
+                    membershipId: characters[0].membershipId
                 };
-            }, function(err) {
-                console.warn(err);
+            }).catch(function(err) {
+                $scope.error = err;
             }).finally(function() {
-                // finish everything off
                 $scope.isSearching = false;
             });
+        };
+
+        /**
+         * Clears any error messages.
+         */
+        $scope.clearError = function() {
+            $scope.error = '';
         };
     };
 
