@@ -15,27 +15,6 @@
         };
 
         /**
-         * Gets the characters for a given membership type (platform), and display name.
-         * @param {Number} membershipType The type that represents the platform, e.g. 1 for Xbox, or 2 for PSN.
-         * @param {String} membershipId The membership id.
-         * @returns {Object} The characters, represented as a promise.
-         */
-        $scope.getCharacters = function(membershipType, membershipId) {
-            var path = '/Platform/Destiny/' + membershipType + '/Account/' + membershipId + '/';
-            return $http.get(path).then(function(result) {
-                // reject as there was an error from Bungie
-                if (result.data.ErrorCode > 1) {
-                    throw result.data.Message;
-                }
-
-                // resolve the mapped characters
-                return result.data.Response.data.characters.map(function(data) {
-                    return new Character(membershipType, membershipId, data);
-                });
-            });
-        };
-
-        /**
          * Gets the membership information for the given type and display name.
          * @param {Number} membershipType The type that represents the platform, e.g. 1 for Xbox, or 2 for PSN.
          * @param {String} displayName The account's display name.
@@ -50,6 +29,28 @@
                 }
 
                 throw 'Character not found';
+            });
+        };
+
+        /**
+         * Loads the characters for the given membership.
+         * @param {Object} membership The membership.
+         * @returns {Object} The membership with the characters, represented as a promise.
+         */
+        $scope.loadCharacters = function(membership) {
+            var path = '/Platform/Destiny/' + membership.membershipType + '/Account/' + membership.membershipId + '/';
+            return $http.get(path).then(function(result) {
+                // reject as there was an error from Bungie
+                if (result.data.ErrorCode > 1) {
+                    throw result.data.Message;
+                }
+
+                // resolve the mapped characters
+                membership.characters = result.data.Response.data.characters.map(function(data) {
+                    return new Character(membership.membershipType, membership.membershipId, data);
+                });
+
+                return membership;
             });
         };
 
@@ -81,6 +82,15 @@
             }, function(err) {
                 throw err;
             });
+        };
+
+        /**
+         * Updates the current loaded membership.
+         * @param {Object} membership The membership.
+         */
+        $scope.setMembership = function(membership) {
+            $scope.character = null;
+            $scope.account = membership;
         };
 
         return $scope;

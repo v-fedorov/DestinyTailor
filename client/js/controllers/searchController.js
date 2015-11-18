@@ -22,17 +22,11 @@
             $scope.error = '';
             $scope.isSearching = true;
 
-            userService.getMembership(platformId, $scope.name).then(function(result) {
-                // load the characters
-                return userService.getCharacters(result.membershipType, result.membershipId);
-            }).then(function(characters) {
-                // update the user service scope
-                userService.character = null;
-                userService.account = {
-                    characters: characters,
-                    membershipId: characters[0].membershipId
-                };
-            }).catch(function(err) {
+            // load the membership and it's characters
+            userService.getMembership(platformId, $scope.name)
+            .then(userService.loadCharacters)
+            .then(userService.setMembership)
+            .catch(function(err) {
                 $scope.error = err;
             }).finally(function() {
                 $scope.isSearching = false;
