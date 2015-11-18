@@ -23,7 +23,7 @@
         $scope.getMembership = function(membershipType, displayName) {
             var path = '/Platform/Destiny/SearchDestinyPlayer/' + membershipType + '/' + encodeURIComponent(displayName) + '/';
             return $http.get(path).then(function(result) {
-                // success when we have at least 1 character; we should only ever have 1...
+                // success when we have at least 1 membership; we should only ever have 1...
                 if (result.data.Response !== undefined && result.data.Response.length === 1) {
                     return result.data.Response[0];
                 }
@@ -47,7 +47,7 @@
 
                 // resolve the mapped characters
                 membership.characters = result.data.Response.data.characters.map(function(data) {
-                    return new Character(membership.membershipType, membership.membershipId, data);
+                    return new Character(membership, data);
                 });
 
                 return membership;
