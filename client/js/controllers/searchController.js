@@ -10,11 +10,9 @@
      */
     var SearchController = function($scope, $http, PLATFORMS, userService) {
         var PLATFORM_PSN = true;
-        $scope = {
-            error: '',
-            isSearching: false,
-            platform: PLATFORM_PSN
-        };
+        $scope.error = '';
+        $scope.isSearching = false;
+        $scope.platform = PLATFORM_PSN;
 
         /**
          * Searches for a character and updates the account in the user service.
