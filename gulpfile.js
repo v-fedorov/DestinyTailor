@@ -9,6 +9,14 @@ var config = {
     // local files
     css: client + 'css/*.css',
     html: client + 'index.html',
+    fonts: [
+        client + 'fonts/*.*',
+        './bower_components/bootstrap/dist/fonts/*.*',
+        './bower_components/roboto-fontface/fonts/Roboto-Bold.*',
+        './bower_components/roboto-fontface/fonts/Roboto-Light.*',
+        './bower_components/roboto-fontface/fonts/Roboto-Medium.*',
+        './bower_components/roboto-fontface/fonts/Roboto-Regular.*'
+    ],
     js: [
         client + 'js/main.js',
         client + 'js/models/*.js',
@@ -67,11 +75,27 @@ var config = {
 };
 
 /**
+ * Prepares the distribution folder.
+ */
+gulp.task('build', ['fonts', 'optimize']);
+
+/**
+ * Moves all required fonts to the build folder.
+ * @returns {Object} The stream.
+ */
+gulp.task('fonts', function() {
+    return gulp
+        .src(config.fonts)
+        .pipe(gulp.dest(config.dist + 'fonts'));
+});
+
+/**
  * Validates the styling of the client-side JavaScript.
  * @returns {Object} The stream.
  */
 gulp.task('jscs', function() {
-    return gulp.src(config.js)
+    return gulp
+        .src(config.js)
         .pipe($.jscs())
         .pipe($.jscs.reporter());
 });
@@ -81,8 +105,11 @@ gulp.task('jscs', function() {
  * @returns {Object} The stream.
  */
 gulp.task('inject', function() {
-    return gulp.src(config.html)
+    return gulp
+        .src(config.html)
+        // bower
         .pipe(wiredep(config.wiredep))
+        // css and js
         .pipe($.inject(gulp.src(config.css)))
         .pipe($.inject(gulp.src(config.js)))
         .pipe(gulp.dest(config.client));
@@ -93,18 +120,20 @@ gulp.task('inject', function() {
  * @returns {Object} The stream.
  */
 gulp.task('optimize', ['inject', 'template-cache'], function() {
-    //var jsFilter = $.filter('**/*.js', { restore: true });
+    var htmlFilter = $.filter('**/*.html', { restore: true });
 
-    return gulp.src(config.html)
-        .pipe($.inject(gulp.src(config.temp + config.templateCache.file), {
-            name: 'inject:templates'
-        }))
+    return gulp
+        .src(config.html)
+        // add references
+        .pipe($.inject(gulp.src(config.temp + config.templateCache.file), { name: 'inject:templates' }))
         .pipe($.useref(config.useref))
-        //.pipe(jsFilter)
-        //.pipe($.ngAnnotate(config.ngAnnotate))
-        //.pipe(jsFilter.restore)
-        //.pipe($.if('*.js', $.uglify()))
-        //.pipe($.if('*.css', $.minifyCss()))
+        // minify the js and css
+        .pipe($.if('*.js', $.uglify()))
+        .pipe($.if('*.css', $.minifyCss()))
+        // minify the html
+        .pipe(htmlFilter)
+        .pipe($.minifyHtml({empty: true}))
+        .pipe(htmlFilter.restore)
         .pipe(gulp.dest(config.dist));
 });
 
@@ -115,7 +144,7 @@ gulp.task('optimize', ['inject', 'template-cache'], function() {
 gulp.task('template-cache', function() {
     return gulp
         .src(config.templates)
-        //.pipe($.minifyHtml({empty: true}))
+        .pipe($.minifyHtml({empty: true}))
         .pipe($.angularTemplatecache(config.templateCache.file, config.templateCache.options))
         .pipe(gulp.dest(config.temp));
 });
