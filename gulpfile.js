@@ -4,32 +4,64 @@ var gulp = require('gulp'),
     wiredep = require('wiredep').stream,
     $ = require('gulp-load-plugins')({ lazy: true });
 
+var client = './client/';
 var config = {
-    // local
-    html: 'client/index.html',
+    // local files
+    css: client + 'css/*.css',
+    html: client + 'index.html',
     js: [
-        'client/js/main.js',
-        'client/js/models/*.js',
-        'client/js/services/*.js',
-        'client/js/**/*.js'
+        client + 'js/main.js',
+        client + 'js/models/*.js',
+        client + 'js/services/*.js',
+        client + 'js/**/*.js'
     ],
+    templates: client + 'js/views/*.html',
 
-    // bower
-    bowerOverrides: {
-        bootstrap: {
-            main: [
-                'dist/css/bootstrap.css',
-                'dist/js/bootstrap.js'
-            ]
-        },
-        octicons: {
-            main: [
-                'octicons/octicons.css',
-                'octicons/octicons.eot',
-                'octicons/octicons.svg',
-                'octicons/octicons.ttf',
-                'octicons/octicons.woff'
-            ]
+    // local folders
+    client: client,
+    dist: './dist/',
+    temp: './.tmp/',
+
+    // ng-annotate
+    ngAnnotate: {
+        add: true,
+        single_quotes: true
+    },
+
+    // angular template cache
+    templateCache: {
+        file: 'templates.js',
+        options: {
+            module: 'main',
+            root: 'js/views/',
+            standAlone: false
+        }
+    },
+
+    // useref
+    useref: {
+        searchPath: './'
+    },
+
+    // wiredep
+    wiredep: {
+        ignorePath: '..',
+        overrides: {
+            bootstrap: {
+                main: [
+                    'dist/css/bootstrap.css',
+                    'dist/js/bootstrap.js'
+                ]
+            },
+            octicons: {
+                main: [
+                    'octicons/octicons.css',
+                    'octicons/octicons.eot',
+                    'octicons/octicons.svg',
+                    'octicons/octicons.ttf',
+                    'octicons/octicons.woff'
+                ]
+            }
         }
     }
 };
@@ -50,12 +82,42 @@ gulp.task('jscs', function() {
  */
 gulp.task('inject', function() {
     return gulp.src(config.html)
-        .pipe(wiredep({
-            ignorePath: '..',
-            overrides: config.bowerOverrides
-        }))
+        .pipe(wiredep(config.wiredep))
+        .pipe($.inject(gulp.src(config.css)))
         .pipe($.inject(gulp.src(config.js)))
-        .pipe(gulp.dest('./client/'));
+        .pipe(gulp.dest(config.client));
+});
+
+/**
+ * Optimizes the client files for distribution.
+ * @returns {Object} The stream.
+ */
+gulp.task('optimize', ['inject', 'template-cache'], function() {
+    //var jsFilter = $.filter('**/*.js', { restore: true });
+
+    return gulp.src(config.html)
+        .pipe($.inject(gulp.src(config.temp + config.templateCache.file), {
+            name: 'inject:templates'
+        }))
+        .pipe($.useref(config.useref))
+        //.pipe(jsFilter)
+        //.pipe($.ngAnnotate(config.ngAnnotate))
+        //.pipe(jsFilter.restore)
+        //.pipe($.if('*.js', $.uglify()))
+        //.pipe($.if('*.css', $.minifyCss()))
+        .pipe(gulp.dest(config.dist));
+});
+
+/**
+ * Create $templateCache from the html templates
+ * @returns {Object} The stream.
+ */
+gulp.task('template-cache', function() {
+    return gulp
+        .src(config.templates)
+        //.pipe($.minifyHtml({empty: true}))
+        .pipe($.angularTemplatecache(config.templateCache.file, config.templateCache.options))
+        .pipe(gulp.dest(config.temp));
 });
 
 /**

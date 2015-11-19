@@ -14,16 +14,21 @@
     <meta name="author" content="Richard Herman">
     <link rel="icon" href="http://getbootstrap.com/favicon.ico">
 
+    <!-- build:css css/lib.css -->
     <!-- bower:css -->
     <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.css" />
     <link rel="stylesheet" href="/bower_components/bootstrap-toggle/css/bootstrap-toggle.min.css" />
     <link rel="stylesheet" href="/bower_components/roboto-fontface/css/roboto-fontface.css" />
     <link rel="stylesheet" href="/bower_components/angular-loading-bar/build/loading-bar.css" />
     <!-- endbower -->
-
-    <link href="/css/main.css" rel="stylesheet" />
-    <link href="/css/animation.css" rel="stylesheet" />
-    <link href="/css/destinytailor-codes.css" rel="stylesheet" />
+    <!-- endbuild -->
+    <!-- build:css css/combined.css -->
+    <!-- inject:css -->
+    <link rel="stylesheet" href="/client/css/animation.css">
+    <link rel="stylesheet" href="/client/css/destinytailor-codes.css">
+    <link rel="stylesheet" href="/client/css/main.css">
+    <!-- endinject -->
+    <!-- endbuild -->
 </head>
 
 <body data-feedly-mini="yes" cz-shortcut-listen="true">
@@ -135,6 +140,7 @@
         </div>
     </footer>
 
+    <!-- build:js js/lib.js -->
     <!-- bower:js -->
     <script src="/bower_components/jquery/dist/jquery.js"></script>
     <script src="/bower_components/bootstrap/dist/js/bootstrap.js"></script>
@@ -142,7 +148,8 @@
     <script src="/bower_components/angular/angular.js"></script>
     <script src="/bower_components/angular-loading-bar/build/loading-bar.js"></script>
     <!-- endbower -->
-
+    <!-- endbuild -->
+    <!-- build:js js/app.js -->
     <!-- inject:js -->
     <script src="/client/js/main.js"></script>
     <script src="/client/js/models/character.js"></script>
@@ -158,6 +165,9 @@
     <script src="/client/js/directives/item.js"></script>
     <script src="/client/js/directives/statProfile.js"></script>
     <!-- endinject -->
+    <!-- inject:templates:js -->
+    <!-- endinject -->
+    <!-- endbuild -->
 </body>
 
 </html>

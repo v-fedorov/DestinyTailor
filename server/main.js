@@ -23,11 +23,15 @@ app.use(cookieParser());
 
 // setup the environment
 switch (config.env) {
-    case 'build':
+    case 'dist':
+        console.log('*** [dist] environment ***')
+        app.use(express.static(path.join(__dirname, '../dist/')));
+        break;
     default:
         console.log('*** [dev] environment ***');
         app.use(express.static(path.join(__dirname, '../client/')));
         app.use(express.static(path.join(__dirname, '../')));
+        break;
 };
 
 app.use('/api', apiController);
