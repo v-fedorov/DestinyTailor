@@ -1,8 +1,21 @@
 # Destiny Tailor
 
-Easily discover how to get the most from your armour, and still look dapper.
+Destiny Tailor is a site designed to help fellow guardian's get the most out of their hard earned gear. By using Bungie's API, Destiny Tailor is able to evaluate your equipped gear, and with a bit of number crunching, provide you with a list of available "stat profiles".
 
-## Getting started
+A "stat profile" is the term we use for a specific combinations of stats on your gear, e.g. choosing intellect over strength, which was introduced with Destiny year 2 items. This can proove really useful if, like us, you enjoy swapping your item stats to get the most out of them for the right situation, i.e. raiding, trials, or just a bit of casual striking.    
+
+## Releases
+
+### v0.1 - Initial release
+
+- Searching
+  - Quickly search Bungie for your character on either XBox or PSN
+- Stat profiles
+  - New; character stat profile evaluation
+  - List of all available stat profiles
+  - Selection; see how you can achieve the profile
+
+## Contributing - Getting started
 
 Currently only available locally, Destiny Tailor is built in Node.js running Express as the backend server. Getting started locally is easy, here's what you'll need.
 
@@ -18,13 +31,4 @@ Currently only available locally, Destiny Tailor is built in Node.js running Exp
 
 ## About the project
 
-This is very much a "discovery" project; after realising it was possible via the Bungie API, I've decided to step outside of my comfort realms of .NET, and have a proper go with Node.js. Some of the technologies I've set out to experiment with include:
-- [x] Node.js
-- [x] Express
-- [x] Grunt
-- [x] Bower
-- [ ] Web components
-- [x] Angular
-- [ ] Routing
-
-All feedback is appreciated; both positive or ~~negative~~ *constructive*, so please feel free to contact me here, or on PSN via @GeekyEggo.
+This is very much a "discovery" project; after realising it was possible via the Bungie API, I've decided to step outside of my comfort realms of .NET, and have a proper go with Node.js and Angular. All feedback is appreciated; both positive or ~~negative~~ *constructive*, so please feel free to contact me here, or on PSN via @GeekyEggo.
