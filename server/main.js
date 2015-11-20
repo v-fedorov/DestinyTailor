@@ -21,21 +21,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-// setup the environment
-switch (config.env) {
-    case 'dist':
-        console.log('*** [dist] environment ***')
-        app.use(express.static(path.join(__dirname, '../dist/')));
-        break;
-    default:
-        console.log('*** [dev] environment ***');
-        app.use(express.static(path.join(__dirname, '../client/')));
-        app.use(express.static(path.join(__dirname, '../')));
-        break;
-};
-
+// setup the api routes
 app.use('/api', apiController);
-
 app.use('/Platform/Destiny/*?', function(req, res) {
     var options = {
         url: 'http://www.bungie.net' + req.originalUrl,
@@ -48,7 +35,20 @@ app.use('/Platform/Destiny/*?', function(req, res) {
     req.pipe(request(options)).pipe(res);
 });
 
-app.use('/*', express.static(path.join(__dirname, '../client/index.html')));
+// setup the app route
+switch (config.env) {
+    case 'dist':
+        console.log('*** [dist] environment ***')
+        app.use(express.static(path.join(__dirname, '../dist/')));
+        app.use('/*', express.static(path.join(__dirname, '../dist/index.html')));
+        break;
+    default:
+        console.log('*** [dev] environment ***');
+        app.use(express.static(path.join(__dirname, '../client/')));
+        app.use(express.static(path.join(__dirname, '../')));
+        app.use('/*', express.static(path.join(__dirname, '../client/index.html')));
+        break;
+};
 
 // configure error handling
 app.use(function(err, req, res, next) {
