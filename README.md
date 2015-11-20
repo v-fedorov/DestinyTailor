@@ -9,11 +9,11 @@ A "stat profile" is the term we use for a specific combinations of stats on your
 ### v0.1 - Initial release
 
 - Searching
-  - Quickly search Bungie for your character on either XBox or PSN
+  - Quickly search Bungie for your character on either XBox or PSN.
 - Stat profiles
-  - New; character stat profile evaluation
-  - List of all available stat profiles
-  - Selection; see how you can achieve the profile
+  - New; character stat profile evaluation.
+  - Clearly see all available stat profiles, and their intellect, discipline and strength yields.
+  - See how stat profiles can be achieved by selecting them!
 
 ## Contributing - Getting started
 
