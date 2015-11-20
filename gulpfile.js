@@ -4,10 +4,16 @@ var gulp = require('gulp'),
     wiredep = require('wiredep').stream,
     $ = require('gulp-load-plugins')({ lazy: true });
 
-var client = './client/';
+var client = 'client/';
 var config = {
     // local files
-    css: client + 'css/*.css',
+    css: {
+        src: client + 'css/*.css',
+        order: [
+            '**/*(!main*).css',
+            '**/main-xs.css'
+        ]
+    },
     html: client + 'index.html',
     fonts: [
         client + 'fonts/*.*',
@@ -17,12 +23,15 @@ var config = {
         './bower_components/roboto-fontface/fonts/Roboto-Medium.*',
         './bower_components/roboto-fontface/fonts/Roboto-Regular.*'
     ],
-    js: [
-        client + 'js/main.js',
-        client + 'js/models/*.js',
-        client + 'js/services/*.js',
-        client + 'js/**/*.js'
-    ],
+    js: {
+        src: client + 'js/**/*.js',
+        order: [
+            '**/main.js',
+            '**/models/*.js',
+            '**/services/*.js',
+            '**/**/*.js'
+        ]
+    },
     templates: client + 'js/views/*.html',
 
     // local folders
@@ -75,11 +84,6 @@ var config = {
 };
 
 /**
- * Prepares the distribution folder.
- */
-gulp.task('build', ['fonts', 'optimize']);
-
-/**
  * Moves all required fonts to the build folder.
  * @returns {Object} The stream.
  */
@@ -95,7 +99,7 @@ gulp.task('fonts', function() {
  */
 gulp.task('jscs', function() {
     return gulp
-        .src(config.js)
+        .src(config.js.src)
         .pipe($.jscs())
         .pipe($.jscs.reporter());
 });
@@ -110,8 +114,8 @@ gulp.task('inject', function() {
         // bower
         .pipe(wiredep(config.wiredep))
         // css and js
-        .pipe($.inject(gulp.src(config.css)))
-        .pipe($.inject(gulp.src(config.js)))
+        .pipe($.inject(orderSrc(config.css.src, config.css.order)))
+        .pipe($.inject(orderSrc(config.js.src, config.js.order)))
         .pipe(gulp.dest(config.client));
 });
 
@@ -165,7 +169,7 @@ gulp.task('serve', ['inject'], function() {
             'NODE_ENV': 'development'
         }
     }).on('start', function(ev) {
-        gulp.watch(config.js, function(ev) {
+        gulp.watch(config.js.src, function(ev) {
             if (ev.type === 'added' || ev.type === 'deleted') {
                 gulp.start('inject');
             };
@@ -173,4 +177,17 @@ gulp.task('serve', ['inject'], function() {
     });
 });
 
+/**
+ * Order a stream.
+ * @param {Stream} src The gulp.src stream.
+ * @param {Array} order Glob array pattern.
+ * @returns {Stream} The ordered stream.
+ */
+function orderSrc (src, order) {
+    return gulp
+        .src(src)
+        .pipe($.if(order, $.order(order)));
+}
+
 gulp.task('default', ['serve']);
+gulp.task('build', ['fonts', 'optimize']);
