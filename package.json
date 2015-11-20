@@ -8,7 +8,7 @@
     "npm": "2.14.x"
   },
   "scripts": {
-    "postinstall": "bower install && gulp inject",
+    "postinstall": "bower install && gulp build",
     "start": "node ./bin/www"
   },
   "dependencies": {
