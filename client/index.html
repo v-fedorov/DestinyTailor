@@ -6,7 +6,9 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <!-- mobile -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 
     <!-- information -->
     <title>Destiny Tailor</title>
@@ -14,6 +16,12 @@
     <meta name="author" content="Richard Herman">
     <link rel="icon" href="http://getbootstrap.com/favicon.ico">
 
+    <style>
+        /* This helps the ng-show/ng-hide animations start at the right place. */
+        /* Since Angular has this but needs to load, this gives us the class early. */
+        .ng-hide { display: none!important; }
+    </style>
+    
     <!-- build:css css/lib.css -->
     <!-- bower:css -->
     <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.css" />
@@ -27,6 +35,7 @@
     <link rel="stylesheet" href="/client/css/animation.css">
     <link rel="stylesheet" href="/client/css/destinytailor-codes.css">
     <link rel="stylesheet" href="/client/css/main.css">
+    <link rel="stylesheet" href="/client/css/main-xs.css">
     <!-- endinject -->
     <!-- endbuild -->
 </head>
@@ -87,7 +96,7 @@
             </form>
 
             <!-- list of characters -->
-            <div class="row ng-hide" ng-controller="accountController" ng-show="account">
+            <div class="row top-buffer ng-hide" ng-controller="accountController" ng-show="account">
                 <div ng-repeat="character in account.characters">
                     <div class="character col-xs-4" ng-class="{ 'character--selected': character === selectedCharacter }">
                         <div class="character__emblem show" ge-background-img="http://bungie.net{{character.backgroundPath}}" ng-click="selectCharacter(character)">
@@ -117,13 +126,17 @@
                     </div>
                     <div class="col-xs-12 col-md-4" ng-show="character.inventory">
                         <div class="row">
-                            <div class="col-xs-4 col-xs-push-4 col-md-12 col-md-push-0" ge-item ng-model="character.inventory.helmet" ng-selected-stats="currentStatProfile.inventory.helmet"></div>
-                            <div class="col-xs-4 col-xs-push-4 col-md-12 col-md-push-0" ge-item ng-model="character.inventory.gauntlets" ng-selected-stats="currentStatProfile.inventory.gauntlets"></div>
-                            <div class="col-xs-4 col-xs-push-4 col-md-12 col-md-push-0 clear-both" ge-item ng-model="character.inventory.chest" ng-selected-stats="currentStatProfile.inventory.chest"></div>
-                            <div class="col-xs-4 col-xs-push-4 col-md-12 col-md-push-0" ge-item ng-model="character.inventory.legs" ng-selected-stats="currentStatProfile.inventory.legs"></div>
-                            <div class="col-xs-4 col-xs-push-4 col-md-12 col-md-push-0 clear-both" ge-item ng-model="character.inventory.classItem" ng-selected-stats="currentStatProfile.inventory.classItem"></div>
-                            <div class="col-xs-4 col-xs-push-4 col-md-12 col-md-push-0" ge-item ng-model="character.inventory.artifact" ng-selected-stats="currentStatProfile.inventory.artifact"></div>
-                            <div class="col-xs-4 col-xs-pull-8 col-md-12 col-md-pull-0" ge-item ng-model="character.inventory.ghost" ng-selected-stats="currentStatProfile.inventory.ghost"></div>
+                            <div class="col-xs-6 col-xs-push-6 col-md-12 col-md-push-0">
+                                <div ge-item ng-model="character.inventory.helmet" ng-selected-stats="currentStatProfile.inventory.helmet"></div>
+                                <div ge-item ng-model="character.inventory.gauntlets" ng-selected-stats="currentStatProfile.inventory.gauntlets"></div>
+                                <div ge-item ng-model="character.inventory.chest" ng-selected-stats="currentStatProfile.inventory.chest"></div>
+                                <div ge-item ng-model="character.inventory.legs" ng-selected-stats="currentStatProfile.inventory.legs"></div>
+                            </div>
+                            <div class="col-xs-6 col-xs-pull-6 col-md-12 col-md-pull-0">
+                                <div ge-item ng-model="character.inventory.classItem" ng-selected-stats="currentStatProfile.inventory.classItem"></div>
+                                <div ge-item ng-model="character.inventory.artifact" ng-selected-stats="currentStatProfile.inventory.artifact"></div>
+                                <div ge-item ng-model="character.inventory.ghost" ng-selected-stats="currentStatProfile.inventory.ghost"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -132,7 +145,7 @@
     </div>
 
     <!-- footer -->
-    <footer>
+    <footer class="hidden-xs">
         <div class="container">
             <p>Made with <span class="dticon dticon-github"></span> by @GeekyEggo, on <a href="https://github.com/geekyeggo/destinytailor" title="View Destiny Tailor's source code on GitHub, come fork around!" rel="author">GitHub</a>.</p>
             <p>Special thanks to <a href="https://www.bungie.net/" title="Visit Bungie.net" rel="nofollow">Bungie</a>, and their API.</p>

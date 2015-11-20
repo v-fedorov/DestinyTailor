@@ -1,21 +1,21 @@
 <div class="stat-profile panel panel-default text-center" ng-class="{ 'panel-primary': selected, 'panel-success': !selected && (data.intellect.tier + data.discipline.tier + data.strength.tier) >= 10 }">
-    <div class="panel-heading">
+    <div class="stat-profile__heading panel-heading">
         <!-- heading -->
         {{data.intellect.tier}} - {{data.discipline.tier}} - {{data.strength.tier}}
     </div>
-    <div class="panel-body">
+    <div class="stat-profile__body panel-body">
         <div class="row">
             <div class="col-xs-4 col-sm-12" ng-repeat="stat in STAT_NAMES">
                 <!-- icon and text -->
-                <span class="stat__icon dticon dticon-{{stat.name}}"></span><br />
-                {{data[stat.name].value}}<span class="stat__type visible-xs-inline hidden">&nbsp;{{stat.name}}</span>
+                <span class="stat__icon dticon dticon-{{stat.name}}"></span>
+                {{data[stat.name].value}}<small class="stat__type visible-xs-inline hidden">&nbsp;{{stat.name}}</small>
 
                 <!-- progress of the stat tiers -->
                 <div class="stat__progress">
                     <span ng-repeat="i in [1, 2, 3, 4, 5]">
-                        <div class="stat_progress__step" ng-class="{ 'stat_progress__step--full': isTierComplete(data[stat.name], i) }">
+                        <div class="stat__progress__step" ng-class="{ 'stat__progress__step--full': isTierComplete(data[stat.name], i) }">
                             <div
-                                class="stat_progress__step--partial ng-hide"
+                                class="stat__progress__step--partial ng-hide"
                                 ng-show="isTierPartiallyComplete(data[stat.name], i)"
                                 ng-style="{width: getTierCompleteness(data[stat.name], i) + '%'}"></div>
                         </div>

@@ -1,4 +1,5 @@
-/* declarations */
+/* declarations
+========================= */
 @font-face {
     font-family: 'destinytailor';
     src: url('../fonts/destinytailor.eot?79049591');
@@ -10,15 +11,23 @@
     font-style: normal;
 }
 
-/* vendor */
-.ng-hide {
-    display: none !important;
-}
+/* vendor
+========================= */
 #loading-bar .bar {
     background: #ffa500;
 }
 
-/* main */
+/* generic
+========================= */
+.top-buffer {
+    margin-top: 20px;
+}
+.clear-both {
+    clear: both;
+}
+
+/* global
+========================= */
 html,
 body {
     height: 100%;
@@ -64,8 +73,6 @@ body {
     margin-right: 2px;
     vertical-align: middle;
 }
-
-/* footer */
 footer {
     background-color: #f5f5f5;
     height: 60px;
@@ -78,28 +85,15 @@ footer p {
     text-align: center;
 }
 
-/* generic */
-.top-buffer {
-    margin-top: 20px;
-}
-.clear-both {
-    clear: both;
-}
-
-/* character */
+/* characters
+========================= */
 .character {
-    border-color: #fff #fff #ddd #fff;
-    border-style: solid;
-    border-width: 1px 0;
-    margin-bottom: 15px;
-    margin-top: 15px;
-    padding-bottom: 15px;
-    padding-top: 15px;
+    border-bottom: solid 3px #fff;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
 }
 .character--selected {
-    border-color: #ddd #ddd #fff #ddd;
-    border-radius: 5px 5px 0 0;
-    border-width: 1px 1px 0 1px;
+    border-bottom-color: #337ab7;
 }
 .character__emblem {
     background-size: cover;
@@ -115,16 +109,6 @@ footer p {
 .character__emblem__icon {
     height: 59px;
     width: 59px;
-}
-@media (max-width: 769px) {
-    .character {
-        padding-left: 5px;
-        padding-right: 5px;
-    }
-    .character__emblem__icon {
-        height: 42px;
-        width: 42px;
-    }
 }
 .character__info {
     margin: 2% 7px;
@@ -142,37 +126,8 @@ footer p {
     margin-right: 2px;
 }
 
-/* stat profile */
-.stat-profile:hover {
-    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
-    cursor: pointer;
-}
-.stat__icon {
-    font-size: 21px;
-}
-.stat__progress {
-    padding: 2%;
-}
-.stat__type {
-    color: #aaa;
-    text-transform: capitalize;
-}
-.stat_progress__step {
-    background-color: #ddd;
-    float: left;
-    height: 4px;
-    margin: 0 1%;
-    width: 18%;
-}
-.stat_progress__step--full {
-    background-color: #333;
-}
-.stat_progress__step--partial {
-    background-color: #aaa;
-    height: 100%;
-}
-
-/* character item */
+/* items
+========================= */
 .item {
     border-radius: 5px;
     border-style: solid;
@@ -284,4 +239,36 @@ footer p {
 }
 .item__stat--maxed {
     font-weight: bold;
+}
+
+/* stat profiles
+========================= */
+.stat-profile:hover {
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+}
+.stat__icon {
+    display: block;
+    font-size: 21px;
+}
+.stat__progress {
+    padding: 2%;
+}
+.stat__type {
+    color: #aaa;
+    text-transform: capitalize;
+}
+.stat__progress__step {
+    background-color: #ddd;
+    float: left;
+    height: 4px;
+    margin: 0 1%;
+    width: 18%;
+}
+.stat__progress__step--full {
+    background-color: #333;
+}
+.stat__progress__step--partial {
+    background-color: #aaa;
+    height: 100%;
 }
