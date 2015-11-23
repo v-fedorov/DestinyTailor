@@ -96,19 +96,21 @@
             </form>
 
             <!-- list of characters -->
-            <div class="row top-buffer ng-hide" ng-controller="accountController" ng-show="account">
-                <div ng-repeat="character in account.characters">
-                    <div class="character col-xs-4" ng-class="{ 'character--selected': character === selectedCharacter }">
-                        <div class="character__emblem show" ge-background-img="http://bungie.net{{character.backgroundPath}}" ng-click="selectCharacter(character)">
-                            <img class="character__emblem__icon pull-left" ng-src="http://www.bungie.net{{character.emblemPath}}" />
-                            <span class="character__info pull-left">
-                                <p class="lead">{{character.class}}</p>
-                                <p><small>{{character.race}} {{character.gender}}</small></p>
-                            </span>
-                            <span class="character__info pull-right text-right">
-                                <p class="lead">{{character.level}}</p>
-                                <p class="character__light-level"><small class="light-level">{{character.lightLevel}}</small></p>
-                            </span>
+            <div ng-controller="accountController" class="ng-hide" ng-show="account">
+                <div class="row top-buffer" ng-class="{ 'characters--any-selected': selectedCharacter !== null }">
+                    <div ng-repeat="character in account.characters">
+                        <div class="character col-xs-12 col-sm-4" ng-class="{ 'character--selected': character === selectedCharacter }">
+                            <div class="character__emblem show" ge-background-img="http://bungie.net{{character.backgroundPath}}" ng-click="selectCharacter(character)">
+                                <img class="character__emblem__icon pull-left" ng-src="http://www.bungie.net{{character.emblemPath}}" />
+                                <span class="character__info pull-left">
+                                    <p class="lead">{{character.class}}</p>
+                                    <p><small>{{character.race}} {{character.gender}}</small></p>
+                                </span>
+                                <span class="character__info pull-right text-right">
+                                    <p class="lead">{{character.level}}</p>
+                                    <p class="character__light-level"><small class="light-level">{{character.lightLevel}}</small></p>
+                                </span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -116,7 +118,7 @@
 
             <!-- stat profiles and character information -->
             <div ng-controller="characterController">
-                <div class="row">
+                <div class="row top-buffer">
                     <div class="col-xs-12 col-md-8" ng-show="statProfiles.length">
                         <div class="row">
                             <div class="col-xs-12 col-sm-3" ng-repeat="statProfile in statProfiles | orderBy: '0 - discipline.tier - intellect.tier - strength.tier'">
