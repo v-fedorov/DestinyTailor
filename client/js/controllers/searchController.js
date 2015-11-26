@@ -1,6 +1,9 @@
 (function(app) {
     'use strict';
 
+    angular.module('main').controller('searchController', SearchController);
+    SearchController.$inject = ['$scope', '$http', 'PLATFORMS', 'userService'];
+
     /**
      * The search controller, primarily used to search for a user's account / membership with Bungie.
      * @param {Object} $scope The scope of the controller.
@@ -8,7 +11,7 @@
      * @param {Object} PLATFORMS The constant containing the platform API numbers.
      * @param {Object} userService The user service.
      */
-    var SearchController = function($scope, $http, PLATFORMS, userService) {
+    function SearchController($scope, $http, PLATFORMS, userService) {
         var PLATFORM_PSN = true;
         $scope.error = '';
         $scope.isSearching = false;
@@ -39,8 +42,5 @@
         $scope.clearError = function() {
             $scope.error = '';
         };
-    };
-
-    SearchController.$inject = ['$scope', '$http', 'PLATFORMS', 'userService'];
-    app.controller('searchController', SearchController);
-})(angular.module('main'));
+    }
+})();

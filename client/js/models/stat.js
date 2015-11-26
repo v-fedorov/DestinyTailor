@@ -1,5 +1,7 @@
-(function(app) {
+(function() {
     'use strict';
+
+    angular.module('main').factory('Stat', Model);
 
     /**
      * Defines the stat model.
@@ -24,7 +26,5 @@
         };
 
         return Stat;
-    };
-
-    app.factory('Stat', Model);
-})(angular.module('main'));
+    }
+})();

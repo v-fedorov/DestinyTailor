@@ -1,13 +1,16 @@
 (function(app) {
     'use strict';
 
+    angular.module('main').controller('characterController', CharacterController);
+    CharacterController.$inject = ['$scope', 'userService', 'inventoryAnalyser'];
+
     /**
      * Defines the character controller, allowing the user to view their gear and stat profiles.
      * @param {Object} $scope The scope of the contorller.
      * @param {Object} userService The user service.
      * @param {Function} inventoryAnalyser The inventory analyser used to assess the stat paths.
      */
-    var CharacterController = function($scope, userService, inventoryAnalyser) {
+    function CharacterController($scope, userService, inventoryAnalyser) {
         $scope.character = null;
         $scope.currentStatProfile = {};
         $scope.statProfiles = [];
@@ -34,8 +37,5 @@
                 $scope.statProfiles = {};
             }
         });
-    };
-
-    CharacterController.$inject = ['$scope', 'userService', 'inventoryAnalyser'];
-    app.controller('characterController', CharacterController);
-})(angular.module('main'));
+    }
+})();

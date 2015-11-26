@@ -1,5 +1,8 @@
-(function(app) {
+(function() {
     'use strict';
+
+    angular.module('main').factory('Character', Model);
+    Model.$inject = ['DEFINITIONS'];
 
     /**
      * Defines the Character model.
@@ -32,8 +35,5 @@
         }
 
         return Character;
-    };
-
-    Model.$inject = ['DEFINITIONS'];
-    app.factory('Character', Model);
-})(angular.module('main'));
+    }
+})();

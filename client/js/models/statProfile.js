@@ -1,5 +1,8 @@
-(function(app) {
+(function() {
     'use strict';
+
+    angular.module('main').factory('StatProfile', Model);
+    Model.$inject = ['ITEM_BUCKET_HASHES', 'STAT_NAMES', 'Stat'];
 
     /**
      * Defines the stat profile model.
@@ -76,7 +79,4 @@
 
         return StatProfile;
     };
-
-    Model.$inject = ['ITEM_BUCKET_HASHES', 'STAT_NAMES', 'Stat'];
-    app.factory('StatProfile', Model);
-})(angular.module('main'));
+})();
