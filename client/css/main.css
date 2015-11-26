@@ -237,6 +237,9 @@ footer p {
 .item__stat__value {
     text-transform: capitalize;
 }
+.item__stat--zero {
+    color: #ccc;
+}
 .item__stat--maxed {
     font-weight: bold;
 }

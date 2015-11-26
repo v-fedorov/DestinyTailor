@@ -13,7 +13,7 @@
             </div>
             <span>
                 <div ng-repeat="stat in STAT_NAMES">
-                    <span class="item__stat" ng-class="{ 'item__stat--maxed': isStatMaxed(stat.name) }" ng-if="data[stat.name].max">
+                    <span class="item__stat" ng-class="{ 'item__stat--maxed': isStatMaxed(stat.name), 'item__stat--zero' : getCurrentValue(stat.name) === 0 }" ng-if="data[stat.name].max">
                         <!-- stat information -->
                         <span class="item__stat__icon dticon dticon-{{stat.name}}"></span>
                         <span class="item__stat__value">

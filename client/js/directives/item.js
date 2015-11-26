@@ -22,7 +22,7 @@
                 if ($scope.selectedStats && $scope.selectedStats[statName] !== undefined) {
                     return $scope.selectedStats[statName];
                 } else if ($scope.data && ($scope.data[statName] || null) !== null) {
-                    return $scope.data[statName].current;
+                    return $scope.data[statName].min;
                 } else {
                     return '';
                 }
