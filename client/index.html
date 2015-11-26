@@ -72,7 +72,12 @@
                             </span>
 
                             <!-- character name -->
-                            <input type="text" class="form-control input-lg" aria-label="Search" ng-disabled="isSearching" ng-keyup="$event.keyCode == 13 && search()" ng-model="name" />
+                            <input type="text" class="form-control input-lg" aria-label="Search"
+                                ge-blur-on="isSearching"
+                                ng-disabled="isSearching"
+                                ng-keyup="$event.keyCode == 13 && search()"
+                                ng-model="name"
+                            />
 
                             <!-- search -->
                             <span class="input-group-btn">
@@ -175,6 +180,7 @@
     <script src="/client/js/controllers/characterController.js"></script>
     <script src="/client/js/controllers/searchController.js"></script>
     <script src="/client/js/directives/backgroundImage.js"></script>
+    <script src="/client/js/directives/blurOn.js"></script>
     <script src="/client/js/directives/bootstrapToggle.js"></script>
     <script src="/client/js/directives/item.js"></script>
     <script src="/client/js/directives/statProfile.js"></script>
