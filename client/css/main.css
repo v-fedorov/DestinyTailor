@@ -87,13 +87,20 @@ footer p {
 
 /* characters
 ========================= */
+.characters--any-selected .character {
+    opacity: 0.5;
+}
+.characters--any-selected .character--selected {
+    opacity: 1;
+}
 .character {
-    border-bottom: solid 3px #fff;
-    margin-bottom: 20px;
+    border-width: 0 0 3px;
+    border-color: #ddd;
+    border-style: solid;
     padding-bottom: 10px;
 }
 .character--selected {
-    border-bottom-color: #337ab7;
+    border-color: #337ab7;
 }
 .character__emblem {
     background-size: cover;

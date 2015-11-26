@@ -6,6 +6,13 @@ A "stat profile" is the term we use for a specific combinations of stats on your
 
 ## Releases
 
+### v0.2 - Mobile
+
+- Significant improvements to mobile viewing.
+  - Much easier to see characters
+  - Items are now fully visible.
+- Clearer character selection.
+
 ### v0.1 - Initial release
 
 - Searching

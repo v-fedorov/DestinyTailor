@@ -18,26 +18,18 @@
         padding-top: 0;
     }
     #wrap {
-        padding-bottom: 5px;
+        padding-bottom: 65px;
+        margin-bottom: -60px;
     }
     
     /* characters
     ========================= */
     .character {
-        font-size: 50%;
-        margin-bottom: 10px;
-        padding-left: 2px;
-        padding-right: 2px;
-    }
-    .character__emblem__icon {
-        height: 30px;
-        width: 30px;
-    }
-    .character__info {
-        margin: 2% 2px;
-    }
-    .character__info .lead {
-        font-size: 12px;
+        border-bottom-width: 0px;
+        border-right-width: 5px;
+        margin-bottom: 5px;
+        padding-bottom: 0;
+        padding-right: 10px;
     }
     
     /* items
