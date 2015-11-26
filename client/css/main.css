@@ -90,7 +90,8 @@ footer p {
 .characters--any-selected .character {
     opacity: 0.5;
 }
-.characters--any-selected .character--selected {
+.characters--any-selected .character--selected,
+.characters--any-selected .character:hover {
     opacity: 1;
 }
 .character {
