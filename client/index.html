@@ -131,20 +131,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-xs-12 col-md-4" ng-show="character.inventory">
-                        <div class="row">
-                            <div class="col-xs-6 col-xs-push-6 col-md-12 col-md-push-0">
-                                <div ge-item ng-model="character.inventory.helmet" ng-selected-stats="currentStatProfile.inventory.helmet"></div>
-                                <div ge-item ng-model="character.inventory.gauntlets" ng-selected-stats="currentStatProfile.inventory.gauntlets"></div>
-                                <div ge-item ng-model="character.inventory.chest" ng-selected-stats="currentStatProfile.inventory.chest"></div>
-                                <div ge-item ng-model="character.inventory.legs" ng-selected-stats="currentStatProfile.inventory.legs"></div>
-                            </div>
-                            <div class="col-xs-6 col-xs-pull-6 col-md-12 col-md-pull-0">
-                                <div ge-item ng-model="character.inventory.classItem" ng-selected-stats="currentStatProfile.inventory.classItem"></div>
-                                <div ge-item ng-model="character.inventory.artifact" ng-selected-stats="currentStatProfile.inventory.artifact"></div>
-                                <div ge-item ng-model="character.inventory.ghost" ng-selected-stats="currentStatProfile.inventory.ghost"></div>
-                            </div>
-                        </div>
+                    <div class="hidden-xs" ng-show="character.inventory">
+                        <div ge-inventory ng-inventory="character.inventory" ng-stat-profile="currentStatProfile"></div>
                     </div>
                 </div>
             </div>
@@ -182,6 +170,7 @@
     <script src="/client/js/directives/backgroundImage.js"></script>
     <script src="/client/js/directives/blurOn.js"></script>
     <script src="/client/js/directives/bootstrapToggle.js"></script>
+    <script src="/client/js/directives/inventory.js"></script>
     <script src="/client/js/directives/item.js"></script>
     <script src="/client/js/directives/statProfile.js"></script>
     <!-- endinject -->
