@@ -1,11 +1,15 @@
 (function(app) {
     'use strict';
 
+    angular.module('main').directive('geItem', item);
+    item.$inject = ['STAT_NAMES'];
+
     /**
      * Defines a directive for showing a character's item.
      * @param {Object[]} STAT_NAMES The constant stat names.
+     * @returns {Object} The directive.
      */
-    app.directive('geItem', ['STAT_NAMES', function(STAT_NAMES) {
+    function item(STAT_NAMES) {
         /**
          * Initialises the directive for a character item.
          * @param {Object} $scope The scope.
@@ -64,5 +68,5 @@
             templateUrl: 'js/views/item.html',
             link: link
         };
-    }]);
-})(angular.module('main'));
+    }
+})();

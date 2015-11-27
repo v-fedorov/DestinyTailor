@@ -1,15 +1,16 @@
 (function() {
     'use strict';
 
-    angular.module('main').directive('geBlurOn', geBlurOn);
-    geBlurOn.$inject = ['$timeout'];
+    angular.module('main').directive('geBlurOn', blurOn);
+    blurOn.$inject = ['$timeout'];
 
     /**
      * Defines a directive for blurring an element.
      * @param {Object} $timeout The timeout helper.
+     * @returns {Object} The directive.
      * {@link http://stackoverflow.com/a/14837021}.
      */
-    function geBlurOn($timeout) {
+    function blurOn($timeout) {
         return {
             scope: {
                 trigger: '=geBlurOn'

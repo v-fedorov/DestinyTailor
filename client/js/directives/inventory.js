@@ -1,12 +1,13 @@
 (function(app) {
     'use strict';
 
-    angular.module('main').directive('geInventory', Inventory);
+    angular.module('main').directive('geInventory', inventory);
 
     /**
      * Defines a directive for showing a character's complete inventory.
+     * @returns {Object} The directive.
      */
-    function Inventory() {
+    function inventory() {
         return {
             restrict: 'AE',
             scope: {

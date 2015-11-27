@@ -1,11 +1,15 @@
 (function(app) {
     'use strict';
 
+    angular.module('main').directive('geStatProfile', statProfile);
+    statProfile.$inject = ['STAT_NAMES'];
+
     /**
      * Defines a directive for showing a character's stat profile.
      * @param {Object[]} STAT_NAMES The constant stat names.
+     * @returns {Object} The directive.
      */
-    app.directive('geStatProfile', ['STAT_NAMES', function(STAT_NAMES) {
+    function statProfile(STAT_NAMES) {
         /**
          * Registers the event for selecting the stat profile.
          * @param {Object} $scope The directive's scope.
@@ -66,5 +70,5 @@
             templateUrl: 'js/views/statProfile.html',
             link: link
         };
-    }]);
-})(angular.module('main'));
+    };
+})();
