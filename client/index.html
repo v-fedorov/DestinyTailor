@@ -127,7 +127,12 @@
                     <div class="col-xs-12 col-md-8" ng-show="statProfiles.length">
                         <div class="row">
                             <div class="col-xs-12 col-sm-3" ng-repeat="statProfile in statProfiles | orderBy: '0 - discipline.tier - intellect.tier - strength.tier'">
-                                <ge-stat-profile ng-model="statProfile" ng-selected="statProfile === currentStatProfile" ng-click="selectStatProfile(statProfile)"  />
+                                <div ge-stat-profile
+                                    ng-model="statProfile"
+                                    ng-character="character"
+                                    ng-select="selectStatProfile"
+                                    ng-selected="statProfile === currentStatProfile">
+                                </div>
                             </div>
                         </div>
                     </div>

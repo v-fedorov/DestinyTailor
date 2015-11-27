@@ -32,6 +32,20 @@
         padding-left: 10px;
     }
     
+    /* inventory
+    ========================= */
+    .inventory {
+        margin-top: 20px;
+    }
+    .inventory .col-xs-pull-6 {
+        padding-left: 0;
+        padding-right: 5px;
+    }
+    .inventory .col-xs-push-6 {
+        padding-left: 5px;
+        padding-right: 0;
+    }
+    
     /* items
     ========================= */
     .item {

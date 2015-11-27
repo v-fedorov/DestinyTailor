@@ -13,6 +13,15 @@
          */
         function link($scope, $element) {
             $scope.STAT_NAMES = STAT_NAMES;
+            $scope.showInventory = false;
+
+            /**
+             * Handles the stat profile being selected.
+             */
+            $scope.select = function() {
+                $scope.onSelect($scope.data);
+                $scope.showInventory = !$scope.showInventory;
+            };
 
             /**
              * Determines if the specified tier, i, is complete for the stat.
@@ -50,6 +59,8 @@
             restrict: 'AE',
             scope: {
                 data: '=ngModel',
+                character: '=ngCharacter',
+                onSelect: '=ngSelect',
                 selected: '=ngSelected'
             },
             templateUrl: 'js/views/statProfile.html',
