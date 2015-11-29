@@ -1,6 +1,16 @@
-/*
-     Animation example, for spinners
-*/
+/* slide open/close
+========================= */
+.slideable__wrapper {
+    height: 0px;
+    margin:0 !important;
+    overflow: hidden;
+    padding:0 !important;
+    transition-duration: 750ms;
+    transition-property: height;
+    transition-timing-function: ease-out;
+}
+/* spin
+========================= */
 .spin {
     -moz-animation: spin 1s infinite linear;
     -o-animation: spin 1s infinite linear;
