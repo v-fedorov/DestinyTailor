@@ -6,14 +6,18 @@ A "stat profile" is the term we use for a specific combinations of stats on your
 
 ## Releases
 
-### v0.2 - Mobile
+### 0.2.x - Mobile
 
-- Significant improvements to mobile viewing.
-  - Much easier to see characters
-  - Items are now fully visible.
-- Clearer character selection.
+- **0.2.1**
+ - Greatly improved visibility of inventory.
+ - Inventory can now be toggled.
+- **0.2.0**
+ - Significant improvements to mobile viewing.
+   - Much easier to see characters
+   - Items are now fully visible.
+ - Clearer character selection.
 
-### v0.1 - Initial release
+### 0.1 - Initial release
 
 - Searching
   - Quickly search Bungie for your character on either XBox or PSN.
