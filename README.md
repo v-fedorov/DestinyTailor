@@ -2,12 +2,14 @@
 
 Destiny Tailor is a site designed to help fellow guardian's get the most out of their hard earned gear. By using Bungie's API, Destiny Tailor is able to evaluate your equipped gear, and with a bit of number crunching, provide you with a list of available "stat profiles".
 
-A "stat profile" is the term we use for a specific combinations of stats on your gear, e.g. choosing intellect over strength, which was introduced with Destiny year 2 items. This can proove really useful if, like us, you enjoy swapping your item stats to get the most out of them for the right situation, i.e. raiding, trials, or just a bit of casual striking.    
+A "stat profile" is the term we use for a specific combinations of stats on your gear, e.g. choosing intellect over strength, which was introduced with Destiny year 2 items. This can proove really useful if, like us, you enjoy swapping your item stats to get the most out of them for the right situation, i.e. raiding, trials, or just a bit of casual striking.
 
 ## Releases
 
-### 0.2.x - Mobile
+### 0.2 - Mobile
 
+- **0.2.x**
+ - Fixed issue with filtering stat profiles.
 - **0.2.1**
  - Greatly improved visibility of inventory.
  - Inventory can now be toggled.
