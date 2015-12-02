@@ -91,32 +91,46 @@
          * Filters the profiles, removing those that are considered redundant or inferior e.g. 4-3-2, when compared to 4-4-2.
          */
         InventoryAnalyser.prototype.filterProfiles = function() {
-            var i = 0;
-            while (i < this.profiles.length) {
-                if (this.isStatProfileInferior(this.profiles[i])) {
-                    this.profiles.splice(i, 1);
-                } else {
-                    i++;
-                }
+            // take the first profile, and then attempt to add its siblings
+            var filteredProfiles = this.profiles.slice(0, 1);
+            for (var i = 1; i < this.profiles.length; i++) {
+                this.addStatProfileWhenSuperior(this.profiles[i], filteredProfiles);
             }
+
+            this.profiles = filteredProfiles;
         };
 
         /**
-         * Determines if the stat profile is considered inferior, when compared to the available stat profiles.
-         * @param {Object} statProfile The stat profile being compared.
-         * @returns {Boolean} True when the stat profile is inferior; otherwise false.
+         * Attempts to "add" a stat profile when it is considered superior to its siblings.
+         * @param {Object} statProfile The stat profile being checked.
+         * @param {Object[]} others The siblings to compare it against.
          */
-        InventoryAnalyser.prototype.isStatProfileInferior = function(statProfile) {
-            for (var i = 0; i < this.profiles.length; i++) {
-                if (statProfile !== this.profiles[i]
-                    && statProfile.discipline.tier >= this.profiles[i].discipline.tier
-                    && statProfile.intellect.tier >= this.profiles[i].intellect.tier
-                    && statProfile.strength.tier >= this.profiles[i].strength.tier) {
-                    return false;
+        InventoryAnalyser.prototype.addStatProfileWhenSuperior = function(statProfile, others) {
+            for (var i = 0; i < others.length; i++) {
+                var other = others[i];
+
+                // ignore the same object
+                if (statProfile === other) {
+                    break;
+                }
+
+                // when the stat profile is better in every way, replace it
+                if (statProfile.discipline.tier >= other.discipline.tier
+                    && statProfile.intellect.tier >= other.intellect.tier
+                    && statProfile.strength.tier >= other.strength.tier) {
+                    others[i] = statProfile;
+                    return;
+                }
+
+                // when the stat profile is inferior in every way, ignore it
+                if (statProfile.discipline.tier <= other.discipline.tier
+                    && statProfile.intellect.tier <= other.intellect.tier
+                    && statProfile.strength.tier <= other.strength.tier) {
+                    return;
                 }
             }
 
-            return true;
+            others.push(statProfile);
         };
 
         return $scope;
