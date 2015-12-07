@@ -183,7 +183,7 @@ gulp.task('serve', ['inject'], function() {
  * @param {Array} order Glob array pattern.
  * @returns {Stream} The ordered stream.
  */
-function orderSrc (src, order) {
+function orderSrc(src, order) {
     return gulp
         .src(src)
         .pipe($.if(order, $.order(order)));

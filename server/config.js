@@ -12,6 +12,7 @@ module.exports = {
         stdTTL: 0,
         useClones: false
     },
+    contentMaxAge: '28d',
     env: process.env.NODE_ENV || 'dev',
     port: process.env.PORT || 3000
 };
