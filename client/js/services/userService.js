@@ -6,9 +6,10 @@
      * @param {Object} $http The http utils from Angular.
      * @param {Object} $q Service helper for running function asynchronously.
      * @param {Object} Character The character model.
+     * @param {Object} inventoryAnalyser The inventory analyser service.
      * @returns {Object} The user service.
      */
-    app.factory('userService', ['$http', '$q', 'Character', function($http, $q, Character) {
+    app.factory('userService', ['$http', '$q', 'Character', 'inventoryAnalyser', function($http, $q, Character, inventoryAnalyser) {
         var $scope = {
             account: null,
             character: null
@@ -59,29 +60,16 @@
          * @param {Object} character The character to select.
          */
         $scope.selectCharacter = function(character) {
-            // validate the character exists on the account
-            if (!character) {
-                return;
-            }
+            $scope.character = character;
 
-            // check if the character already has inventory
-            if (character.inventory) {
-                $scope.character = character;
-                return;
+            // load the inventory when its empty
+            if (!character.inventory) {
+                loadInventory(character)
+                    .then(function(inventory) {
+                        character.inventory = inventory;
+                        character.statProfiles = inventoryAnalyser.getStatProfiles(character);
+                    });
             }
-
-            // otherwise load it
-            var path = '/api/' + character.membershipType + '/' + character.membershipId + '/' + character.characterId;
-            $http.get(path).then(function(result) {
-                if (result.data === null) {
-                    throw 'todo: No data.';
-                } else {
-                    character.inventory = result.data;
-                    $scope.character = character;
-                }
-            }, function(err) {
-                throw err;
-            });
         };
 
         /**
@@ -92,6 +80,22 @@
             $scope.character = null;
             $scope.account = membership;
         };
+
+        /**
+         * Loads the inventory for the given character.
+         * @param {Object} character The character.
+         * @returns {Object} A promise, that is fulfilled when the inventory has been loaded.
+         */
+        function loadInventory(character) {
+            var path = '/api/' + character.membershipType + '/' + character.membershipId + '/' + character.characterId;
+            return $http.get(path).then(function(result) {
+                if (result.data !== null) {
+                    return result.data;
+                }
+
+                throw 'Unable to load inveotry';
+            });
+        }
 
         return $scope;
     }]);
