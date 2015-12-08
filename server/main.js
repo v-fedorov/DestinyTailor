@@ -40,7 +40,7 @@ app.use('/Platform/Destiny/*?', function(req, res) {
 switch (config.env) {
     case 'dist':
         console.log('*** [dist] environment ***');
-        serveStatic('../dist/');
+        serveStatic('../dist/', config.contentMaxAge);
         app.use('/*', express.static(path.join(__dirname, '../dist/index.html')));
         break;
     default:
@@ -54,12 +54,13 @@ switch (config.env) {
 /**
  * Registers the static content with a expiration header.
  * @param {String} relativeRoot The relative path to the static folder.
+ * @param {String|Number} maxAge The max age of the content
  */
-function serveStatic(relativeRoot) {
+function serveStatic(relativeRoot, maxAge) {
     var root = path.join(__dirname, relativeRoot);
 
     app.use(express.static(root, {
-        maxAge: config.contentMaxAge
+        maxAge: maxAge || 0
     }));
 }
 

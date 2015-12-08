@@ -102,18 +102,18 @@
 
             <!-- list of characters -->
             <div ng-controller="accountController" class="ng-hide" ng-show="account">
-                <div class="row top-buffer" ng-class="{ 'characters--any-selected': selectedCharacter !== null }">
+                <div class="row top-buffer" ng-class="{ 'account__character--any-selected': selectedCharacter !== null }">
                     <div ng-repeat="character in account.characters">
-                        <div class="character col-xs-12 col-sm-4" ng-class="{ 'character--selected': character === selectedCharacter }">
-                            <div class="character__emblem show" ge-background-img="http://bungie.net{{character.backgroundPath}}" ng-click="selectCharacter(character)">
-                                <img class="character__emblem__icon pull-left" ng-src="http://www.bungie.net{{character.emblemPath}}" />
-                                <span class="character__info pull-left">
+                        <div class="account__character col-xs-12 col-sm-4" ng-class="{ 'account__character--selected': character === selectedCharacter }">
+                            <div class="emblem show" ge-background-img="http://bungie.net{{character.backgroundPath}}" ng-click="selectCharacter(character)">
+                                <img class="emblem__icon pull-left" ng-src="http://www.bungie.net{{character.emblemPath}}" />
+                                <span class="emblem__info pull-left">
                                     <p class="lead">{{character.class}}</p>
                                     <p><small>{{character.race}} {{character.gender}}</small></p>
                                 </span>
-                                <span class="character__info pull-right text-right">
+                                <span class="emblem__info pull-right text-right">
                                     <p class="lead">{{character.level}}</p>
-                                    <p class="character__light-level"><small class="light-level">{{character.lightLevel}}</small></p>
+                                    <p class="emblem__light-level"><small class="light-level">{{character.lightLevel}}</small></p>
                                 </span>
                             </div>
                         </div>
@@ -122,22 +122,24 @@
             </div>
 
             <!-- stat profiles and character information -->
-            <div ng-controller="characterController">
-                <div class="row top-buffer">
-                    <div class="col-xs-12 col-md-8" ng-show="statProfiles.length">
-                        <div class="row">
-                            <div class="col-xs-12 col-sm-3" ng-repeat="statProfile in statProfiles | orderBy: '0 - discipline.tier - intellect.tier - strength.tier'">
-                                <div ge-stat-profile
-                                    ng-model="statProfile"
-                                    ng-character="character"
-                                    ng-select="selectStatProfile"
-                                    ng-selected="statProfile === currentStatProfile">
+            <div ng-controller="characterController" class="top-buffer character__wrapper">
+                <div ng-repeat="character in [character]" class="character">
+                    <div class="row">
+                        <div class="col-xs-12 col-md-8" ng-show="statProfiles.length">
+                            <div class="row">
+                                <div class="col-xs-12 col-sm-3" ng-repeat="statProfile in statProfiles | orderBy: '0 - discipline.tier - intellect.tier - strength.tier'">
+                                    <div ge-stat-profile
+                                        ng-model="statProfile"
+                                        ng-character="character"
+                                        ng-select="selectStatProfile"
+                                        ng-selected="statProfile === currentStatProfile">
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="hidden-xs" ng-show="character.inventory">
-                        <div ge-inventory ng-inventory="character.inventory" ng-stat-profile="currentStatProfile"></div>
+                        <div class="hidden-xs" ng-show="character.inventory">
+                            <div ge-inventory ng-inventory="character.inventory" ng-stat-profile="currentStatProfile"></div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -159,6 +161,7 @@
     <script src="/bower_components/bootstrap-toggle/js/bootstrap-toggle.min.js"></script>
     <script src="/bower_components/angular/angular.js"></script>
     <script src="/bower_components/angular-loading-bar/build/loading-bar.js"></script>
+    <script src="/bower_components/angular-animate/angular-animate.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
     <!-- build:js js/app.js -->

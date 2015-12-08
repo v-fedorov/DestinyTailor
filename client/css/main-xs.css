@@ -5,13 +5,13 @@
         margin: 0;
         position: static;
     }
-    
+
     /* generic
     ========================= */
     .top-buffer {
         margin-top: 10px;
     }
-    
+
     /* global
     ========================= */
     body {
@@ -21,17 +21,17 @@
         padding-bottom: 65px;
         margin-bottom: -60px;
     }
-    
-    /* characters
+
+    /* account overview
     ========================= */
-    .character {
+    .account__character {
         border-bottom-width: 0px;
         border-left-width: 5px;
         margin-bottom: 5px;
         padding-bottom: 0;
         padding-left: 10px;
     }
-    
+
     /* inventory
     ========================= */
     .inventory {
@@ -45,7 +45,7 @@
         padding-left: 5px;
         padding-right: 0;
     }
-    
+
     /* items
     ========================= */
     .item {
@@ -68,7 +68,7 @@
     .item__stat__value abbr {
         border-bottom-width: 0;
     }
-    
+
     /* stat profiles
     ========================= */
     .stat-profile__heading {

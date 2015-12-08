@@ -85,53 +85,78 @@ footer p {
     text-align: center;
 }
 
-/* characters
+/* account overview
 ========================= */
-.characters--any-selected .character {
+.account__character--any-selected .account__character {
     opacity: 0.5;
 }
-.characters--any-selected .character--selected,
-.characters--any-selected .character:hover {
+.account__character--any-selected .account__character--selected,
+.account__character--any-selected .account__character:hover {
     opacity: 1;
 }
-.character {
+.account__character {
     border-width: 0 0 3px;
     border-color: #ddd;
     border-style: solid;
     padding-bottom: 10px;
+    transition: opacity 0.2s;
 }
-.character--selected {
+.account__character--selected {
     border-color: #337ab7;
 }
-.character__emblem {
+.emblem {
     background-size: cover;
     border-radius: 3px;
     color: #f5f5f5;
     overflow: hidden;
     padding: 2px;
 }
-.character__emblem:hover {
+.emblem:hover {
     box-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
     cursor: pointer;
 }
-.character__emblem__icon {
+.emblem__icon {
     height: 59px;
     width: 59px;
 }
-.character__info {
+.emblem__info {
     margin: 2% 7px;
 }
-.character__info p {
+.emblem__info p {
     line-height: 1em;
     margin-bottom: 0.2em;
 }
-.character__light-level {
+.emblem__light-level {
     color: #f5dc56;
 }
-.character__light-level .glyphicon {
+.emblem__light-level .glyphicon {
     font-size: 0.5em;
     top: -1px;
     margin-right: 2px;
+}
+
+/* character
+========================= */
+.character__wrapper {
+    position: relative;
+}
+.character.ng-enter {
+	opacity: 0;
+	transition: all 0.3s ease-out;
+    transition-delay: 0.15s;
+	z-index: 2;
+}
+.character.ng-enter-active {
+	opacity: 1.0;
+}
+.character.ng-leave {
+    position: absolute;
+	opacity: 1.0;
+	transition: all 0.15s ease-out;
+    top: 0;
+}
+.character.ng-leave-active {
+	opacity: 0;
 }
 
 /* items
