@@ -140,23 +140,25 @@ footer p {
 .character__wrapper {
     position: relative;
 }
-.character.ng-enter {
+.character--animated.ng-enter {
 	opacity: 0;
-	transition: all 0.2s ease-out;
-    transition-delay: 0.2s;
-	z-index: 2;
+	transition: all 0.2s ease;
+    transition-delay: 0.1s;
 }
-.character.ng-enter-active {
+.character--animated.ng-enter-active {
 	opacity: 1.0;
 }
-.character.ng-leave {
+.character--animated.ng-leave {
     position: absolute;
 	opacity: 1.0;
-	transition: all 0.2s ease-out;
+	transition: all 0.1s ease;
     top: 0;
 }
-.character.ng-leave-active {
+.character--animated.ng-leave-active {
 	opacity: 0;
+}
+.character__loading .dticon {
+    margin-right: 5px;
 }
 
 /* items

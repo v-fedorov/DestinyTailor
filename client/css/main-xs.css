@@ -42,14 +42,14 @@
         to   { max-height: 350px; }
     }
     .inventory__wrapper.ng-enter {
-        animation: expand_inventory 0.5s ease-out;
+        animation: expand_inventory 0.5s ease;
     }
     @keyframes collapse_inventory {
         from { max-height: 350px; }
         to   { max-height: 0;     }
     }
     .inventory__wrapper.ng-leave {
-        animation: collapse_inventory 0.5s ease-out;
+        animation: collapse_inventory 0.5s ease;
     }
     .inventory {
         margin-top: 20px;

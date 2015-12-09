@@ -66,8 +66,10 @@
                             <!-- platform -->
                             <span class="input-group-btn">
                                 <input id="platform" type="checkbox" checked data-toggle="toggle" data-size="large"
-                                    data-on="<span class='dticon dticon-psn'></span>" data-onstyle="primary"
-                                    data-off="<span class='dticon dticon-xbox'></span>" data-offstyle="success"
+                                    data-on="<span class='dticon dticon-psn'></span>"
+                                    data-onstyle="primary"
+                                    data-off="<span class='dticon dticon-xbox'></span>"
+                                    data-offstyle="success"
                                     ge-bootstrap-toggle ng-model="platform" ng-disabled="isSearching" />
                             </span>
 
@@ -122,9 +124,14 @@
             </div>
 
             <!-- stat profiles and character information -->
-            <div ng-controller="characterController" class="top-buffer character__wrapper">
-                <div ng-repeat="character in [character]" class="character">
-                    <div class="row">
+            <div ng-controller="characterController" class="character__wrapper top-buffer">
+                <div ng-repeat="character in [character]" class="character--animated">
+                    <div class="row ng-hide" ng-show="character !== null && (!character.statProfiles || !character.inventory)">
+                        <div class="col-xs-12 text-center lead character__loading">
+                            <span class="dticon dticon-spin-split-5 spin"></span>Fetching character...
+                        </div>
+                    </div>
+                    <div class="row character--animated" ng-if="character.statProfiles && character.inventory">
                         <div class="col-xs-12 col-md-8">
                             <div class="row">
                                 <div class="col-xs-12 col-sm-3" ng-repeat="statProfile in character.statProfiles | orderBy: '0 - discipline.tier - intellect.tier - strength.tier'">
