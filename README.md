@@ -8,7 +8,7 @@ A "stat profile" is the term we use for a specific combinations of stats on your
 
 ### 0.2 - Mobile
 
-- **0.2.x**
+- **0.2.2**
  - Fixed issue with filtering stat profiles.
 - **0.2.1**
  - Greatly improved visibility of inventory.
