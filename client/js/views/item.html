@@ -3,22 +3,22 @@
         <h3 class="media-heading item__name">{{data.name}}</h3>
         <div class="media-left item__icon-wrapper">
             <!-- icon -->
-            <img class="item__icon" alt="{{data.name}}" ng-src="http://www.bungie.net/{{data.icon}}" />
+            <img class="item__icon" alt="{{::data.name}}" ng-src="http://www.bungie.net/{{data.icon}}" />
         </div>
         <div class="media-body item__body">
             <div class="pull-right item__primary-stat hidden-xs">
                 <!-- primary stat, e.g. defense / attack -->
-                <span class="item__primary-stat__value">{{data.primaryStat}}</span>
-                <span class="item__primary-stat__type">{{data.primaryStatName}}</span>
+                <span class="item__primary-stat__value">{{::data.primaryStat}}</span>
+                <span class="item__primary-stat__type">{{::data.primaryStatName}}</span>
             </div>
             <span>
-                <div ng-repeat="stat in STAT_NAMES">
+                <div ng-repeat="stat in ::STAT_NAMES track by $index">
                     <span class="item__stat" ng-class="{ 'item__stat--maxed': isStatMaxed(stat.name), 'item__stat--zero' : getCurrentValue(stat.name) === 0 }" ng-if="data[stat.name].max">
                         <!-- stat information -->
-                        <span class="item__stat__icon dticon dticon-{{stat.name}}"></span>
+                        <span class="item__stat__icon dticon dticon-{{::stat.name}}"></span>
                         <span class="item__stat__value">
-                            <abbr class="hidden-md hidden-lg" title="{{stat.name}}">{{stat.abbreviation}}</abbr>
-                            <span class="hidden-xs hidden-sm">{{stat.name}}</span> + {{getCurrentValue(stat.name)}}
+                            <abbr class="hidden-md hidden-lg" title="{{::stat.name}}">{{::stat.abbreviation}}</abbr>
+                            <span class="hidden-xs hidden-sm">{{::stat.name}}</span> + {{::getCurrentValue(stat.name)}}
                         </span>
                     </span>
                 </div>

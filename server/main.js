@@ -17,7 +17,6 @@ app.set('view engine', 'hbs');
 
 //app.use(favicon(__dirname + '/public/favicon.ico'));
 app.use(compression());
-app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
@@ -38,13 +37,14 @@ app.use('/Platform/Destiny/*?', function(req, res) {
 
 // setup the app route
 switch (config.env) {
-    case 'dist':
-        console.log('*** [dist] environment ***');
+    case 'production':
+        console.log('*** [production] environment ***');
         serveStatic('../dist/', config.contentMaxAge);
         app.use('/*', express.static(path.join(__dirname, '../dist/index.html')));
         break;
     default:
         console.log('*** [dev] environment ***');
+        app.use(logger('dev'));
         serveStatic('../client/');
         serveStatic('../');
         app.use('/*', express.static(path.join(__dirname, '../client/index.html')));

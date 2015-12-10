@@ -35,7 +35,11 @@
                 character.inventory.artifact
             ], new StatProfile(null));
 
+            // filter the profile and assign them an id
             this.filterProfiles();
+            this.profiles.forEach(function(profile, i) {
+                profile.statProfileId = i;
+            });
         }
 
         /**

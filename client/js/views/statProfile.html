@@ -3,21 +3,21 @@
     ng-click="select()">
     <!-- heading -->
     <div class="stat-profile__heading panel-heading">
-        {{data.intellect.tier}} - {{data.discipline.tier}} - {{data.strength.tier}}
+        {{::data.intellect.tier}} - {{::data.discipline.tier}} - {{::data.strength.tier}}
     </div>
 
     <!-- body -->
     <div class="stat-profile__body panel-body">
         <!-- stat information -->
         <div class="row">
-            <div class="col-xs-4 col-sm-12" ng-repeat="stat in STAT_NAMES">
+            <div class="col-xs-4 col-sm-12" ng-repeat="stat in ::STAT_NAMES track by $index">
                 <!-- icon and text -->
-                <span class="stat__icon dticon dticon-{{stat.name}}"></span>
-                {{data[stat.name].value}}<small class="stat__type visible-xs-inline hidden">&nbsp;{{stat.name}}</small>
+                <span class="stat__icon dticon dticon-{{::stat.name}}"></span>
+                {{::data[stat.name].value}}<small class="stat__type visible-xs-inline hidden">&nbsp;{{::stat.name}}</small>
 
                 <!-- progress of the stat tiers -->
                 <div class="stat__progress">
-                    <span ng-repeat="i in [1, 2, 3, 4, 5]">
+                    <span ng-repeat="i in ::[1, 2, 3, 4, 5] track by $index">
                         <div class="stat__progress__step" ng-class="{ 'stat__progress__step--full': isTierComplete(data[stat.name], i) }">
                             <div
                                 class="stat__progress__step--partial ng-hide"
@@ -32,6 +32,7 @@
         <!-- inventory -->
         <div ge-inventory
             class="inventory__wrapper hidden-sm hidden-md hidden-lg text-left"
+            ng-class="{ 'inventory__wrapper--show': showInventory }"
             ng-if="showInventory"
             ng-inventory="character.inventory"
             ng-stat-profile="data">
