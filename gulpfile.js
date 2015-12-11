@@ -27,8 +27,8 @@ var config = {
         src: client + 'js/**/*.js',
         order: [
             '**/main.js',
-            '**/models/*.js',
-            '**/services/*.js',
+            '**/*.model.js',
+            '**/*.service.js',
             '**/**/*.js'
         ]
     },
@@ -189,5 +189,5 @@ function orderSrc(src, order) {
         .pipe($.if(order, $.order(order)));
 }
 
-gulp.task('default', ['serve']);
+gulp.task('default', ['build', 'serve']);
 gulp.task('build', ['fonts', 'optimize']);

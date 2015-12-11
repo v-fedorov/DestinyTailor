@@ -35,7 +35,7 @@
                 data: '=ngModel',
                 selectedStats: '=ngSelectedStats'
             },
-            templateUrl: 'js/views/item.html',
+            templateUrl: 'js/inventory/item.html',
             link: link
         };
     }

@@ -34,7 +34,7 @@
                 name: '@name',
                 value: '=value'
             },
-            templateUrl: 'js/views/itemStat.html',
+            templateUrl: 'js/inventory/itemStat.html',
             link: link
         };
     }

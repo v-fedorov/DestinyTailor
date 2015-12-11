@@ -14,7 +14,7 @@
                 inventory: '=ngInventory',
                 statProfile: '=ngStatProfile'
             },
-            templateUrl: 'js/views/inventory.html'
+            templateUrl: 'js/inventory/inventory.html'
         };
     }
 })();
