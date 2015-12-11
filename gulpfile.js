@@ -32,7 +32,7 @@ var config = {
             '**/**/*.js'
         ]
     },
-    templates: client + 'js/views/*.html',
+    templates: client + 'js/**/*.html',
 
     // local folders
     client: client,
@@ -50,7 +50,7 @@ var config = {
         file: 'templates.js',
         options: {
             module: 'main',
-            root: 'js/views/',
+            root: 'js/',
             standAlone: false
         }
     },
@@ -82,6 +82,14 @@ var config = {
         }
     }
 };
+
+/**
+ * Cleans the distribution folder.
+ */
+gulp.task('clean', function(done) {
+    var delConfig = [config.dist, config.temp];
+    del(delConfig, done);
+});
 
 /**
  * Moves all required fonts to the build folder.
@@ -124,20 +132,22 @@ gulp.task('inject', function() {
  * @returns {Object} The stream.
  */
 gulp.task('optimize', ['inject', 'template-cache'], function() {
-    var htmlFilter = $.filter('**/*.html', { restore: true });
+    var assets = $.useref.assets({searchPath: ['.tmp', 'client', '.']});
 
-    return gulp
-        .src(config.html)
-        // add references
+    return gulp.src(config.html)
+        // inject the templates 
         .pipe($.inject(gulp.src(config.temp + config.templateCache.file), { name: 'inject:templates' }))
-        .pipe($.useref(config.useref))
-        // minify the js and css
+        .pipe(assets)
+        // minify js and css
         .pipe($.if('*.js', $.uglify()))
         .pipe($.if('*.css', $.minifyCss()))
-        // minify the html
-        .pipe(htmlFilter)
-        .pipe($.minifyHtml({empty: true}))
-        .pipe(htmlFilter.restore)
+        // cache-bust
+        .pipe($.rev())
+        .pipe(assets.restore())
+        .pipe($.useref())
+        .pipe($.revReplace())
+        // minify html
+        .pipe($.if('*.html', $.minifyHtml({ empty: true })))
         .pipe(gulp.dest(config.dist));
 });
 
@@ -189,5 +199,5 @@ function orderSrc(src, order) {
         .pipe($.if(order, $.order(order)));
 }
 
-gulp.task('default', ['build', 'serve']);
-gulp.task('build', ['fonts', 'optimize']);
+gulp.task('default', ['inject', 'serve']);
+gulp.task('dist', ['clean', 'fonts', 'optimize']);
