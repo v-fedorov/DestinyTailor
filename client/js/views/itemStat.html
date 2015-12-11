@@ -1,0 +1,10 @@
+<span class="item__stat"
+    ng-class="{ 'item__stat--maxed': value === data.max, 'item__stat--zero' : value === 0 }"
+    ng-if="data.max">
+    <!-- stat information -->
+    <span class="item__stat__icon dticon dticon-{{ ::name}}"></span>
+    <span class="item__stat__value">
+        <abbr class="hidden-md hidden-lg" title="{{ ::name }}">{{ ::abbreviation }}</abbr>
+        <span class="hidden-xs hidden-sm">{{ ::name }}</span> + {{ getValue() }}
+    </span>
+</span>
