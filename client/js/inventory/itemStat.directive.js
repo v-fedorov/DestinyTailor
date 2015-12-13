@@ -21,11 +21,11 @@
                 if ($scope.value !== undefined) {
                     return $scope.value;
                 }
-                
+
                 return $scope.data.min;
-            }
+            };
         }
-        
+
         return {
             restrict: 'AE',
             scope: {
