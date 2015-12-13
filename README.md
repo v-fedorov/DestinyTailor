@@ -6,7 +6,7 @@ A "stat profile" is the term we use for a specific combinations of stats on your
 
 ## Releases
 
-### 0.3 *(coming soon)*
+### 0.3
 
 - Subtle UX animation improvements.
 - Added loading indicator.
