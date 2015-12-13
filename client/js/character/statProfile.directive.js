@@ -24,8 +24,14 @@
              */
             $scope.select = function() {
                 $scope.onSelect($scope.data);
-                $scope.showInventory = !$scope.showInventory;
             };
+            
+            /**
+             * Handles the stat profile being selected on a mobile device.
+             */
+            $scope.selectMobile = function() {
+                $scope.showInventory = !$scope.showInventory;
+            }
 
             /**
              * Determines if the specified tier, i, is complete for the stat.

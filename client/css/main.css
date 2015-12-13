@@ -25,6 +25,14 @@
 .clear-both {
     clear: both;
 }
+.fill-container {
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    z-index: 2;
+}
 
 /* global
 ========================= */
@@ -281,6 +289,9 @@ footer p {
 
 /* stat profiles
 ========================= */
+.stat-profile {
+    position: relative;
+}
 .stat-profile:hover {
     box-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
     cursor: pointer;

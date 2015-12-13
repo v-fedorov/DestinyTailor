@@ -1,6 +1,10 @@
 <div class="stat-profile panel panel-default text-center"
-    ng-class="{ 'panel-primary': selected, 'panel-success': !selected && (data.intellect.tier + data.discipline.tier + data.strength.tier) >= 10 }"
-    ng-click="select()">
+    ng-class="{ 'panel-primary': selected, 'panel-success': !selected && (data.intellect.tier + data.discipline.tier + data.strength.tier) >= 10 }">
+    
+    <!-- selection handlers -->
+    <div class="fill-container hidden-xs" ng-click="select()"></div>
+    <div class="fill-container hidden-sm hidden-md hidden-lg" ng-click="selectMobile()"></div>
+    
     <!-- heading -->
     <div class="stat-profile__heading panel-heading">
         {{::data.intellect.tier}} - {{::data.discipline.tier}} - {{::data.strength.tier}}
