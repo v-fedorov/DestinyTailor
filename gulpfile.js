@@ -5,15 +5,11 @@ var gulp = require('gulp'),
     $ = require('gulp-load-plugins')({ lazy: true });
 
 var client = 'client/';
+var temp = './.tmp/';
+
 var config = {
     // local files
-    css: {
-        src: client + 'css/*.css',
-        order: [
-            '**/*(!main*).css',
-            '**/main-xs.css'
-        ]
-    },
+    css: client + 'css/',
     html: client + 'index.html',
     fonts: [
         client + 'fonts/*.*',
@@ -23,21 +19,13 @@ var config = {
         './bower_components/roboto-fontface/fonts/Roboto-Medium.*',
         './bower_components/roboto-fontface/fonts/Roboto-Regular.*'
     ],
-    js: {
-        src: client + 'js/**/*.js',
-        order: [
-            '**/main.js',
-            '**/*.model.js',
-            '**/*.service.js',
-            '**/**/*.js'
-        ]
-    },
+    js: client + 'js/',
     templates: client + 'js/**/*.html',
 
     // local folders
     client: client,
     dist: './dist/',
-    temp: './.tmp/',
+    temp: temp,
 
     // ng-annotate
     ngAnnotate: {
@@ -83,19 +71,52 @@ var config = {
     }
 };
 
+var googleAnalytics = 'google-analytics.js';
+
+// inject
+config.inject = {
+    css: {
+        src: config.css + '**/*.css',
+        order: [
+            '**/*(!main*).css',
+            '**/main-xs.css'
+        ]
+    },
+    js: {
+        src: [
+            config.js + '**/*.js',
+            '!' + config.js + '**/' + googleAnalytics
+        ],
+        order: [
+            '**/main.js',
+            '**/*.model.js',
+            '**/*.service.js',
+            '**/**/*.js'
+        ],
+    },
+    googleAnalytics: {
+        src: config.js + googleAnalytics,
+        name: 'inject:analytics'
+    },
+    templates: {
+        src: temp + config.templateCache.file,
+        name: 'inject:templates'
+    }
+};
+
 /**
  * Cleans the distribution folder.
  */
-gulp.task('clean', function(done) {
+gulp.task('clean', function() {
     var delConfig = [config.dist, config.temp];
-    del(delConfig, done);
+    return del(delConfig);
 });
 
 /**
  * Moves all required fonts to the build folder.
  * @returns {Object} The stream.
  */
-gulp.task('fonts', function() {
+gulp.task('fonts', ['clean'], function() {
     return gulp
         .src(config.fonts)
         .pipe(gulp.dest(config.dist + 'fonts'));
@@ -107,7 +128,7 @@ gulp.task('fonts', function() {
  */
 gulp.task('jscs', function() {
     return gulp
-        .src(config.js.src)
+        .src(config.inject.js.src)
         .pipe($.jscs())
         .pipe($.jscs.reporter());
 });
@@ -122,8 +143,8 @@ gulp.task('inject', function() {
         // bower
         .pipe(wiredep(config.wiredep))
         // css and js
-        .pipe($.inject(orderSrc(config.css.src, config.css.order)))
-        .pipe($.inject(orderSrc(config.js.src, config.js.order)))
+        .pipe($.inject(orderSrc(config.inject.css.src, config.inject.css.order)))
+        .pipe($.inject(orderSrc(config.inject.js.src, config.inject.js.order)))
         .pipe(gulp.dest(config.client));
 });
 
@@ -135,8 +156,9 @@ gulp.task('optimize', ['inject', 'template-cache'], function() {
     var assets = $.useref.assets({searchPath: ['.tmp', 'client', '.']});
 
     return gulp.src(config.html)
-        // inject the templates 
-        .pipe($.inject(gulp.src(config.temp + config.templateCache.file), { name: 'inject:templates' }))
+        // inject the anyltics and templates
+        .pipe($.inject(gulp.src(config.inject.googleAnalytics.src), config.inject.googleAnalytics))
+        .pipe($.inject(gulp.src(config.inject.templates.src), config.inject.templates))
         .pipe(assets)
         // minify js and css
         .pipe($.if('*.js', $.uglify()))
@@ -155,7 +177,7 @@ gulp.task('optimize', ['inject', 'template-cache'], function() {
  * Create $templateCache from the html templates
  * @returns {Object} The stream.
  */
-gulp.task('template-cache', function() {
+gulp.task('template-cache', ['clean'], function() {
     return gulp
         .src(config.templates)
         .pipe($.minifyHtml({empty: true}))
@@ -179,7 +201,7 @@ gulp.task('serve', ['inject'], function() {
             'NODE_ENV': 'development'
         }
     }).on('start', function(ev) {
-        gulp.watch(config.js.src, function(ev) {
+        gulp.watch(config.inject.js.src, function(ev) {
             if (ev.type === 'added' || ev.type === 'deleted') {
                 gulp.start('inject');
             };

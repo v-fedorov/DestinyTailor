@@ -40,6 +40,9 @@ switch (config.env) {
     case 'production':
         console.log('*** [production] environment ***');
         serveStatic('../dist/', config.contentMaxAge);
+        app.use('/js/**/*.html', function(req, res) {
+            send404(req, res, 'Unable to load Angular view separately.');
+        });
         app.use('/*', express.static(path.join(__dirname, '../dist/index.html')));
         break;
     default:
@@ -62,6 +65,25 @@ function serveStatic(relativeRoot, maxAge) {
     app.use(express.static(root, {
         maxAge: maxAge || 0
     }));
+}
+
+/**
+ * Returns a 404 to the response object.
+ * @param {Object} req The request being made.
+ * @param {Object} res The response.
+ * @param {String} description The reason for the 404.
+ */
+function send404(req, res, description) {
+    var data = {
+        status: 404,
+        message: 'Not Found',
+        description: description,
+        url: req.originalUrl
+    };
+
+    res.status(404)
+        .send(data)
+        .end();
 }
 
 // configure error handling
