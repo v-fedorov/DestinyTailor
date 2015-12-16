@@ -26,6 +26,10 @@ router.get('/:membershipType/:membershipId/:characterId', function(req, res, nex
 var getResponseHandler = function(res) {
     // construct the handler
     return function(err, result) {
+        res.header({
+            'Cache-Control': 'private, max-age=0'
+        });
+
         if (err) {
             res.status(err.code).send('Error ' + err.code + ': ' + err.message);
         } else {
