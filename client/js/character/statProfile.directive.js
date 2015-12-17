@@ -1,4 +1,4 @@
-(function(app) {
+(function() {
     'use strict';
 
     angular.module('main').directive('geStatProfile', statProfile);
@@ -10,6 +10,18 @@
      * @returns {Object} The directive.
      */
     function statProfile(STAT_NAMES) {
+        return {
+            restrict: 'AE',
+            scope: {
+                data: '=ngModel',
+                character: '=ngCharacter',
+                onSelect: '=ngSelect',
+                selected: '=ngSelected'
+            },
+            templateUrl: 'js/character/statProfile.html',
+            link: link
+        };
+
         /**
          * Registers the event for selecting the stat profile.
          * @param {Object} $scope The directive's scope.
@@ -64,17 +76,5 @@
                 return (100 / tierSize) * (stat.value % tierSize);
             };
         }
-
-        return {
-            restrict: 'AE',
-            scope: {
-                data: '=ngModel',
-                character: '=ngCharacter',
-                onSelect: '=ngSelect',
-                selected: '=ngSelected'
-            },
-            templateUrl: 'js/character/statProfile.html',
-            link: link
-        };
     };
 })();

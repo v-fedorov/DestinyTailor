@@ -105,6 +105,18 @@ config.inject = {
 };
 
 /**
+ * Validates the styling of the client-side JavaScript.
+ * @returns {Object} The stream.
+ */
+gulp.task('check', function() {
+    return gulp
+        .src(config.inject.js.src)
+        .pipe($.jscs())
+        .pipe($.jscs.reporter());
+});
+
+
+/**
  * Cleans the distribution folder.
  */
 gulp.task('clean', function() {
@@ -120,17 +132,6 @@ gulp.task('fonts', ['clean'], function() {
     return gulp
         .src(config.fonts)
         .pipe(gulp.dest(config.dist + 'fonts'));
-});
-
-/**
- * Validates the styling of the client-side JavaScript.
- * @returns {Object} The stream.
- */
-gulp.task('jscs', function() {
-    return gulp
-        .src(config.inject.js.src)
-        .pipe($.jscs())
-        .pipe($.jscs.reporter());
 });
 
 /**

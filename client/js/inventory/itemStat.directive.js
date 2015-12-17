@@ -1,4 +1,4 @@
-(function(app) {
+(function() {
     'use strict';
 
     angular.module('main').directive('geItemStat', itemStat);
@@ -8,6 +8,18 @@
      * @returns {Object} The directive.
      */
     function itemStat() {
+        return {
+            restrict: 'AE',
+            scope: {
+                abbreviation: '@abbreviation',
+                data: '=ngModel',
+                name: '@name',
+                value: '=value'
+            },
+            templateUrl: 'js/inventory/itemStat.html',
+            link: link
+        };
+
         /**
          * Initialises the item stat.
          * @param {Object} $scope The scope of the directive.
@@ -25,17 +37,5 @@
                 return $scope.data.min;
             };
         }
-
-        return {
-            restrict: 'AE',
-            scope: {
-                abbreviation: '@abbreviation',
-                data: '=ngModel',
-                name: '@name',
-                value: '=value'
-            },
-            templateUrl: 'js/inventory/itemStat.html',
-            link: link
-        };
     }
 })();

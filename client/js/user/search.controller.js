@@ -1,4 +1,4 @@
-(function(app) {
+(function() {
     'use strict';
 
     angular.module('main').controller('searchController', SearchController);

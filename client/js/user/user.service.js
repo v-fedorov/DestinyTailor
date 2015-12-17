@@ -1,19 +1,31 @@
-(function(app) {
+(function() {
     'use strict';
+
+    angular.module('main').factory('userService', UserService);
+    UserService.$inject = ['$http', '$q', 'Character', 'inventoryService'];
 
     /**
      * The user service, primarily used to share the current membership, and selected character.
      * @param {Object} $http The http utils from Angular.
      * @param {Object} $q Service helper for running function asynchronously.
      * @param {Object} Character The character model.
-     * @param {Object} inventoryAnalyser The inventory analyser service.
+     * @param {Object} inventoryService The inventory service.
      * @returns {Object} The user service.
      */
-    app.factory('userService', ['$http', '$q', 'Character', 'inventoryAnalyser', function($http, $q, Character, inventoryAnalyser) {
+    function UserService($http, $q, Character, inventoryService) {
         var $scope = {
+            // variables
             account: null,
-            character: null
+            character: null,
+
+            // functions
+            getMembership: getMembership,
+            setMembership: setMembership,
+            loadCharacters: loadCharacters,
+            selectCharacter: selectCharacter
         };
+
+        return $scope;
 
         /**
          * Gets the membership information for the given type and display name.
@@ -21,7 +33,7 @@
          * @param {String} displayName The account's display name.
          * @returns {Object} The membership, represented as a promise.
          */
-        $scope.getMembership = function(membershipType, displayName) {
+        function getMembership(membershipType, displayName) {
             var path = '/Platform/Destiny/SearchDestinyPlayer/' + membershipType + '/' + encodeURIComponent(displayName) + '/';
             return $http.get(path).then(function(result) {
                 // success when we have at least 1 membership; we should only ever have 1...
@@ -31,6 +43,15 @@
 
                 throw 'Character not found';
             });
+        }
+
+        /**
+         * Updates the current loaded membership.
+         * @param {Object} membership The membership.
+         */
+        function setMembership(membership) {
+            $scope.character = null;
+            $scope.account = membership;
         };
 
         /**
@@ -38,7 +59,7 @@
          * @param {Object} membership The membership.
          * @returns {Object} The membership with the characters, represented as a promise.
          */
-        $scope.loadCharacters = function(membership) {
+        function loadCharacters(membership) {
             var path = '/Platform/Destiny/' + membership.membershipType + '/Account/' + membership.membershipId + '/';
             return $http.get(path).then(function(result) {
                 // reject as there was an error from Bungie
@@ -53,13 +74,13 @@
 
                 return membership;
             });
-        };
+        }
 
         /**
          * Selects the character, updating the current $scope.
          * @param {Object} character The character to select.
          */
-        $scope.selectCharacter = function(character) {
+        function selectCharacter(character) {
             $scope.character = character;
 
             // load the inventory when its empty
@@ -67,18 +88,9 @@
                 loadInventory(character)
                     .then(function(inventory) {
                         character.inventory = inventory;
-                        character.statProfiles = inventoryAnalyser.getStatProfiles(character);
+                        character.statProfiles = inventoryService.getStatProfiles(character);
                     });
             }
-        };
-
-        /**
-         * Updates the current loaded membership.
-         * @param {Object} membership The membership.
-         */
-        $scope.setMembership = function(membership) {
-            $scope.character = null;
-            $scope.account = membership;
         };
 
         /**
@@ -96,7 +108,5 @@
                 throw 'Unable to load inveotry';
             });
         }
-
-        return $scope;
-    }]);
-})(angular.module('main'));
+    }
+})();

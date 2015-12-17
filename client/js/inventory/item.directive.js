@@ -1,4 +1,4 @@
-(function(app) {
+(function() {
     'use strict';
 
     angular.module('main').directive('geItem', item);
@@ -8,6 +8,16 @@
      * @returns {Object} The directive.
      */
     function item() {
+        return {
+            restrict: 'AE',
+            scope: {
+                data: '=ngModel',
+                selectedStats: '=ngSelectedStats'
+            },
+            templateUrl: 'js/inventory/item.html',
+            link: link
+        };
+
         /**
          * Initialises the directive for a character item.
          * @param {Object} $scope The scope.
@@ -28,15 +38,5 @@
                 }
             };
         }
-
-        return {
-            restrict: 'AE',
-            scope: {
-                data: '=ngModel',
-                selectedStats: '=ngSelectedStats'
-            },
-            templateUrl: 'js/inventory/item.html',
-            link: link
-        };
     }
 })();
