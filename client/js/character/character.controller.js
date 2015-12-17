@@ -21,11 +21,9 @@
             $scope.currentStatProfile = statProfile;
         };
 
-        // watch for the character changing
-        $scope.$watch(function() {
-            return userService.character ? userService.character.characterId : null;
-        }, function() {
-            $scope.character = userService.character;
+        // update the scope when the character changes
+        $scope.$on('character.change', function(ev, character) {
+            $scope.character = character;
             $scope.currentStatProfile = {};
         });
     }

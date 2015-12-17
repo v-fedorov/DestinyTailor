@@ -2,25 +2,26 @@
     'use strict';
 
     angular.module('main').factory('userService', UserService);
-    UserService.$inject = ['$http', '$q', 'Character', 'inventoryService'];
+    UserService.$inject = ['$rootScope', '$http', '$q', 'Character', 'inventoryService'];
 
     /**
      * The user service, primarily used to share the current membership, and selected character.
+     * @param {Object} $rootScope The root scope.
      * @param {Object} $http The http utils from Angular.
      * @param {Object} $q Service helper for running function asynchronously.
      * @param {Object} Character The character model.
      * @param {Object} inventoryService The inventory service.
      * @returns {Object} The user service.
      */
-    function UserService($http, $q, Character, inventoryService) {
+    function UserService($rootScope, $http, $q, Character, inventoryService) {
         var $scope = {
             // variables
             account: null,
             character: null,
 
             // functions
-            getMembership: getMembership,
-            setMembership: setMembership,
+            getAccount: getAccount,
+            setAccount: setAccount,
             loadCharacters: loadCharacters,
             selectCharacter: selectCharacter
         };
@@ -28,15 +29,15 @@
         return $scope;
 
         /**
-         * Gets the membership information for the given type and display name.
+         * Gets the account information for the given type and display name.
          * @param {Number} membershipType The type that represents the platform, e.g. 1 for Xbox, or 2 for PSN.
          * @param {String} displayName The account's display name.
-         * @returns {Object} The membership, represented as a promise.
+         * @returns {Object} The account, represented as a promise.
          */
-        function getMembership(membershipType, displayName) {
+        function getAccount(membershipType, displayName) {
             var path = '/Platform/Destiny/SearchDestinyPlayer/' + membershipType + '/' + encodeURIComponent(displayName) + '/';
             return $http.get(path).then(function(result) {
-                // success when we have at least 1 membership; we should only ever have 1...
+                // success when we have at least 1 account; we should only ever have 1...
                 if (result.data.Response !== undefined && result.data.Response.length === 1) {
                     return result.data.Response[0];
                 }
@@ -46,21 +47,23 @@
         }
 
         /**
-         * Updates the current loaded membership.
-         * @param {Object} membership The membership.
+         * Updates the current loaded account.
+         * @param {Object} account The account.
          */
-        function setMembership(membership) {
+        function setAccount(account) {
             $scope.character = null;
-            $scope.account = membership;
+            $scope.account = account;
+
+            $rootScope.$broadcast('account.change', account);
         };
 
         /**
-         * Loads the characters for the given membership.
-         * @param {Object} membership The membership.
-         * @returns {Object} The membership with the characters, represented as a promise.
+         * Loads the characters for the given account.
+         * @param {Object} account The account.
+         * @returns {Object} The account with the characters, represented as a promise.
          */
-        function loadCharacters(membership) {
-            var path = '/Platform/Destiny/' + membership.membershipType + '/Account/' + membership.membershipId + '/';
+        function loadCharacters(account) {
+            var path = '/Platform/Destiny/' + account.membershipType + '/Account/' + account.membershipId + '/';
             return $http.get(path).then(function(result) {
                 // reject as there was an error from Bungie
                 if (result.data.ErrorCode > 1) {
@@ -68,11 +71,13 @@
                 }
 
                 // resolve the mapped characters
-                membership.characters = result.data.Response.data.characters.map(function(data) {
-                    return new Character(membership, data);
+                account.characters = result.data.Response.data.characters.map(function(data) {
+                    return new Character(account, data);
+                }).sort(function(a, b) {
+                    return a.membershipId - b.membershipId;
                 });
 
-                return membership;
+                return account;
             });
         }
 
@@ -82,14 +87,15 @@
          */
         function selectCharacter(character) {
             $scope.character = character;
+            $rootScope.$broadcast('character.change', character);
 
             // load the inventory when its empty
             if (!character.inventory) {
                 loadInventory(character)
-                    .then(function(inventory) {
-                        character.inventory = inventory;
-                        character.statProfiles = inventoryService.getStatProfiles(character);
-                    });
+                .then(function(inventory) {
+                    character.inventory = inventory;
+                    character.statProfiles = inventoryService.getStatProfiles(character);
+                });
             }
         };
 

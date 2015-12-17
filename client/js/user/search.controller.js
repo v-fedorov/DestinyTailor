@@ -5,7 +5,7 @@
     SearchController.$inject = ['$scope', '$http', 'PLATFORMS', 'userService'];
 
     /**
-     * The search controller, primarily used to search for a user's account / membership with Bungie.
+     * The search controller, primarily used to search for a user's account with Bungie.
      * @param {Object} $scope The scope of the controller.
      * @param {Object} $http The http utils from Angular.
      * @param {Object} PLATFORMS The constant containing the platform API numbers.
@@ -25,10 +25,10 @@
             $scope.error = '';
             $scope.isSearching = true;
 
-            // load the membership and it's characters
-            userService.getMembership(platformId, $scope.name)
+            // load the account and its characters
+            userService.getAccount(platformId, $scope.name)
                 .then(userService.loadCharacters)
-                .then(userService.setMembership)
+                .then(userService.setAccount)
                 .catch(function(err) {
                     $scope.error = err;
                 }).finally(function() {

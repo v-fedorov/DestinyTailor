@@ -12,12 +12,12 @@
         /**
          * Provides information about a character.
          * @constructor
-         * @param {Object} membership The membership.
+         * @param {Object} account The account.
          * @param {Object} data The data containing the character information.
          */
-        function Character(membership, data) {
-            this.membershipType = membership.membershipType;
-            this.membershipId = membership.membershipId;
+        function Character(account, data) {
+            this.membershipType = account.membershipType;
+            this.membershipId = account.membershipId;
             this.characterId = data.characterBase.characterId;
 
             // set the character aesthetics

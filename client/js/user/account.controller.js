@@ -13,10 +13,9 @@
         $scope.account = null;
         $scope.selectedCharacter = null;
 
-        $scope.$watch(function() {
-            return userService.account ? userService.account.membershipId : null;
-        }, function() {
-            $scope.account = userService.account;
+        // update the scope when the account has changed
+        $scope.$on('account.change', function(ev, account) {
+            $scope.account = account;
             $scope.selectedCharacter = null;
         });
 
