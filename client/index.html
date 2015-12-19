@@ -58,70 +58,8 @@
 
         <!-- container -->
         <div class="container">
-            <!-- search -->
-            <form ng-controller="searchController">
-                <div class="row top-buffer">
-                    <div class="col-md-8 col-md-offset-2">
-                        <div class="input-group">
-                            <!-- platform -->
-                            <span class="input-group-btn">
-                                <input id="platform" type="checkbox" checked data-toggle="toggle" data-size="large"
-                                    data-on="<span class='dticon dticon-psn'></span>"
-                                    data-onstyle="primary"
-                                    data-off="<span class='dticon dticon-xbox'></span>"
-                                    data-offstyle="success"
-                                    ge-bootstrap-toggle ng-model="platform" ng-disabled="isSearching" />
-                            </span>
-
-                            <!-- character name -->
-                            <input type="text" class="form-control input-lg" aria-label="Search"
-                                ge-blur-on="isSearching"
-                                ng-disabled="isSearching"
-                                ng-keyup="$event.keyCode == 13 && search()"
-                                ng-model="name"
-                            />
-
-                            <!-- search -->
-                            <span class="input-group-btn">
-                                <button class="btn btn-default btn-lg" type="button" ng-click="search()" ng-disabled="isSearching">
-                                    <span class="dticon dticon-search" ng-show="!isSearching"></span>
-                                    <span class="dticon dticon-spin-split-5 spin ng-hide" ng-show="isSearching"></span>
-                                </button>
-                            </span>
-                        </div>
-                    </div>
-                </div>
-                <div class="row top-buffer ng-hide" ng-show="error">
-                    <div class="col-md-8 col-md-offset-2">
-                        <div class="alert alert-danger" role="alert">
-                            <span class="glyphicon glyphicon-thumbs-down"></span>
-                            <span>{{error}}</span>
-                            <button type="button" class="close" ng-click="clearError()"><span aria-hidden="true">&times;</span></button>
-                        </div>
-                    </div>
-                </div>
-            </form>
-
-            <!-- list of characters -->
-            <div ng-controller="accountController" class="ng-hide" ng-show="account">
-                <div class="row top-buffer" ng-class="{ 'account__character--any-selected': selectedCharacter !== null }">
-                    <div ng-repeat="character in account.characters track by character.characterId">
-                        <div class="account__character col-xs-12 col-sm-4" ng-class="{ 'account__character--selected': character === selectedCharacter }">
-                            <div class="emblem show" ge-background-img="http://bungie.net{{::character.backgroundPath}}" ng-click="selectCharacter(character)">
-                                <img class="emblem__icon pull-left" ng-src="http://www.bungie.net{{::character.emblemPath}}" />
-                                <span class="emblem__info pull-left">
-                                    <p class="lead">{{::character.class}}</p>
-                                    <p><small>{{::character.race}} {{::character.gender}}</small></p>
-                                </span>
-                                <span class="emblem__info pull-right text-right">
-                                    <p class="lead">{{::character.level}}</p>
-                                    <p class="emblem__light-level"><small class="light-level">{{::character.lightLevel}}</small></p>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <!-- main view -->
+            <div ui-view></div>
 
             <!-- stat profiles and character information -->
             <div ng-controller="characterController" class="character__wrapper top-buffer">
@@ -169,12 +107,14 @@
     <script src="/bower_components/angular/angular.js"></script>
     <script src="/bower_components/angular-loading-bar/build/loading-bar.js"></script>
     <script src="/bower_components/angular-animate/angular-animate.js"></script>
+    <script src="/bower_components/angular-ui-router/release/angular-ui-router.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
     <!-- build:js js/app.js -->
     <!-- inject:js -->
     <script src="/client/js/main.js"></script>
     <script src="/client/js/constants.js"></script>
+    <script src="/client/js/routes.js"></script>
     <script src="/client/js/character/character.model.js"></script>
     <script src="/client/js/character/stat.model.js"></script>
     <script src="/client/js/character/statProfile.model.js"></script>

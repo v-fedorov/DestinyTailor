@@ -2,17 +2,17 @@
     'use strict';
 
     angular.module('main').controller('searchController', SearchController);
-    SearchController.$inject = ['$scope', '$http', 'PLATFORMS', 'userService'];
+    SearchController.$inject = ['$scope', '$state', 'userService'];
 
     /**
      * The search controller, primarily used to search for a user's account with Bungie.
      * @param {Object} $scope The scope of the controller.
-     * @param {Object} $http The http utils from Angular.
-     * @param {Object} PLATFORMS The constant containing the platform API numbers.
+     * @param {Object} $state The state provider helper.
      * @param {Object} userService The user service.
      */
-    function SearchController($scope, $http, PLATFORMS, userService) {
+    function SearchController($scope, $state, userService) {
         var PLATFORM_PSN = true;
+
         $scope.error = '';
         $scope.isSearching = false;
         $scope.platform = PLATFORM_PSN;
@@ -21,19 +21,12 @@
          * Searches for a character and updates the account in the user service.
          */
         $scope.search = function() {
-            var platformId = $scope.platform === PLATFORM_PSN ? PLATFORMS.psn : PLATFORMS.xbox;
-            $scope.error = '';
-            $scope.isSearching = true;
-
-            // load the account and its characters
-            userService.getAccount(platformId, $scope.name)
-                .then(userService.loadCharacters)
-                .then(userService.setAccount)
-                .catch(function(err) {
-                    $scope.error = err;
-                }).finally(function() {
-                    $scope.isSearching = false;
-                });
+            // clear the current scope and search
+            $scope.clearError();
+            $state.go('search.account', {
+                platform: $scope.platform === PLATFORM_PSN ? 'psn' : 'xbox',
+                displayName: $scope.name
+            });
         };
 
         /**
@@ -42,5 +35,22 @@
         $scope.clearError = function() {
             $scope.error = '';
         };
+
+        // register the error handler
+        $scope.$on('search.error', function(ev, message) {
+            $scope.error = message;
+        });
+
+        // register the search loader events
+        $scope.$on('search.start', toggleSearching);
+        $scope.$on('search.stop', toggleSearching);
+
+        /**
+         * Handles toggling the loading state, based on the event type.
+         * @param {Object} ev The event object.
+         */
+        function toggleSearching(ev) {
+            $scope.isSearching = ev.name === 'search.start';
+        }
     }
 })();

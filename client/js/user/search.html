@@ -1,0 +1,45 @@
+<!-- search -->
+<form ng-controller="searchController">
+    <div class="row top-buffer">
+        <div class="col-md-8 col-md-offset-2">
+            <div class="input-group">
+                <!-- platform -->
+                <span class="input-group-btn">
+                    <input id="platform" type="checkbox" checked data-toggle="toggle" data-size="large"
+                        data-on="<span class='dticon dticon-psn'></span>"
+                        data-onstyle="primary"
+                        data-off="<span class='dticon dticon-xbox'></span>"
+                        data-offstyle="success"
+                        ge-bootstrap-toggle ng-model="platform" ng-disabled="isSearching" />
+                </span>
+
+                <!-- character name -->
+                <input type="text" class="form-control input-lg" aria-label="Search"
+                    ge-blur-on="isSearching"
+                    ng-disabled="isSearching"
+                    ng-keyup="$event.keyCode == 13 && search()"
+                    ng-model="name"
+                />
+
+                <!-- search -->
+                <span class="input-group-btn">
+                    <button class="btn btn-default btn-lg" type="button" ng-click="search()" ng-disabled="isSearching">
+                        <span class="dticon dticon-search" ng-show="!isSearching"></span>
+                        <span class="dticon dticon-spin-split-5 spin ng-hide" ng-show="isSearching"></span>
+                    </button>
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class="row top-buffer ng-hide" ng-show="error">
+        <div class="col-md-8 col-md-offset-2">
+            <div class="alert alert-danger" role="alert">
+                <span class="glyphicon glyphicon-thumbs-down"></span>
+                <span>{{ error }}</span>
+                <button type="button" class="close" ng-click="clearError()"><span aria-hidden="true">&times;</span></button>
+            </div>
+        </div>
+    </div>
+</form>
+
+<div ui-view></div>

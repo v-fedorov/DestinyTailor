@@ -90,6 +90,7 @@ config.inject = {
         order: [
             '**/main.js',
             '**/constants.js',
+            '**/routes.js',
             '**/*.model.js',
             '**/*.service.js',
             '**/**/*.js'

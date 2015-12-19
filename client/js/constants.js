@@ -16,19 +16,19 @@
     // Bungie definitions
     app.constant('DEFINITIONS', {
         classType: {
-            '671679327' :  'Hunter',
+            '671679327':  'Hunter',
             '2271682572': 'Warlock',
             '3655393761': 'Titan'
         },
         itemBucketHash: {
-            '434908299' : 'artifact',
-            '14239492'  : 'chest',
+            '434908299': 'artifact',
+            '14239492': 'chest',
             '1585787867': 'classItem',
             '3551918588': 'gauntlets',
             '4023194814': 'ghost',
-            '953998645' : 'heavyWeapon',
+            '953998645': 'heavyWeapon',
             '3448274439': 'helmet',
-            '20886954'  : 'legs',
+            '20886954': 'legs',
             '1498876634': 'primaryWeapon',
             '2465295065': 'specialWeapon'
         },
@@ -37,7 +37,7 @@
             '2204441813': 'Female'
         },
         raceType: {
-            '898834093' :  'Exo',
+            '898834093':  'Exo',
             '2803282938': 'Awoken',
             '3887404748': 'Human'
         }
