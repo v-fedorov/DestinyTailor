@@ -39,20 +39,38 @@ app.use('/Platform/Destiny/*?', function(req, res) {
 switch (config.env) {
     case 'production':
         console.log('*** [production] environment ***');
+        
+        // serve the index with no-caching
+        app.get('/', function(req, res) {
+            res.sendFile(path.join(__dirname, '../dist/index.html'))
+        });
+        
+        // serve the assets with caching, and register the SPA handler
         serveStatic('../dist/', config.contentMaxAge);
         app.use('/js/**/*.html', function(req, res) {
             send404(req, res, 'Unable to load Angular view separately.');
         });
-        app.use('/*', express.static(path.join(__dirname, '../dist/index.html')));
+        serveSpaHandler('../dist/index.html');
         break;
     default:
         console.log('*** [dev] environment ***');
         app.use(logger('dev'));
+        
+        // serve the assets and register the SPA handler
         serveStatic('../client/');
         serveStatic('../');
-        app.use('/*', express.static(path.join(__dirname, '../client/index.html')));
+        serveSpaHandler('../client/index.html');
         break;
 };
+
+/**
+ * Registers the SPA handler.
+ * @param {string} relativePath The path handling the requests.
+ */
+function serveSpaHandler(relativePath) {
+    var staticPath = path.join(__dirname, relativePath);
+    app.use('/*', express.static(staticPath));
+}
 
 /**
  * Registers the static content with a expiration header.
