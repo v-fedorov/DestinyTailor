@@ -15,6 +15,7 @@
     function AccountController($rootScope, $scope, $stateParams, PLATFORMS, userService) {
         $scope.account = null;
         $scope.selectedCharacter = null;
+        userService.selectCharacter(null);
 
         /**
          * Changes the current character.

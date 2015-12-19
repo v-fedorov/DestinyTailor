@@ -27,6 +27,12 @@ var config = {
     dist: './dist/',
     temp: temp,
 
+    // minifyHtml
+    minifyHtml: {
+        empty: true,
+        quotes: true
+    },
+
     // ng-annotate
     ngAnnotate: {
         add: true,
@@ -38,7 +44,7 @@ var config = {
         file: 'templates.js',
         options: {
             module: 'main',
-            root: 'js/',
+            root: '/js/',
             standAlone: false
         }
     },
@@ -172,7 +178,7 @@ gulp.task('optimize', ['inject', 'template-cache'], function() {
         .pipe($.useref())
         .pipe($.revReplace())
         // minify html
-        .pipe($.if('*.html', $.minifyHtml({ empty: true })))
+        .pipe($.if('*.html', $.minifyHtml(config.minifyHtml)))
         .pipe(gulp.dest(config.dist));
 });
 
@@ -199,10 +205,7 @@ gulp.task('serve', ['inject'], function() {
             'bower_components/**/*',
             'client/**/*',
             'gulpfile.js'
-        ],
-        env: {
-            'NODE_ENV': 'development'
-        }
+        ]
     }).on('start', function(ev) {
         gulp.watch(config.inject.js.src, function(ev) {
             if (ev.type === 'added' || ev.type === 'deleted') {

@@ -90,7 +90,7 @@
             $rootScope.$broadcast('character.change', character);
 
             // load the inventory when its empty
-            if (!character.inventory) {
+            if (character && !character.inventory) {
                 loadInventory(character)
                 .then(function(inventory) {
                     character.inventory = inventory;
