@@ -2,15 +2,15 @@
     'use strict';
 
     angular.module('main').factory('StatProfile', Model);
-    Model.$inject = ['ITEM_BUCKET_HASHES', 'STAT_NAMES', 'Stat'];
+    Model.$inject = ['DEFINITIONS', 'STAT_NAMES', 'Stat'];
 
     /**
      * Defines the stat profile model.
-     * @param {Object} ITEM_BUCKET_HASHES Key-value-pair of bucket hashes and user friendly identifiers.
+     * @param {Object} DEFINITIONS The bungie definitions.
      * @param {Object[]} STAT_NAMES The constant stat names.
      * @param {Object} Stat The stat model constructor.
      */
-    function Model(ITEM_BUCKET_HASHES, STAT_NAMES, Stat) {
+    function Model(DEFINITIONS, STAT_NAMES, Stat) {
         /**
          * Provides a stat profile for a given path.
          * @constructor
@@ -51,7 +51,7 @@
             }
 
             this.items.push(option);
-            this.inventory[ITEM_BUCKET_HASHES[item.bucketHash]] = option;
+            this.inventory[DEFINITIONS.itemBucketHash[item.bucketHash]] = option;
             return this;
         };
 

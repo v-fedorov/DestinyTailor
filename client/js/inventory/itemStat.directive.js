@@ -16,7 +16,7 @@
                 name: '@name',
                 value: '=value'
             },
-            templateUrl: 'js/inventory/itemStat.html',
+            templateUrl: '/js/inventory/itemStat.html',
             link: link
         };
 

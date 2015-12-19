@@ -89,6 +89,7 @@ config.inject = {
         ],
         order: [
             '**/main.js',
+            '**/constants.js',
             '**/*.model.js',
             '**/*.service.js',
             '**/**/*.js'

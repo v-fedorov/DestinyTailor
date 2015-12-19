@@ -18,7 +18,7 @@
                 onSelect: '=ngSelect',
                 selected: '=ngSelected'
             },
-            templateUrl: 'js/character/statProfile.html',
+            templateUrl: '/js/character/statProfile.html',
             link: link
         };
 
