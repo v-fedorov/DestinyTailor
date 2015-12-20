@@ -1,5 +1,5 @@
 <!-- account overview, including list of characters -->
-<div class="ng-hide" ng-show="account">
+<div ng-if="account" class="animate-fade delay-animation">
     <div class="row top-buffer" ng-class="{ 'account__character--any-selected': selectedCharacter !== null }">
         <div ng-repeat="character in account.characters track by character.characterId">
             <div class="account__character col-xs-12 col-sm-4" ng-class="{ 'account__character--selected': character === selectedCharacter }">
@@ -13,6 +13,34 @@
                         <p class="lead">{{::character.level}}</p>
                         <p class="emblem__light-level"><small class="light-level">{{::character.lightLevel}}</small></p>
                     </span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- stat profiles and character information -->
+    <div ng-controller="characterController" class="character__wrapper top-buffer">
+        <div ng-repeat="character in [character] track by character.characterId" class="character--animated">
+            <div class="row ng-hide" ng-show="character !== null && (!character.statProfiles || !character.inventory)">
+                <div class="col-xs-12 text-center lead character__loading">
+                    <span class="dticon dticon-spin-split-5 spin"></span>Fetching character...
+                </div>
+            </div>
+            <div class="row character--animated" ng-if="character.statProfiles && character.inventory">
+                <div class="col-xs-12 col-md-8">
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-3" ng-repeat="statProfile in character.statProfiles | orderBy: '0 - discipline.tier - intellect.tier - strength.tier' track by statProfile.statProfileId">
+                            <div ge-stat-profile
+                                ng-model="statProfile"
+                                ng-character="character"
+                                ng-select="selectStatProfile"
+                                ng-selected="statProfile === currentStatProfile">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="hidden-xs">
+                    <div ge-inventory ng-inventory="character.inventory" ng-stat-profile="currentStatProfile"></div>
                 </div>
             </div>
         </div>

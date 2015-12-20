@@ -1,16 +1,23 @@
-/* slide open/close
+/* generic
 ========================= */
-.slideable__wrapper {
-    height: 0px;
-    margin:0 !important;
-    overflow: hidden;
-    padding:0 !important;
-    transition-duration: 0.35s;
-    transition-property: height;
-    transition-timing-function: ease-out;
+.delay-animation {
+    transition-delay: .25s;
 }
-.slideable__content {
-    overflow: hidden;
+/* fade
+========================= */
+@keyframes fade_in {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+.animate-fade.ng-enter {
+    animation: fade_in .5s ease;
+}
+@keyframes fade_out {
+    from { opacity: 1; }
+    to   { opacity: 0; }
+}
+.animate-fade.ng-leave {
+    animation: fade_out .25s ease;
 }
 /* spin
 ========================= */
