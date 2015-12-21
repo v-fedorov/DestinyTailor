@@ -2,14 +2,15 @@
     'use strict';
 
     angular.module('main').directive('geStatProfile', statProfile);
-    statProfile.$inject = ['STAT_NAMES'];
+    statProfile.$inject = ['STAT_NAMES', 'TEMPLATE_URLS'];
 
     /**
      * Defines a directive for showing a character's stat profile.
      * @param {Object[]} STAT_NAMES The constant stat names.
+     * @param {Object} TEMPLATE_URLS The template Urls constant.
      * @returns {Object} The directive.
      */
-    function statProfile(STAT_NAMES) {
+    function statProfile(STAT_NAMES, TEMPLATE_URLS) {
         return {
             restrict: 'AE',
             scope: {
@@ -18,7 +19,7 @@
                 onSelect: '=ngSelect',
                 selected: '=ngSelected'
             },
-            templateUrl: '/js/character/statProfile.html',
+            templateUrl: TEMPLATE_URLS.components.statProfile,
             link: link
         };
 

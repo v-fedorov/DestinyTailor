@@ -2,12 +2,14 @@
     'use strict';
 
     angular.module('main').directive('geItemStat', itemStat);
+    itemStat.$inject = ['TEMPLATE_URLS'];
 
     /**
      * Defines a directive for showing an item's stat.
+     * @param {Object} TEMPLATE_URLS The template Urls constant.
      * @returns {Object} The directive.
      */
-    function itemStat() {
+    function itemStat(TEMPLATE_URLS) {
         return {
             restrict: 'AE',
             scope: {
@@ -16,7 +18,7 @@
                 name: '@name',
                 value: '=value'
             },
-            templateUrl: '/js/inventory/itemStat.html',
+            templateUrl: TEMPLATE_URLS.components.itemStat,
             link: link
         };
 

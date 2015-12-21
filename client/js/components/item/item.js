@@ -2,19 +2,21 @@
     'use strict';
 
     angular.module('main').directive('geItem', item);
+    item.$inject = ['TEMPLATE_URLS'];
 
     /**
      * Defines a directive for showing a character's item.
+     * @param {Object} TEMPLATE_URLS The template Urls constant.
      * @returns {Object} The directive.
      */
-    function item() {
+    function item(TEMPLATE_URLS) {
         return {
             restrict: 'AE',
             scope: {
                 data: '=ngModel',
                 selectedStats: '=ngSelectedStats'
             },
-            templateUrl: '/js/inventory/item.html',
+            templateUrl: TEMPLATE_URLS.components.item,
             link: link
         };
 

@@ -62,4 +62,20 @@
         name: 'strength',
         abbreviation: 'str'
     }]);
+
+    // template urls
+    app.constant('TEMPLATE_URLS', {
+        components: {
+            inventory: '/js/components/inventory/inventory.html',
+            item: '/js/components/item/item.html',
+            itemStat: '/js/components/itemStat/itemStat.html',
+            statProfile: '/js/components/statProfile/statProfile.html'
+        },
+        routes: {
+            search: {
+                index: '/js/controllers/search/search.html',
+                account: '/js/controllers/search-account/search-account.html'
+            }
+        }
+    });
 })();

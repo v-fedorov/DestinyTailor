@@ -1,8 +1,8 @@
-var gulp = require('gulp'),
-    del = require('del'),
-    merge = require('merge-stream'),
-    wiredep = require('wiredep').stream,
-    $ = require('gulp-load-plugins')({ lazy: true });
+var gulp = require('gulp');
+var del = require('del');
+var merge = require('merge-stream');
+var wiredep = require('wiredep').stream;
+var $ = require('gulp-load-plugins')({ lazy: true });
 
 var client = 'client/';
 var temp = './.tmp/';
@@ -94,11 +94,11 @@ config.inject = {
             '!' + config.js + '**/' + googleAnalytics
         ],
         order: [
-            '**/main.js',
-            '**/constants.js',
-            '**/routes.js',
-            '**/*.model.js',
-            '**/*.service.js',
+            '**/app.module.js',
+            '**/app.constants.js',
+            '**/app.routes.js',
+            '**/models/*.js',
+            '**/services/*.js',
             '**/**/*.js'
         ],
     },

@@ -2,15 +2,16 @@
     'use strict';
 
     angular.module('main').config(Routes);
-    Routes.$inject = ['$locationProvider', '$stateProvider', '$urlRouterProvider'];
+    Routes.$inject = ['$locationProvider', '$stateProvider', '$urlRouterProvider', 'TEMPLATE_URLS'];
 
     /**
      * Registers all possible routes / states.
      * @param {Object} $locationProvider The Angular location provider.
      * @param {Object} $stateProvider The url state provider.
      * @param {Object} $urlRouterProvider The url router provider.
+     * @param {Object} TEMPLATE_URLS The template Urls constant.
      */
-    function Routes($locationProvider, $stateProvider, $urlRouterProvider) {
+    function Routes($locationProvider, $stateProvider, $urlRouterProvider, TEMPLATE_URLS) {
         // allow html5 url routing
         $locationProvider.html5Mode({
             enabled: true,
@@ -24,11 +25,11 @@
         $stateProvider
             .state('search', {
                 url: '/',
-                templateUrl: '/js/user/search.html'
+                templateUrl: TEMPLATE_URLS.routes.search.index
             })
             .state('search.account', {
                 url: '{platform:xbox|psn}/{displayName}',
-                templateUrl: '/js/user/search-account.html',
+                templateUrl: TEMPLATE_URLS.routes.search.account,
                 controller: 'accountController'
             });
     }
