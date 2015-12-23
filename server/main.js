@@ -1,13 +1,12 @@
-var apiController = require('./controllers/api'),
-    config = require('./config'),
-    compression = require('compression'),
-    express = require('express'),
-    path = require('path'),
-    favicon = require('serve-favicon'),
-    logger = require('morgan'),
-    cookieParser = require('cookie-parser'),
-    bodyParser = require('body-parser'),
-    request = require('request');
+var config = require('./config');
+var compression = require('compression');
+var express = require('express');
+var path = require('path');
+var favicon = require('serve-favicon');
+var logger = require('morgan');
+var cookieParser = require('cookie-parser');
+var bodyParser = require('body-parser');
+var request = require('request');
 
 var app = express();
 
@@ -22,7 +21,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 // setup the api routes
-app.use('/api', apiController);
 app.use('/Platform/Destiny/*?', function(req, res) {
     var options = {
         url: 'http://www.bungie.net' + req.originalUrl,
