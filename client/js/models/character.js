@@ -7,6 +7,7 @@
     /**
      * Defines the Character model.
      * @param {Object} DEFINITIONS Constant containing Bungie definitions.
+     * @returns {Function} The character constructor.
      */
     function Model(DEFINITIONS) {
         /**

@@ -8,7 +8,8 @@
      * Defines the stat profile model.
      * @param {Object} DEFINITIONS The bungie definitions.
      * @param {Object[]} STAT_NAMES The constant stat names.
-     * @param {Object} Stat The stat model constructor.
+     * @param {Function} Stat The stat model constructor.
+     * @returns {Function} The constructor for a stat profile.
      */
     function Model(DEFINITIONS, STAT_NAMES, Stat) {
         /**

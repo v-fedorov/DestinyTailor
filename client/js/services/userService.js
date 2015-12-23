@@ -1,8 +1,8 @@
 (function() {
     'use strict';
 
-    angular.module('main').factory('userService', UserService);
-    UserService.$inject = ['$rootScope', '$http', '$q', 'Character', 'inventoryService'];
+    angular.module('main').factory('userService', userService);
+    userService.$inject = ['$rootScope', '$http', '$q', 'Character', 'inventoryService'];
 
     /**
      * The user service, primarily used to share the current membership, and selected character.
@@ -13,7 +13,7 @@
      * @param {Object} inventoryService The inventory service.
      * @returns {Object} The user service.
      */
-    function UserService($rootScope, $http, $q, Character, inventoryService) {
+    function userService($rootScope, $http, $q, Character, inventoryService) {
         var $scope = {
             // variables
             account: null,
@@ -91,28 +91,12 @@
 
             // load the inventory when its empty
             if (character && !character.inventory) {
-                loadInventory(character)
+                inventoryService.getInventory(character)
                 .then(function(inventory) {
                     character.inventory = inventory;
                     character.statProfiles = inventoryService.getStatProfiles(character);
                 });
             }
         };
-
-        /**
-         * Loads the inventory for the given character.
-         * @param {Object} character The character.
-         * @returns {Object} A promise, that is fulfilled when the inventory has been loaded.
-         */
-        function loadInventory(character) {
-            var path = '/api/' + character.membershipType + '/' + character.membershipId + '/' + character.characterId;
-            return $http.get(path).then(function(result) {
-                if (result.data !== null) {
-                    return result.data;
-                }
-
-                throw 'Unable to load inveotry';
-            });
-        }
     }
 })();

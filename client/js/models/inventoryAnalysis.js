@@ -7,8 +7,8 @@
     /**
      * Provides an analysis of a character's inventory, in the form of stat profiles.
      * @param {Object[]} STAT_NAMES The constant stat names.
-     * @param {Object} StatProfile The stat profile model constructor.
-     * @returns {Object} The inventory analysis model constructor.
+     * @param {Function} StatProfile The stat profile model constructor.
+     * @returns {Function} The inventory analysis model constructor.
      */
     function Model(STAT_NAMES, StatProfile) {
         /**

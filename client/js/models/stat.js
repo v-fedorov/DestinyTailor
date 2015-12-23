@@ -5,6 +5,7 @@
 
     /**
      * Defines the stat model.
+     * @returns {Function} The constructor for a new stat.
      */
     function Model() {
         /**
