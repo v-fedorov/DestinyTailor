@@ -79,7 +79,12 @@
         routes: {
             search: {
                 index: '/js/controllers/search/search.html',
-                account: '/js/controllers/search-account/search-account.html'
+                account: {
+                    index: '/js/controllers/search-account/account.html',
+                    character: {
+                        index: '/js/controllers/search-account-character/character.html'
+                    }
+                } 
             }
         }
     });

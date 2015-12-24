@@ -2,34 +2,42 @@
     'use strict';
 
     angular.module('main').controller('accountController', AccountController);
-    AccountController.$inject = ['$rootScope', '$scope', '$stateParams', 'PLATFORMS', 'userService'];
+    AccountController.$inject = ['$rootScope', '$scope', '$state', '$stateParams', 'PLATFORMS', 'userService'];
 
     /**
      * Defines the account controller, allowing the user to swap their selected character.
      * @param {Object} $rootScope The root scope.
      * @param {Object} $scope The scope of the contorller.
+     * @param {Object} $state The state provider.
      * @param {Object} $stateParams The state parameters.
      * @param {Object} PLATFORMS The constant object containing the platform ids.
      * @param {Object} userService The user service.
      */
-    function AccountController($rootScope, $scope, $stateParams, PLATFORMS, userService) {
+    function AccountController($rootScope, $scope, $state, $stateParams, PLATFORMS, userService) {
         $scope.account = null;
         $scope.selectedCharacter = null;
-        userService.selectCharacter(null);
 
         /**
          * Changes the current character.
          * @param {Object} character The character to select.
          */
         $scope.selectCharacter = function(character) {
-            userService.selectCharacter(character);
-            $scope.selectedCharacter = character;
+            $state.go('search.account.character', {
+                platform: $scope.account.membershipType === PLATFORMS.psn ? 'psn' : 'xbox',
+                displayName: $scope.account.displayName.toLowerCase(),
+                characterSlugUrlTail: character.slugUrlTail
+            });
         };
 
         // update the scope when the account has changed
         $scope.$on('account.change', function(ev, account) {
             $scope.account = account;
             $scope.selectedCharacter = null;
+        });
+        
+        // update the scope when the character has changed
+        $scope.$on('character.change', function(ev, character) {
+            $scope.character = character;
         });
 
         // search for the account

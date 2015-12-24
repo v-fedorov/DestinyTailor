@@ -1,0 +1,27 @@
+<!-- stat profiles and character information -->
+<div class="character__wrapper top-buffer">
+    <div ng-repeat="character in [character] track by character.characterId" class="character--animated">
+        <div class="row ng-hide" ng-show="character !== null && (!character.statProfiles || !character.inventory)">
+            <div class="col-xs-12 text-center lead character__loading">
+                <span class="dticon dticon-spin-split-5 spin"></span>Fetching character...
+            </div>
+        </div>
+        <div class="row character--animated" ng-if="character.statProfiles && character.inventory">
+            <div class="col-xs-12 col-md-8">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-3" ng-repeat="statProfile in character.statProfiles | orderBy: '0 - discipline.tier - intellect.tier - strength.tier' track by statProfile.statProfileId">
+                        <div ge-stat-profile
+                            ng-model="statProfile"
+                            ng-character="character"
+                            ng-select="selectStatProfile"
+                            ng-selected="statProfile === currentStatProfile">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="hidden-xs">
+                <div ge-inventory ng-inventory="character.inventory" ng-stat-profile="currentStatProfile"></div>
+            </div>
+        </div>
+    </div>
+</div>

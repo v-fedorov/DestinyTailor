@@ -78,25 +78,76 @@
                 });
 
                 return account;
+            }).then(assignCharacterSlugUrls);
+        }
+        
+        /**
+         * Assigns slug urls to characters on the account.
+         * @param {Object} account The account.
+         * @returns {Object} The account.
+         */
+        function assignCharacterSlugUrls(account) {
+            var classCount = {};
+
+            // set the initial slugs
+            account.characters.forEach(function(character) {
+                classCount[character.class] = (classCount[character.class] || 0) + 1;
+                character.slugUrlTail = character.class.toLowerCase() + '-' + classCount[character.class];
             });
+            
+            // tidy up the urls if we can, this is designed for accounts with a character of each class
+            account.characters.forEach(function(character) {
+                if (classCount[character.class] === 1) {
+                    character.slugUrlTail = character.class.toLowerCase();
+                }
+                
+                // set the slug url
+                character.slugUrl = (account.membershipType === 2 ? 'psn' : 'xbox')
+                    + '/' + account.displayName.toLowerCase()
+                    + '/' + character.slugUrlTail;
+            });
+
+            return account;
         }
 
         /**
          * Selects the character, updating the current $scope.
-         * @param {Object} character The character to select.
+         * @param {Object} slugUrlTail The tail of the slug url.
          */
-        function selectCharacter(character) {
-            $scope.character = character;
-            $rootScope.$broadcast('character.change', character);
+        function selectCharacter(slugUrlTail) {
+            var character = getCharacterFromSlugUrlTail(slugUrlTail);
+            if (character !== null) {
+                // update the character
+                $scope.character = character;
+                $rootScope.$broadcast('character.change', character);
 
-            // load the inventory when its empty
-            if (character && !character.inventory) {
-                inventoryService.getInventory(character)
-                .then(function(inventory) {
-                    character.inventory = inventory;
-                    character.statProfiles = inventoryService.getStatProfiles(character);
-                });
+                // load the inventory when its empty
+                if (character && !character.inventory) {
+                    inventoryService.getInventory(character)
+                    .then(function(inventory) {
+                        character.inventory = inventory;
+                        character.statProfiles = inventoryService.getStatProfiles(character);
+                    });
+                }
+            } else {
+                console.error('Unable to find the character');
             }
         };
+        
+        /**
+         * Attempt to get the character for the given mini slug url.
+         * @param {String} slugUrlTail The tail of the slug url.
+         * @returns {Object} The character, if found, otherwise null.
+         */
+        function getCharacterFromSlugUrlTail(slugUrlTail) {
+            for (var i = 0; i < $scope.account.characters.length; i++) {
+                // compare the slug urls
+                if ($scope.account.characters[i].slugUrlTail === slugUrlTail) {
+                    return $scope.account.characters[i];
+                }
+            }
+            
+            return null;
+        }
     }
 })();

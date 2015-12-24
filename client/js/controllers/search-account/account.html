@@ -1,0 +1,22 @@
+<!-- account overview, including list of characters -->
+<div ng-if="account" class="animate-fade delay-animation">
+    <div class="row top-buffer" ng-class="{ 'account__character--any-selected': selectedCharacter !== null }">
+        <div ng-repeat="character in account.characters track by character.characterId">
+            <div class="account__character col-xs-12 col-sm-4" ng-class="{ 'account__character--selected': character === selectedCharacter }">
+                <div class="emblem show" ge-background-img="http://bungie.net{{::character.backgroundPath}}" ng-click="selectCharacter(character)">
+                    <img class="emblem__icon pull-left" ng-src="http://www.bungie.net{{::character.emblemPath}}" />
+                    <span class="emblem__info pull-left">
+                        <p class="lead">{{::character.class}}</p>
+                        <p><small>{{::character.race}} {{::character.gender}}</small></p>
+                    </span>
+                    <span class="emblem__info pull-right text-right">
+                        <p class="lead">{{::character.level}}</p>
+                        <p class="emblem__light-level"><small class="light-level">{{::character.lightLevel}}</small></p>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div ui-view class="animate-fade delay-animation"></div>

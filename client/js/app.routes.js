@@ -29,8 +29,13 @@
             })
             .state('search.account', {
                 url: '{platform:xbox|psn}/{displayName}',
-                templateUrl: TEMPLATE_URLS.routes.search.account,
+                templateUrl: TEMPLATE_URLS.routes.search.account.index,
                 controller: 'accountController'
+            })
+            .state('search.account.character', {
+                url: '/{characterSlugUrlTail:(?:hunter|titan|warlock)(?:-[123])?}',
+                templateUrl: TEMPLATE_URLS.routes.search.account.character.index,
+                controller: 'characterController'
             });
     }
 })();
