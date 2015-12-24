@@ -2,6 +2,7 @@
     'use strict';
 
     angular.module('main').factory('Inventory', Model);
+    Model.$inject = ['DEFINITIONS'];
 
     /**
      * Creates the constructor for the inventory model.
