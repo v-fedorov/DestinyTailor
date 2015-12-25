@@ -22,11 +22,7 @@
          * @param {Object} character The character to select.
          */
         $scope.selectCharacter = function(character) {
-            $state.go('search.account.character', {
-                platform: $scope.account.membershipType === PLATFORMS.psn ? 'psn' : 'xbox',
-                displayName: $scope.account.displayName.toLowerCase(),
-                characterSlugUrlTail: character.slugUrlTail
-            });
+            $state.go('search.account.character', character);
         };
 
         // update the scope when the account has changed
@@ -42,11 +38,11 @@
 
         // search for the account
         (function() {
-            var platformId = $stateParams.platform === 'psn' ? PLATFORMS.psn : PLATFORMS.xbox;
+            var membershipType = PLATFORMS[$stateParams.membershipTypeName];
             $rootScope.$broadcast('search.start');
 
             // load the account and its characters
-            userService.getAccount(platformId, $stateParams.displayName)
+            userService.getAccount(membershipType, $stateParams.displayName)
             .then(userService.loadCharacters)
             .then(userService.setAccount)
             .catch(function(err) {

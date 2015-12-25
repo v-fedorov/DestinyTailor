@@ -28,22 +28,15 @@
             $scope.currentStatProfile = {};
         });
         
-        /**
-         * Selects the character based on the state params.
-         */
-        function selectUrlCharacter() {
-            var slugUrlTail = $stateParams.characterSlugUrlTail;
-            userService.selectCharacter(slugUrlTail);
-        }
-        
+        // initialises the character controller        
         (function() {
             if (!userService.account || userService.account.displayName.toLowerCase() !== $stateParams.displayName.toLowerCase()) {
                 // update the scope when the account has changed
                 $scope.$on('account.change', function(ev, account) {
-                    selectUrlCharacter();
+                    userService.selectCharacterByUrlSlug($stateParams.urlSlug);
                 });    
             } else {
-                selectUrlCharacter();
+                userService.selectCharacterByUrlSlug($stateParams.urlSlug);
             }
         })();
     }

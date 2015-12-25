@@ -24,7 +24,7 @@
             // clear the current scope and search
             $scope.clearError();
             $state.go('search.account', {
-                platform: $scope.platform === PLATFORM_PSN ? 'psn' : 'xbox',
+                membershipTypeName: $scope.platform === PLATFORM_PSN ? 'psn' : 'xbox',
                 displayName: $scope.name
             });
         };

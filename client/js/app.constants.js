@@ -50,8 +50,10 @@
 
     // platform
     app.constant('PLATFORMS', {
-        psn: 2,
-        xbox: 1
+        1: 'xbox',
+        2: 'psn',
+        'xbox': 1,
+        'psn': 2,
     });
 
     // stat names
