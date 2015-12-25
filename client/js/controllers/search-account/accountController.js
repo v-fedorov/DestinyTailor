@@ -33,7 +33,7 @@
 
         // update the scope when the character has changed
         $scope.$on('character.change', function(ev, character) {
-            $scope.character = character;
+            $scope.selectedCharacter = character;
         });
 
         // initialises the account controller; searches for the account
