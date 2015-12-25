@@ -30,13 +30,13 @@
             $scope.account = account;
             $scope.selectedCharacter = null;
         });
-        
+
         // update the scope when the character has changed
         $scope.$on('character.change', function(ev, character) {
             $scope.character = character;
         });
 
-        // search for the account
+        // initialises the account controller; searches for the account
         (function() {
             var membershipType = PLATFORMS[$stateParams.membershipTypeName];
             $rootScope.$broadcast('search.start');

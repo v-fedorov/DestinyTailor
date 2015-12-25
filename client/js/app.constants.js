@@ -86,7 +86,7 @@
                     character: {
                         index: '/js/controllers/search-account-character/character.html'
                     }
-                } 
+                }
             }
         }
     });

@@ -17,7 +17,7 @@
          * @param {Object} account The account.
          * @param {Object} data The data containing the character information.
          */
-        function Character(account, data) {            
+        function Character(account, data) {
             // set the basic information
             this.membershipType = account.membershipType;
             this.membershipId = account.membershipId;
@@ -38,7 +38,7 @@
 
             // set the url state parameters
             this.membershipTypeName = PLATFORMS[account.membershipType];
-            this.displayName = account.displayName.toLowerCase(); 
+            this.displayName = account.displayName.toLowerCase();
             this.slugUrl = '';
         }
 

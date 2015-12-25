@@ -80,7 +80,7 @@
                 return account;
             }).then(assignCharacterSlugUrls);
         }
-        
+
         /**
          * Assigns slug urls to characters on the account.
          * @param {Object} account The account.
@@ -94,7 +94,7 @@
                 classCount[character.class] = (classCount[character.class] || 0) + 1;
                 character.urlSlug = character.class.toLowerCase() + '-' + classCount[character.class];
             });
-            
+
             // tidy up the urls if we can, this is designed for accounts with a character of each class
             account.characters.forEach(function(character) {
                 if (classCount[character.class] === 1) {
@@ -130,11 +130,11 @@
                 });
             }
         };
-        
+
         /**
          * Attempt to get the character for the given mini slug url.
          * @param {String} urlSlug The URL slug.
-         * @returns {Object} The character, if found, otherwise null.
+         * @returns {Object|null} The character, if found, otherwise null.
          */
         function getCharacterByUrlSlug(urlSlug) {
             // compare the slug urls
@@ -143,7 +143,7 @@
                     return $scope.account.characters[i];
                 }
             }
-            
+
             return null;
         }
     }
