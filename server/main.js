@@ -67,7 +67,9 @@ switch (config.env) {
  */
 function serveSpaHandler(relativePath) {
     var staticPath = path.join(__dirname, relativePath);
-    app.use('/*', express.static(staticPath));
+    app.get('*', function(req, res) {
+        res.sendFile(staticPath);
+    })
 }
 
 /**
