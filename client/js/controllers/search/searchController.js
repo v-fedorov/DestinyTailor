@@ -45,6 +45,11 @@
         $scope.$on('search.start', toggleSearching);
         $scope.$on('search.stop', toggleSearching);
 
+        // update the search box
+        $scope.$on('account.change', function(ev, account) {
+            $scope.name = account.displayName;
+        });
+
         /**
          * Handles toggling the loading state, based on the event type.
          * @param {Object} ev The event object.
