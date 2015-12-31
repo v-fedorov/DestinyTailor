@@ -22,7 +22,11 @@
          * @param {Object} character The character to select.
          */
         $scope.selectCharacter = function(character) {
-            $state.go('search.account.character', character);
+            $state.go('search.account.character', {
+                membershipTypeName: character.membershipTypeName,
+                displayName: character.displayName.toLowerCase(),
+                urlSlug: character.urlSlug
+            });
         };
 
         // update the scope when the account has changed

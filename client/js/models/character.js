@@ -38,7 +38,7 @@
 
             // set the url state parameters
             this.membershipTypeName = PLATFORMS[account.membershipType];
-            this.displayName = account.displayName.toLowerCase();
+            this.displayName = account.displayName;
             this.slugUrl = '';
         }
 

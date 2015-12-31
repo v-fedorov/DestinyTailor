@@ -25,7 +25,7 @@
             $scope.clearError();
             $state.go('search.account', {
                 membershipTypeName: $scope.platform === PLATFORM_PSN ? 'psn' : 'xbox',
-                displayName: $scope.name
+                displayName: $scope.name.toLowerCase()
             });
         };
 
