@@ -1,7 +1,12 @@
 (function() {
     'use strict';
 
-    var app = angular.module('main', ['ngAnimate', 'angular-loading-bar', 'ui.router']);
+    var app = angular.module('main', [
+        'angular-loading-bar',
+        'focus-if',
+        'ngAnimate',
+        'ui.router'
+    ]);
 
     // configure the loading bar
     app.config(['cfpLoadingBarProvider', function(cfpLoadingBarProvider) {

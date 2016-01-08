@@ -13,8 +13,10 @@
     function SearchController($scope, $state, userService) {
         var PLATFORM_PSN = true;
 
+        // defaults
         $scope.error = '';
         $scope.isSearching = false;
+        $scope.name = '';
         $scope.platform = PLATFORM_PSN;
 
         /**
