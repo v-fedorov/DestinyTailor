@@ -11,6 +11,8 @@ A "stat profile" is the term we use for a specific combinations of stats on your
 - Added account and character static links.
 - Inventories now load quicker (client-side).
 - Minor UI fixes.
+- **0.4.1**
+ - Minor improvements to UI (removed flashing elements)
 
 ### 0.3
 
