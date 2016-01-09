@@ -27,10 +27,9 @@ var config = {
     dist: './dist/',
     temp: temp,
 
-    // minifyHtml
-    minifyHtml: {
-        empty: true,
-        quotes: true
+    // htmlmin
+    htmlmin: {
+        collapseWhitespace: true
     },
 
     // ng-annotate
@@ -171,14 +170,14 @@ gulp.task('optimize', ['inject', 'template-cache'], function() {
         .pipe(assets)
         // minify js and css
         .pipe($.if('*.js', $.uglify()))
-        .pipe($.if('*.css', $.minifyCss()))
+        .pipe($.if('*.css', $.cssnano()))
         // cache-bust
         .pipe($.rev())
         .pipe(assets.restore())
         .pipe($.useref())
         .pipe($.revReplace())
         // minify html
-        .pipe($.if('*.html', $.minifyHtml(config.minifyHtml)))
+        .pipe($.if('*.html', $.htmlmin(config.htmlmin)))
         .pipe(gulp.dest(config.dist));
 });
 
@@ -189,7 +188,7 @@ gulp.task('optimize', ['inject', 'template-cache'], function() {
 gulp.task('template-cache', ['clean'], function() {
     return gulp
         .src(config.templates)
-        .pipe($.minifyHtml({empty: true}))
+        .pipe($.htmlmin(config.htmlmin))
         .pipe($.angularTemplatecache(config.templateCache.file, config.templateCache.options))
         .pipe(gulp.dest(config.temp));
 });
