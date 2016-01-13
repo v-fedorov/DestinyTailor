@@ -23,8 +23,8 @@
          */
         $scope.selectCharacter = function(character) {
             $state.go('search.account.character', {
-                membershipTypeName: character.membershipTypeName,
-                displayName: character.displayName.toLowerCase(),
+                membershipTypeName: $stateParams.membershipTypeName,
+                displayName: $stateParams.displayName,
                 urlSlug: character.urlSlug
             });
         };
