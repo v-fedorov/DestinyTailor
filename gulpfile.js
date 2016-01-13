@@ -63,6 +63,9 @@ var config = {
                     'dist/js/bootstrap.js'
                 ]
             },
+            'ng-focus-if': {
+                main: 'focusIf.min.js'
+            },
             octicons: {
                 main: [
                     'octicons/octicons.css',
