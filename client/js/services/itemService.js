@@ -2,28 +2,97 @@
     'use strict';
 
     angular.module('main').factory('itemService', itemService);
-    itemService.$inject = ['$http', 'DEFINITIONS'];
+    itemService.$inject = ['$http', '$localStorage', '$q', 'DEFINITIONS', 'ITEM_TIERS'];
 
     /**
      * Creates the item service, primarily used for loading and mapping items.
      * @param {Object} $http The http helper from Angular.
+     * @param {Object} $localStorage The local storage provider.
+     * @param {Object} $q The promise provider.
      * @param {Object} DEFINITIONS The constant definitions.
+     * @param {Object} ITEM_TIERS The constant for item tiers.
      * @returns {Object} The service.
      */
-    function itemService($http, DEFINITIONS) {
+    function itemService($http, $localStorage, $q, DEFINITIONS, ITEM_TIERS) {
+        // initialise the cache and return the service
+        $localStorage.items = $localStorage.items || {};
+
         return {
-            getItem: getItem,
-            setItemStats: setItemStats
+            loadStats: loadStats
         };
 
         /**
-         * Gets the detailed item from the given item.
+         * Loads the stats for the given item.
+         * @param {Object} character The owner of the item.
          * @param {Object} item The item to load.
+         * @returns {Object} A promise; resolved once the object has loaded.
          */
-        function getItem(item) {
-            var path = '/Platform/Destiny/' + item.owner.membershipType
-                        + '/Account/' + item.owner.membershipId
-                        + '/Character/' + item.owner.characterId
+        function loadStats(character, item) {
+            var deferred = $q.defer();
+
+            getCacheItem(character, item)
+            .then(function() {
+                // we have the item, we're good
+                deferred.resolve();
+            }, function() {
+                // request the item, set the stats, cache and go
+                requestItem(character, item)
+                .then(function(result) {
+                    setItemStats(result, item);
+                    setCacheItem(item);
+
+                    deferred.resolve();
+                });
+            });
+
+            return deferred.promise;
+        }
+
+        /**
+         * Attempts to load the item from the cache.
+         * @param {Object} character The owner of the item.
+         * @param {Object} item The item to load.
+         * @returns {Object} A promise; resolved if the object is present and valid within the cache.
+         */
+        function getCacheItem(character, item) {
+            var deferred = $q.defer();
+            var cache = $localStorage.items[item.itemId] || null;
+
+            // when we have a valid cache item, load the stats
+            if (cache && cache.primaryStat === item.primaryStat) {
+                for (var statHash in DEFINITIONS.stat) {
+                    item[DEFINITIONS.stat[statHash]] = cache[DEFINITIONS.stat[statHash]];
+                }
+
+                deferred.resolve();
+            } else {
+                deferred.reject('Unable to find cached item.');
+            }
+
+            return deferred.promise;
+        }
+
+        /**
+         * Sets an item within the cache.
+         * @param {Object} item The item to cache.
+         */
+        function setCacheItem(item) {
+            // only cache non-exotics... they're the glass needle!
+            if (item.tierType !== ITEM_TIERS.exotic) {
+                $localStorage.items[item.itemId] = item;
+            }
+        }
+
+        /**
+         * Requests the specific item information from the Bungie API.
+         * @param {Object} character The owner of the item.
+         * @param {Object} item The item to request.
+         * @returns {Object} A promise, containing the response from Bungie.
+         */
+        function requestItem(character, item) {
+            var path = '/Platform/Destiny/' + character.membershipType
+                        + '/Account/' + character.membershipId
+                        + '/Character/' + character.characterId
                         + '/Inventory/' + item.itemId + '/?definitions=true';
 
             // attempt to get the item

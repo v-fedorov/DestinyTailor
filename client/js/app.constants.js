@@ -48,6 +48,15 @@
         }
     });
 
+    // item tiers
+    app.constant('ITEM_TIERS', {
+        common: 2,
+        uncommon: 3,
+        rare: 4,
+        legendary: 5,
+        exotic: 6
+    });
+
     // platform
     app.constant('PLATFORMS', {
         1: 'xbox',

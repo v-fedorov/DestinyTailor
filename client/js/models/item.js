@@ -13,14 +13,12 @@
         /**
          * Provides a constructor for the Item model.
          * @constructor
-         * @param {Object} owner The owner of the item, in the form of a character.
          * @param {Object} data The data of the item.
          * @param {Object} definitions The supporting definitions.
          */
-        function Item(owner, data, definitions) {
+        function Item(data, definitions) {
             var itemDefinition = definitions.items.hasOwnProperty(data.itemHash) ? definitions.items[data.itemHash] : {};
 
-            this.owner = owner;
             this.itemId = data.itemId;
             this.name = itemDefinition.itemName;
             this.bucketHash = data.bucketHash;

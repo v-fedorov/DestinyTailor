@@ -5,6 +5,7 @@
         'angular-loading-bar',
         'focus-if',
         'ngAnimate',
+        'ngStorage',
         'ui.router'
     ]);
 

@@ -62,11 +62,11 @@
          * @returns {Object} The inventory with the basic information.
          */
         function getNewInventory(character, summary) {
-            var inventory = new Inventory(summary.definitions);
+            var inventory = new Inventory(character, summary.definitions);
 
             // add each item, once we've transformed it slightly
             summary.data.items.forEach(function(data) {
-                var item = new Item(character, data, summary.definitions);
+                var item = new Item(data, summary.definitions);
                 inventory.setItem(item);
             });
 
@@ -87,12 +87,8 @@
 
                 async.each(items, function(item, next) {
                     // load the item and their stats
-                    itemService.getItem(item)
-                    .then(function(result) {
-                        return itemService.setItemStats(result, item);
-                    }).then(function(item) {
-                        next(null, item);
-                    });
+                    itemService.loadStats(inventory.character, item)
+                    .then(next);
                 }, function(err) {
                     // either resolve or reject, based on the error
                     if (err) {

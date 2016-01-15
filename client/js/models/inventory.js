@@ -13,9 +13,11 @@
         /**
          * Constructs a new inventory object used to store items owned by a character.
          * @constructor
+         * @param {Object} character The owner of the inventory.
          * @param {Object} definitions The accompanying definitions.
          */
-        function Inventory(definitions) {
+        function Inventory(character, definitions) {
+            this.character = character;
             this.definitions = definitions;
 
             // weapons
