@@ -30,9 +30,7 @@
         function loadStats(character, item) {
             // attempt to load the item from the cache
             if (loadStatsFromCache(item)) {
-                return $q(function(resolve) {
-                    resolve(item);
-                });
+                return $q.resolve(item);
             }
 
             // request the item, set the stats, cache and go
