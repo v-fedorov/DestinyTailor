@@ -27,6 +27,7 @@
          * @returns {Object} A promise of the inventory, that is fulfilled when the inventory has been loaded.
          */
         function getInventory(character) {
+
             return getInventorySummary(character)
                 .then(function(summary) {
                     return getNewInventory(character, summary);
@@ -76,30 +77,26 @@
         /**
          * Gets the items for the given inventory.
          * @param {Object} inventory The inventory to load.
-         * @returns {Object} A promise that is fulfilled when the items have loaded.
+         * @returns {Object} A promise with the inventory.
          */
         function loadItems(inventory) {
-            return $q(function(resolve, reject) {
-                var items = [
-                    inventory.ghost, inventory.artifact, inventory.classItem,
-                    inventory.helmet, inventory.gauntlets, inventory.chest, inventory.legs
-                ];
-
-                async.each(items, function(item, next) {
-                    // load the item and their stats
-                    itemService.loadStats(inventory.character, item)
-                        .then(function(item) {
-                            next();
-                        });
-                }, function(err) {
-                    // either resolve or reject, based on the error
-                    if (err) {
-                        reject(err);
-                    } else {
-                        resolve(inventory);
-                    }
+            var statLoaders = [
+                inventory.ghost,
+                inventory.artifact,
+                inventory.classItem,
+                inventory.helmet,
+                inventory.gauntlets,
+                inventory.chest,
+                inventory.legs
+                ].map(function(item) {
+                    return itemService.loadStats(inventory.character, item);
                 });
-            });
+
+            // load the stats for each item
+            return $q.all(statLoaders)
+                .then(function() {
+                    return inventory;
+                });
         }
 
         /**
