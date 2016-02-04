@@ -37,12 +37,18 @@
         function getAccount(membershipType, displayName) {
             var path = '/Platform/Destiny/SearchDestinyPlayer/' + membershipType + '/' + encodeURIComponent(displayName) + '/';
             return $http.get(path).then(function(result) {
-                // success when we have at least 1 account; we should only ever have 1...
-                if (result.data.Response !== undefined && result.data.Response.length === 1) {
-                    return result.data.Response[0];
+                // anything greater than 1, is considered an error
+                if (result.data.ErrorCode > 1) {
+                    throw result.data.Message;
                 }
 
-                throw 'Character not found';
+                // when there aren't any character, sad times
+                if (result.data.Response.length !== 0) {
+                    throw 'Unable to find account.';
+                }
+
+                // success when we have at least 1 account; we should only ever have 1...
+                return result.data.Response[0];
             });
         }
 
