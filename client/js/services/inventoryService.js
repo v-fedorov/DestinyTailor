@@ -27,7 +27,6 @@
          * @returns {Object} A promise of the inventory, that is fulfilled when the inventory has been loaded.
          */
         function getInventory(character) {
-
             return getInventorySummary(character)
                 .then(function(summary) {
                     return getNewInventory(character, summary);
