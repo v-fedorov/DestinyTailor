@@ -88,7 +88,9 @@
                 async.each(items, function(item, next) {
                     // load the item and their stats
                     itemService.loadStats(inventory.character, item)
-                    .then(next);
+                        .then(function(item) {
+                            next();
+                        });
                 }, function(err) {
                     // either resolve or reject, based on the error
                     if (err) {

@@ -28,34 +28,28 @@
          * @returns {Object} A promise; resolved once the object has loaded.
          */
         function loadStats(character, item) {
-            var deferred = $q.defer();
+            // attempt to load the item from the cache
+            if (loadStatsFromCache(item)) {
+                return $q(function(resolve) {
+                    resolve(item);
+                });
+            }
 
-            getCacheItem(character, item)
-            .then(function() {
-                // we have the item, we're good
-                deferred.resolve();
-            }, function() {
-                // request the item, set the stats, cache and go
-                requestItem(character, item)
+            // request the item, set the stats, cache and go
+            return requestItem(character, item)
                 .then(function(result) {
                     setItemStats(result, item);
                     setCacheItem(item);
-
-                    deferred.resolve();
+                    return item;
                 });
-            });
-
-            return deferred.promise;
         }
 
         /**
          * Attempts to load the item from the cache.
-         * @param {Object} character The owner of the item.
          * @param {Object} item The item to load.
-         * @returns {Object} A promise; resolved if the object is present and valid within the cache.
+         * @returns {Boolean} True when the stats can be cloned from the cache; otherwise false.
          */
-        function getCacheItem(character, item) {
-            var deferred = $q.defer();
+        function loadStatsFromCache(item) {
             var cache = $localStorage.items[item.itemId] || null;
 
             // when we have a valid cache item, load the stats
@@ -64,12 +58,10 @@
                     item[DEFINITIONS.stat[statHash]] = cache[DEFINITIONS.stat[statHash]];
                 }
 
-                deferred.resolve();
-            } else {
-                deferred.reject('Unable to find cached item.');
+                return true;
             }
 
-            return deferred.promise;
+            return false;
         }
 
         /**
@@ -93,7 +85,7 @@
             var path = '/Platform/Destiny/' + character.membershipType
                         + '/Account/' + character.membershipId
                         + '/Character/' + character.characterId
-                        + '/Inventory/' + item.itemId + '/?definitions=true';
+                        + '/Inventory/' + item.itemId + '/';
 
             // attempt to get the item
             return $http.get(path).then(function(result) {
