@@ -8,8 +8,8 @@ A "stat profile" is the term we use for a specific combinations of stats on your
 
 ### 0.x
 
-- Improvement item loading with local caching.
-- Added error warnings Bungie API calls fail.
+- Improved item loading with local caching.
+- Added error warnings when Bungie API calls fail.
 
 ### 0.4
 
