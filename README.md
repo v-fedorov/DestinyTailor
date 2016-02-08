@@ -6,6 +6,11 @@ A "stat profile" is the term we use for a specific combinations of stats on your
 
 ## Releases
 
+### 0.x
+
+- Improvement item loading with local caching.
+- Added error warnings Bungie API calls fail.
+
 ### 0.4
 
 - Added account and character static links.
