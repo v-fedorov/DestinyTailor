@@ -2,19 +2,19 @@
     'use strict';
 
     angular.module('main').factory('inventoryService', inventoryService);
-    inventoryService.$inject = ['$http', '$q', 'Inventory', 'InventoryAnalysis', 'Item', 'itemService'];
+    inventoryService.$inject = ['$q', '$resource', 'Inventory', 'InventoryAnalysis', 'Item', 'itemService'];
 
     /**
      * Defines the inventory analyser service.
-     * @param {Object} $http The http utils from Angular.
      * @param {Object} $q The promises helper from Angular.
+     * @param {Object} $resource The resource helper from Angular.
      * @param {Function} Inventory The inventory model constructor.
      * @param {Function} InventoryAnalysis The constructor for an inventory analysis.
      * @param {Function} Item The item constructor.
      * @param {Object} itemService The item service.
      * @returns {Object} The inventory service.
      */
-    function inventoryService($http, $q, Inventory, InventoryAnalysis, Item, itemService) {
+    function inventoryService($q, $resource, Inventory, InventoryAnalysis, Item, itemService) {
         return {
             // functions
             getInventory: getInventory,
@@ -39,19 +39,20 @@
          * @returns {Object} A promise containing the data and definitions of the inventory summary.
          */
         function getInventorySummary(character) {
-            var path = '/Platform/Destiny/' + character.membershipType
-                        + '/Account/' + character.membershipId
-                        + '/Character/' + character.characterId + '/Inventory/Summary/?definitions=true';
-
-            // request the inventory summary
-            return $http.get(path).then(function(result) {
-                if (result.status !== 200) {
+            var summary = $resource('/Platform/Destiny/:membershipType/Account/:membershipId/Character/:characterId/Inventory/Summary/?definitions=true');
+            
+            return summary.get({
+                    membershipType: character.membershipType,
+                    membershipId: character.membershipId,
+                    characterId: character.characterId
+            }).$promise.then(function(result) {
+                if (!result.Response && !result.Response.data) {
                     throw 'Unable to connect to Bungie';
-                } else if (result.data.ErrorCode > 1) {
+                } else if (result.ErrorCode > 1) {
                     throw 'Failed to load inventory summary';
                 }
 
-                return result.data.Response;
+                return result.Response;
             });
         }
 
