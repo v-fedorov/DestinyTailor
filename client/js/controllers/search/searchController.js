@@ -17,7 +17,7 @@
         $scope.error = '';
         $scope.isSearching = false;
         $scope.name = '';
-        $scope.platform = PLATFORM_PSN;
+        $scope.platform = $state.params.membershipTypeName !== 'xbox';
 
         /**
          * Searches for a character and updates the account in the user service.
