@@ -38,7 +38,7 @@
             return searchDestinyPlayer(membershipType, displayName)
                 .then(handleRequestErrors)
                 .then(validatePlayerFound)
-                .then(getCharacters);            
+                .then(getCharacters);
         }
         
         /**
