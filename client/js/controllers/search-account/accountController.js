@@ -47,13 +47,12 @@
 
             // load the account and its characters
             userService.getAccount(membershipType, $stateParams.displayName)
-            .then(userService.loadCharacters)
-            .then(userService.setAccount)
-            .catch(function(err) {
-                $rootScope.$broadcast('search.error', err);
-            }).finally(function() {
-                $rootScope.$broadcast('search.stop');
-            });
+                .then(userService.setAccount)
+                .catch(function(err) {
+                    $rootScope.$broadcast('search.error', err);
+                }).finally(function() {
+                    $rootScope.$broadcast('search.stop');
+                });
         })();
     }
 })();

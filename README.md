@@ -16,8 +16,14 @@ A "stat profile" is the term we use for a specific combinations of stats on your
 - Added account and character static links.
 - Inventories now load quicker (client-side).
 - Minor UI fixes.
-- **0.4.1**
- - Minor improvements to UI (removed flashing elements)
+- 0.4.1
+ - Minor improvements to UI (removed flashing elements).
+- 0.4.2
+ - Minor fixes to SPA parameter cases.
+ - Added auto focusing on initial load.
+ - Updated gulp minification.
+- **0.4.2a**
+ - Hotfix; searching for an XBox gamertag sometimes returned multiple matching results.
 
 ### 0.3
 

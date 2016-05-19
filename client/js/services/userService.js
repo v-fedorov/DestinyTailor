@@ -2,18 +2,19 @@
     'use strict';
 
     angular.module('main').factory('userService', userService);
-    userService.$inject = ['$rootScope', '$http', '$q', 'Character', 'inventoryService'];
+    userService.$inject = ['$rootScope', '$http', '$q', 'Account', 'Character', 'inventoryService'];
 
     /**
      * The user service, primarily used to share the current membership, and selected character.
      * @param {Object} $rootScope The root scope.
      * @param {Object} $http The http utils from Angular.
      * @param {Object} $q Service helper for running function asynchronously.
+     * @param {Object} Account The account model.
      * @param {Object} Character The character model.
      * @param {Object} inventoryService The inventory service.
      * @returns {Object} The user service.
      */
-    function userService($rootScope, $http, $q, Character, inventoryService) {
+    function userService($rootScope, $http, $q, Account, Character, inventoryService) {
         var $scope = {
             // variables
             account: null,
@@ -22,7 +23,6 @@
             // functions
             getAccount: getAccount,
             setAccount: setAccount,
-            loadCharacters: loadCharacters,
             selectCharacterByUrlSlug: selectCharacterByUrlSlug
         };
 
@@ -35,20 +35,12 @@
          * @returns {Object} The account, represented as a promise.
          */
         function getAccount(membershipType, displayName) {
-            var path = '/Platform/Destiny/SearchDestinyPlayer/' + membershipType + '/' + encodeURIComponent(displayName) + '/';
-            return $http.get(path).then(function(result) {
-                if (result.data.ErrorCode > 1) {
-                    // when theres an error code, show the bungie error
-                    throw result.data.Message;
-                } else if (result.data.Response.length !== 1) {
-                    // otherwise validate we only have 1 account
-                    throw 'Unable to find account.';
-                }
-
-                return result.data.Response[0];
-            });
+            return searchDestinyPlayer(membershipType, displayName)
+                .then(handleRequestErrors)
+                .then(validatePlayerFound)
+                .then(getCharacters);            
         }
-
+        
         /**
          * Updates the current loaded account.
          * @param {Object} account The account.
@@ -59,53 +51,148 @@
 
             $rootScope.$broadcast('account.change', account);
         };
-
+        
         /**
-         * Loads the characters for the given account.
-         * @param {Object} account The account.
-         * @returns {Object} The account with the characters, represented as a promise.
+         * Searches for a Destiny membership by their platform and display name.
+         * @param {Number} membershipType The membership type; either 1 for xbox, or 2 for PSN.
+         * @param {String} displayName The display name to search for.
+         * @returns {Object} The result of the search as a promise.
          */
-        function loadCharacters(account) {
-            var path = '/Platform/Destiny/' + account.membershipType + '/Account/' + account.membershipId + '/';
-            return $http.get(path).then(function(result) {
-                // reject as there was an error from Bungie
-                if (result.data.ErrorCode > 1) {
-                    throw result.data.Message;
-                }
+        function searchDestinyPlayer(membershipType, displayName) {
+            var path = '/Platform/Destiny/SearchDestinyPlayer/' + membershipType + '/' + encodeURIComponent(displayName) + '/';
+            return $http.get(path);
+        }
+        
+        /**
+         * Handles any request errors.
+         * @param {Object} result The API result to check.
+         * @returns {Object} The API result.
+         */
+        function handleRequestErrors(result) {
+            // accept if the error code is okay
+            if (result.data.ErrorCode === 1) {
+                return result;
+            }
+            
+            throw result.data.Message;
+        }
+        
+        /**
+         * Validates a player has been found.
+         * @param {Object} searchResult The result of the player search.
+         * @returns {Object} The API result.
+         */
+        function validatePlayerFound(searchResult) {
+            if (searchResult.data.Response !== undefined && searchResult.data.Response.length > 0) {
+                return searchResult;
+            }
 
-                // resolve the mapped characters
-                account.characters = result.data.Response.data.characters.map(function(data) {
-                    return new Character(account, data);
-                }).sort(function(a, b) {
-                    return a.membershipId - b.membershipId;
+            throw 'Character not found';
+        }
+        
+        function getCharacters(searchResult) {        
+            var account;
+            
+            // request the memberships
+            return getAccountSummaries(searchResult)
+                .then(getActiveAccountSummaryData)
+                .then(function(result) {
+                    account = new Account(result.data.Response.data);
+                    return result;
+                })
+                .then(parseCharacters)
+                .then(assignCharacterSlugUrls)
+                .then(function(characters) {
+                    account.characters = characters;
+                    return account;
                 });
-
-                return account;
-            }).then(assignCharacterSlugUrls);
+        }
+        
+        /**
+         * Gets all account summaries for a given search result.
+         * @param {Object} searchResult The search result from the Bungie API.
+         * @returns The results from requesting the account summary for each search result.
+         */
+        function getAccountSummaries(searchResult) {
+            // handle multiple results for xbox gamertags
+            var accountSummaries = searchResult.data.Response.map(function(membership) {
+                return getAccountSummary(membership.membershipType, membership.membershipId)
+                    .then(function(result) {
+                        if (result.data.Response) {
+                            result.data.Response.data.displayName = membership.displayName;
+                        }
+                        
+                        return result;
+                    });
+            });
+            
+            return $q.all(accountSummaries);
         }
 
         /**
-         * Assigns slug urls to characters on the account.
-         * @param {Object} account The account.
-         * @returns {Object} The account.
+         * Gets the account summary for a membership.
+         * @param {Number} membershipType The membership type; either 1 for xbox, or 2 for PSN.
+         * @param {Number} membershipId The id of the membership.
+         * @returns {Object} The result of requesting the account summary.
          */
-        function assignCharacterSlugUrls(account) {
+        function getAccountSummary(membershipType, membershipId) {
+            var path = '/Platform/Destiny/' + membershipType + '/Account/' + membershipId + '/';
+            return $http.get(path);
+        }
+            
+        /**
+         * Gets the first active account summary, based on the results of many.
+         * @param {Object[]} summaryResults The results of multiple account summary requests.
+         * @returns {Object} The active account summary.
+         */
+        function getActiveAccountSummaryData(summaryResults) {
+            // attempt to return the first result that was a success
+            for (var i = 0; i < summaryResults.length; i++) {
+                if (summaryResults[i].data.ErrorCode === 1) {
+                    return summaryResults[i];
+                }
+            }
+            
+            // otherwise something went wrong!
+            throw 'Character not found';
+        }
+
+        /**
+         * Parses the characters for the given account summary.
+         * @param {Object} accountSummaryResult The account summary API result.
+         * @returns {Object} The characters from the account summary.
+         */
+        function parseCharacters(accountSummaryResult) {           
+            // resolve the mapped characters
+            return accountSummaryResult.data.Response.data.characters.map(function(data) {
+                return new Character(accountSummaryResult.data.Response.data, data);
+            }).sort(function(a, b) {
+                return a.membershipId - b.membershipId;
+            });
+        }
+
+        /**
+         * Assigns slug urls to a collection of characters.
+         * @param {Object} characters The characters to assign slug URLs to.
+         * @returns {Object} The characters.
+         */
+        function assignCharacterSlugUrls(characters) {
             var classCount = {};
 
             // set the initial slugs
-            account.characters.forEach(function(character) {
+            characters.forEach(function(character) {
                 classCount[character.class] = (classCount[character.class] || 0) + 1;
                 character.urlSlug = character.class.toLowerCase() + '-' + classCount[character.class];
             });
 
             // tidy up the urls if we can, this is designed for accounts with a character of each class
-            account.characters.forEach(function(character) {
+            characters.forEach(function(character) {
                 if (classCount[character.class] === 1) {
                     character.urlSlug = character.class.toLowerCase();
                 }
             });
 
-            return account;
+            return characters;
         }
 
         /**
