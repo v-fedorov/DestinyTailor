@@ -2,18 +2,18 @@
     'use strict';
 
     angular.module('main').factory('itemService', itemService);
-    itemService.$inject = ['$http', '$localStorage', '$q', 'DEFINITIONS', 'ITEM_TIERS'];
+    itemService.$inject = ['$localStorage', '$q', 'DEFINITIONS', 'ITEM_TIERS', 'bungieService'];
 
     /**
      * Creates the item service, primarily used for loading and mapping items.
-     * @param {Object} $http The http helper from Angular.
      * @param {Object} $localStorage The local storage provider.
      * @param {Object} $q The promise provider.
      * @param {Object} DEFINITIONS The constant definitions.
      * @param {Object} ITEM_TIERS The constant for item tiers.
+     * @param {Object} bungieService The Bungie service.
      * @returns {Object} The service.
      */
-    function itemService($http, $localStorage, $q, DEFINITIONS, ITEM_TIERS) {
+    function itemService($localStorage, $q, DEFINITIONS, ITEM_TIERS, bungieService) {
         // initialise the cache and return the service
         $localStorage.items = $localStorage.items || {};
 
@@ -80,21 +80,17 @@
          * @returns {Object} A promise, containing the response from Bungie.
          */
         function requestItem(character, item) {
-            var path = '/Platform/Destiny/' + character.membershipType
-                        + '/Account/' + character.membershipId
-                        + '/Character/' + character.characterId
-                        + '/Inventory/' + item.itemId + '/';
-
             // attempt to get the item
-            return $http.get(path).then(function(result) {
-                if (result.status !== 200) {
-                    throw 'Unable to connect to Bungie';
-                } else if (result.ErrorCode > 1) {
-                    throw 'Unable to load item';
-                }
+            return bungieService.getItemDetails(character.membershipType, character.membershipId, character.characterId, item.itemId)
+                .then(function(result) {
+                    if (result.status !== 200) {
+                        throw 'Unable to connect to Bungie';
+                    } else if (result.ErrorCode > 1) {
+                        throw 'Unable to load item';
+                    }
 
-                return result.data.Response;
-            });
+                    return result.data.Response;
+                });
         }
 
         /**

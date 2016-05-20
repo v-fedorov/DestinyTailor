@@ -2,19 +2,19 @@
     'use strict';
 
     angular.module('main').factory('userService', userService);
-    userService.$inject = ['$rootScope', '$http', '$q', 'Account', 'Character', 'inventoryService'];
+    userService.$inject = ['$rootScope', '$q', 'Account', 'Character', 'bungieService', 'inventoryService'];
 
     /**
      * The user service, primarily used to share the current membership, and selected character.
      * @param {Object} $rootScope The root scope.
-     * @param {Object} $http The http utils from Angular.
      * @param {Object} $q Service helper for running function asynchronously.
      * @param {Object} Account The account model.
      * @param {Object} Character The character model.
+     * @param {Object} bungieService The Bungie service.
      * @param {Object} inventoryService The inventory service.
      * @returns {Object} The user service.
      */
-    function userService($rootScope, $http, $q, Account, Character, inventoryService) {
+    function userService($rootScope, $q, Account, Character, bungieService, inventoryService) {
         var $scope = {
             // variables
             account: null,
@@ -35,7 +35,7 @@
          * @returns {Object} The account, represented as a promise.
          */
         function getAccount(membershipType, displayName) {
-            return searchDestinyPlayer(membershipType, displayName)
+            return bungieService.searchDestinyPlayer(membershipType, displayName)
                 .then(handleRequestErrors)
                 .then(validatePlayerFound)
                 .then(getCharacters);
@@ -51,17 +51,6 @@
 
             $rootScope.$broadcast('account.change', account);
         };
-        
-        /**
-         * Searches for a Destiny membership by their platform and display name.
-         * @param {Number} membershipType The membership type; either 1 for xbox, or 2 for PSN.
-         * @param {String} displayName The display name to search for.
-         * @returns {Object} The result of the search as a promise.
-         */
-        function searchDestinyPlayer(membershipType, displayName) {
-            var path = '/Platform/Destiny/SearchDestinyPlayer/' + membershipType + '/' + encodeURIComponent(displayName) + '/';
-            return $http.get(path);
-        }
         
         /**
          * Handles any request errors.
@@ -116,7 +105,7 @@
         function getAccountSummaries(searchResult) {
             // handle multiple results for xbox gamertags
             var accountSummaries = searchResult.data.Response.map(function(membership) {
-                return getAccountSummary(membership.membershipType, membership.membershipId)
+                return bungieService.getAccountSummary(membership.membershipType, membership.membershipId)
                     .then(function(result) {
                         if (result.data.Response) {
                             result.data.Response.data.displayName = membership.displayName;
@@ -127,17 +116,6 @@
             });
             
             return $q.all(accountSummaries);
-        }
-
-        /**
-         * Gets the account summary for a membership.
-         * @param {Number} membershipType The membership type; either 1 for xbox, or 2 for PSN.
-         * @param {Number} membershipId The id of the membership.
-         * @returns {Object} The result of requesting the account summary.
-         */
-        function getAccountSummary(membershipType, membershipId) {
-            var path = '/Platform/Destiny/' + membershipType + '/Account/' + membershipId + '/';
-            return $http.get(path);
         }
             
         /**

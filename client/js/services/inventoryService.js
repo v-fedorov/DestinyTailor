@@ -2,19 +2,19 @@
     'use strict';
 
     angular.module('main').factory('inventoryService', inventoryService);
-    inventoryService.$inject = ['$q', '$resource', 'Inventory', 'InventoryAnalysis', 'Item', 'itemService'];
+    inventoryService.$inject = ['$q', 'Inventory', 'InventoryAnalysis', 'Item', 'bungieService', 'itemService'];
 
     /**
      * Defines the inventory analyser service.
      * @param {Object} $q The promises helper from Angular.
-     * @param {Object} $resource The resource helper from Angular.
      * @param {Function} Inventory The inventory model constructor.
      * @param {Function} InventoryAnalysis The constructor for an inventory analysis.
      * @param {Function} Item The item constructor.
+     * @param {Object} bungieService The Bungie service.
      * @param {Object} itemService The item service.
      * @returns {Object} The inventory service.
      */
-    function inventoryService($q, $resource, Inventory, InventoryAnalysis, Item, itemService) {
+    function inventoryService($q, Inventory, InventoryAnalysis, Item, bungieService, itemService) {
         return {
             // functions
             getInventory: getInventory,
@@ -28,8 +28,8 @@
          */
         function getInventory(character) {
             return getInventorySummary(character)
-                .then(function(summary) {
-                    return getNewInventory(character, summary);
+                .then(function(result) {
+                    return getNewInventory(character, result);
                 }).then(loadItems);
         }
 
@@ -39,35 +39,30 @@
          * @returns {Object} A promise containing the data and definitions of the inventory summary.
          */
         function getInventorySummary(character) {
-            var summary = $resource('/Platform/Destiny/:membershipType/Account/:membershipId/Character/:characterId/Inventory/Summary/?definitions=true');
-            
-            return summary.get({
-                    membershipType: character.membershipType,
-                    membershipId: character.membershipId,
-                    characterId: character.characterId
-            }).$promise.then(function(result) {
-                if (!result.Response && !result.Response.data) {
-                    throw 'Unable to connect to Bungie';
-                } else if (result.ErrorCode > 1) {
-                    throw 'Failed to load inventory summary';
-                }
+            return bungieService.getInventorySummary(character.membershipType, character.membershipId, character.characterId)
+                .then(function(result) {
+                    if (!result.data && !result.data.Response) {
+                        throw 'Unable to connect to Bungie';
+                    } else if (result.data.ErrorCode > 1) {
+                        throw 'Failed to load inventory summary';
+                    }
 
-                return result.Response;
-            });
+                    return result;
+                });
         }
 
         /**
          * Create a new inventory object based on the inventory summary.
          * @param {Object} character The character who owns the inventory.
-         * @param {Object} summary The inventory summary.
+         * @param {Object} result The result of the inventory summary request.
          * @returns {Object} The inventory with the basic information.
          */
-        function getNewInventory(character, summary) {
-            var inventory = new Inventory(character, summary.definitions);
+        function getNewInventory(character, result) {
+            var inventory = new Inventory(character, result.data.Response.definitions);
 
             // add each item, once we've transformed it slightly
-            summary.data.items.forEach(function(data) {
-                var item = new Item(data, summary.definitions);
+            result.data.Response.data.items.forEach(function(data) {
+                var item = new Item(data, result.data.Response.definitions);
                 inventory.setItem(item);
             });
 
