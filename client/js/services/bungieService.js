@@ -2,7 +2,7 @@
     'use strict';
 
     angular.module('main').factory('bungieService', bungieService);
-    bungieService.$inject = ['$http']
+    bungieService.$inject = ['$http'];
 
     /**
      * Defines the Bungie service, used to communicate with Bungie.
@@ -28,7 +28,7 @@
             var path = '/Platform/Destiny/' + membershipType + '/Account/' + membershipId + '/';
             return $http.get(path);
         }
-        
+
         /**
          * Gets the item detail for a given item instance.
          * @param {Number} membershipType The membership type; either 1 for xbox, or 2 for PSN.
@@ -41,10 +41,10 @@
                         + '/Account/' + membershipId
                         + '/Character/' + characterId
                         + '/Inventory/Summary/?definitions=true';
-                        
+
             return $http.get(path);
         }
-        
+
         /**
          * Gets the item detail for a given item instance.
          * @param {Number} membershipType The membership type; either 1 for xbox, or 2 for PSN.
@@ -58,10 +58,10 @@
                         + '/Account/' + membershipId
                         + '/Character/' + characterId
                         + '/Inventory/' + itemInstanceId + '/';
-                        
+
             return $http.get(path);
         }
-        
+
         /**
          * Searches for a Destiny membership by their membership type and display name.
          * @param {Number} membershipType The membership type; either 1 for xbox, or 2 for PSN.

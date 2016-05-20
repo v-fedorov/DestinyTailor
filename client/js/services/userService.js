@@ -40,7 +40,7 @@
                 .then(validatePlayerFound)
                 .then(getCharacters);
         }
-        
+
         /**
          * Updates the current loaded account.
          * @param {Object} account The account.
@@ -51,7 +51,7 @@
 
             $rootScope.$broadcast('account.change', account);
         };
-        
+
         /**
          * Handles any request errors.
          * @param {Object} result The API result to check.
@@ -62,10 +62,10 @@
             if (result.data.ErrorCode === 1) {
                 return result;
             }
-            
+
             throw result.data.Message;
         }
-        
+
         /**
          * Validates a player has been found.
          * @param {Object} searchResult The result of the player search.
@@ -78,10 +78,15 @@
 
             throw 'Character not found';
         }
-        
-        function getCharacters(searchResult) {        
+
+        /**
+         * Gets the characters for the given search results.
+         * @param {Object} searchResult The result of searching for the account.
+         * @returns {Object} The characters.
+         */
+        function getCharacters(searchResult) {
             var account;
-            
+
             // request the memberships
             return getAccountSummaries(searchResult)
                 .then(getActiveAccountSummaryData)
@@ -96,11 +101,11 @@
                     return account;
                 });
         }
-        
+
         /**
          * Gets all account summaries for a given search result.
          * @param {Object} searchResult The search result from the Bungie API.
-         * @returns The results from requesting the account summary for each search result.
+         * @returns {Object} The results from requesting the account summary for each search result.
          */
         function getAccountSummaries(searchResult) {
             // handle multiple results for xbox gamertags
@@ -110,14 +115,14 @@
                         if (result.data.Response) {
                             result.data.Response.data.displayName = membership.displayName;
                         }
-                        
+
                         return result;
                     });
             });
-            
+
             return $q.all(accountSummaries);
         }
-            
+
         /**
          * Gets the first active account summary, based on the results of many.
          * @param {Object[]} summaryResults The results of multiple account summary requests.
@@ -130,7 +135,7 @@
                     return summaryResults[i];
                 }
             }
-            
+
             // otherwise something went wrong!
             throw 'Character not found';
         }
@@ -140,7 +145,7 @@
          * @param {Object} accountSummaryResult The account summary API result.
          * @returns {Object} The characters from the account summary.
          */
-        function parseCharacters(accountSummaryResult) {           
+        function parseCharacters(accountSummaryResult) {
             // resolve the mapped characters
             return accountSummaryResult.data.Response.data.characters.map(function(data) {
                 return new Character(accountSummaryResult.data.Response.data, data);
