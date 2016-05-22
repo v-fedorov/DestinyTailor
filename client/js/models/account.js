@@ -19,6 +19,18 @@
             this.displayName = data.displayName;
         }
 
+        /**
+         * Gets the serializable account.
+         * @returns {Object} The account object that is safe for serialization.
+         */
+        Account.prototype.toJsonObject = function() {
+            return {
+                membershipType: this.membershipType,
+                membershipId: this.membershipId,
+                displayName: this.displayName
+            };
+        };
+
         return Account;
     }
 })();

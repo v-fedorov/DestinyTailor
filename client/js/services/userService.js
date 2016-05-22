@@ -2,19 +2,26 @@
     'use strict';
 
     angular.module('main').factory('userService', userService);
-    userService.$inject = ['$rootScope', '$q', 'Account', 'Character', 'bungieService', 'inventoryService'];
+    userService.$inject = ['$localStorage', '$rootScope', '$q', 'PLATFORMS', 'Account', 'Character', 'bungieService', 'inventoryService'];
 
     /**
      * The user service, primarily used to share the current membership, and selected character.
+     * @param {Object} $localStorage The local storage provider.
      * @param {Object} $rootScope The root scope.
      * @param {Object} $q Service helper for running function asynchronously.
+     * @param {Object} PLATFORMS The constant containing the platform information.
      * @param {Object} Account The account model.
      * @param {Object} Character The character model.
      * @param {Object} bungieService The Bungie service.
      * @param {Object} inventoryService The inventory service.
      * @returns {Object} The user service.
      */
-    function userService($rootScope, $q, Account, Character, bungieService, inventoryService) {
+    function userService($localStorage, $rootScope, $q, PLATFORMS, Account, Character, bungieService, inventoryService) {
+        $localStorage.memberships = $localStorage.memberships || {
+            1: {},
+            2: {}
+        };
+
         var $scope = {
             // variables
             account: null,
@@ -35,10 +42,75 @@
          * @returns {Object} The account, represented as a promise.
          */
         function getAccount(membershipType, displayName) {
-            return bungieService.searchDestinyPlayer(membershipType, displayName)
+            return searchLocalStorage(membershipType, displayName)
+                .then(function(account) {
+                    return bungieService.getAccountSummary(account.membershipType, account.membershipId)
+                        .then(bungieService.throwErrors)
+                        .then(function(result) {
+                            account.summary = result;
+                            return account;
+                        });
+                }, getAccountFromBungie)
+                .then(parseCharacters)
+                .then(assignCharacterSlugUrls)
+                .then(function(account) {
+                    account.summary = undefined;
+                    return account;
+                });
+        }
+
+        /**
+         * Searches the local storage for the membership, prior to checking Bungie.
+         * @param {Number} membershipType The membership type.
+         * @param {String} displayName The display name to search for.
+         * @returns {Object} Either the local membership, or the search criteria.
+         */
+        function searchLocalStorage(membershipType, displayName) {
+            var searchDisplayName = displayName.toLowerCase();
+
+            // strip spaces if we're psn
+            if (membershipType === PLATFORMS.psn) {
+                searchDisplayName = searchDisplayName.replace(/\s/g, '');
+            }
+
+            // check the local storage for the membership
+            if ($localStorage.memberships[membershipType] && $localStorage.memberships[membershipType][searchDisplayName]) {
+                var clone = new Account($localStorage.memberships[membershipType][searchDisplayName]);
+                return $q.resolve(clone);
+            }
+
+            // reject with the search criteria
+            return $q.reject({
+                membershipType: membershipType,
+                displayName: displayName
+            });
+        }
+
+        /**
+         * Gets the characters, for the given membership type and display name, from Bungie.
+         * @param {Object} searchCriteria The search criteria, including the membership type and display name.
+         * @returns {Object} The account, from searching Bungie.
+         */
+        function getAccountFromBungie(searchCriteria) {
+            return bungieService.searchDestinyPlayer(searchCriteria.membershipType, searchCriteria.displayName)
                 .then(bungieService.throwErrors)
                 .then(validatePlayerFound)
-                .then(getCharacters);
+                .then(getAccountSummaries)
+                .then(getActiveAccountSummaryData)
+                .then(cacheAccount);
+        }
+
+        /**
+         * Caches the account from the account summary, returning the account.
+         * @param {Object} accountSummaryResult The result of an account summary request.
+         * @returns {Object} The account.
+         */
+        function cacheAccount(accountSummaryResult) {
+            var account = new Account(accountSummaryResult.data.Response.data);
+            $localStorage.memberships[account.membershipType][account.displayName.toLowerCase()] = account.toJsonObject();
+
+            account.summary = accountSummaryResult;
+            return account;
         }
 
         /**
@@ -63,29 +135,6 @@
             }
 
             throw 'Character not found';
-        }
-
-        /**
-         * Gets the characters for the given search results.
-         * @param {Object} searchResult The result of searching for the account.
-         * @returns {Object} The characters.
-         */
-        function getCharacters(searchResult) {
-            var account;
-
-            // request the memberships
-            return getAccountSummaries(searchResult)
-                .then(getActiveAccountSummaryData)
-                .then(function(result) {
-                    account = new Account(result.data.Response.data);
-                    return result;
-                })
-                .then(parseCharacters)
-                .then(assignCharacterSlugUrls)
-                .then(function(characters) {
-                    account.characters = characters;
-                    return account;
-                });
         }
 
         /**
@@ -128,40 +177,42 @@
 
         /**
          * Parses the characters for the given account summary.
-         * @param {Object} accountSummaryResult The account summary API result.
-         * @returns {Object} The characters from the account summary.
+         * @param {Object} account The account infomation, including the raw result of the summary.
+         * @returns {Object} The account, with the parsed characters.
          */
-        function parseCharacters(accountSummaryResult) {
+        function parseCharacters(account) {
             // resolve the mapped characters
-            return accountSummaryResult.data.Response.data.characters.map(function(data) {
-                return new Character(accountSummaryResult.data.Response.data, data);
+            account.characters = account.summary.data.Response.data.characters.map(function(data) {
+                return new Character(account.summary.data.Response.data, data);
             }).sort(function(a, b) {
                 return a.membershipId - b.membershipId;
             });
+
+            return account;
         }
 
         /**
          * Assigns slug urls to a collection of characters.
-         * @param {Object} characters The characters to assign slug URLs to.
+         * @param {Object} account The account containing the characters to assign slug URLs to.
          * @returns {Object} The characters.
          */
-        function assignCharacterSlugUrls(characters) {
+        function assignCharacterSlugUrls(account) {
             var classCount = {};
 
             // set the initial slugs
-            characters.forEach(function(character) {
+            account.characters.forEach(function(character) {
                 classCount[character.class] = (classCount[character.class] || 0) + 1;
                 character.urlSlug = character.class.toLowerCase() + '-' + classCount[character.class];
             });
 
             // tidy up the urls if we can, this is designed for accounts with a character of each class
-            characters.forEach(function(character) {
+            account.characters.forEach(function(character) {
                 if (classCount[character.class] === 1) {
                     character.urlSlug = character.class.toLowerCase();
                 }
             });
 
-            return characters;
+            return account;
         }
 
         /**
