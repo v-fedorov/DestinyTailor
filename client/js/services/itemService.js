@@ -34,12 +34,11 @@
             }
 
             // request the item, set the stats, cache and go
-            return requestItem(character, item)
+            return bungieService.getItemDetails(character.membershipType, character.membershipId, character.characterId, item.itemId)
+                .then(bungieService.throwErrors)
                 .then(function(result) {
-                    setItemStats(result, item);
-                    setCacheItem(item);
-                    return item;
-                });
+                    return setItemStats(result, item);
+                }).then(cacheItem);
         }
 
         /**
@@ -66,31 +65,13 @@
          * Sets an item within the cache.
          * @param {Object} item The item to cache.
          */
-        function setCacheItem(item) {
+        function cacheItem(item) {
             // only cache non-exotics... they're the glass needle!
             if (item.tierType !== ITEM_TIERS.exotic) {
                 $localStorage.items[item.itemId] = item;
             }
-        }
 
-        /**
-         * Requests the specific item information from the Bungie API.
-         * @param {Object} character The owner of the item.
-         * @param {Object} item The item to request.
-         * @returns {Object} A promise, containing the response from Bungie.
-         */
-        function requestItem(character, item) {
-            // attempt to get the item
-            return bungieService.getItemDetails(character.membershipType, character.membershipId, character.characterId, item.itemId)
-                .then(function(result) {
-                    if (result.status !== 200) {
-                        throw 'Unable to connect to Bungie';
-                    } else if (result.ErrorCode > 1) {
-                        throw 'Unable to load item';
-                    }
-
-                    return result.data.Response;
-                });
+            return item;
         }
 
         /**
@@ -99,12 +80,14 @@
          * @param {Object} item The item where the stats are being set.
          */
         function setItemStats(result, item) {
-            var dataSource = result.data;
+            var dataSource = result.data.Response.data;
             if (setMinimums(dataSource, item)) {
                 setMaximums(dataSource, item);
             } else {
                 setStatsWithFallback(dataSource, item);
             }
+
+            return item;
         }
 
         /**

@@ -36,7 +36,7 @@
          */
         function getAccount(membershipType, displayName) {
             return bungieService.searchDestinyPlayer(membershipType, displayName)
-                .then(handleRequestErrors)
+                .then(bungieService.throwErrors)
                 .then(validatePlayerFound)
                 .then(getCharacters);
         }
@@ -53,26 +53,12 @@
         };
 
         /**
-         * Handles any request errors.
-         * @param {Object} result The API result to check.
-         * @returns {Object} The API result.
-         */
-        function handleRequestErrors(result) {
-            // accept if the error code is okay
-            if (result.data.ErrorCode === 1) {
-                return result;
-            }
-
-            throw result.data.Message;
-        }
-
-        /**
          * Validates a player has been found.
          * @param {Object} searchResult The result of the player search.
          * @returns {Object} The API result.
          */
         function validatePlayerFound(searchResult) {
-            if (searchResult.data.Response !== undefined && searchResult.data.Response.length > 0) {
+            if (searchResult.data.Response.length > 0) {
                 return searchResult;
             }
 

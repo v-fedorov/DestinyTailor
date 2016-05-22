@@ -27,28 +27,11 @@
          * @returns {Object} A promise of the inventory, that is fulfilled when the inventory has been loaded.
          */
         function getInventory(character) {
-            return getInventorySummary(character)
+            return bungieService.getInventorySummary(character.membershipType, character.membershipId, character.characterId)
+                .then(bungieService.throwErrors)
                 .then(function(result) {
                     return getNewInventory(character, result);
                 }).then(loadItems);
-        }
-
-        /**
-         * Gets the inventory summary for the character, in the form of a promise.
-         * @param {Object} character The character.
-         * @returns {Object} A promise containing the data and definitions of the inventory summary.
-         */
-        function getInventorySummary(character) {
-            return bungieService.getInventorySummary(character.membershipType, character.membershipId, character.characterId)
-                .then(function(result) {
-                    if (!result.data && !result.data.Response) {
-                        throw 'Unable to connect to Bungie';
-                    } else if (result.data.ErrorCode > 1) {
-                        throw 'Failed to load inventory summary';
-                    }
-
-                    return result;
-                });
         }
 
         /**

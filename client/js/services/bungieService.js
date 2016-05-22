@@ -15,7 +15,10 @@
             getAccountSummary: getAccountSummary,
             getInventorySummary: getInventorySummary,
             getItemDetails: getItemDetails,
-            searchDestinyPlayer: searchDestinyPlayer
+            searchDestinyPlayer: searchDestinyPlayer,
+
+            // helpers
+            throwErrors: throwErrors
         };
 
         /**
@@ -60,6 +63,25 @@
                         + '/Inventory/' + itemInstanceId + '/';
 
             return $http.get(path);
+        }
+
+        /**
+         * Handles any request errors.
+         * @param {Object} result The API result to check.
+         * @returns {Object} The API result.
+         */
+        function throwErrors(result) {
+            // check the result status
+            if (result.status !== 200) {
+                throw 'Unable to connect to Bungie';
+            }
+
+            // accept if the error code is okay
+            if (result.data.ErrorCode === 1) {
+                return result;
+            }
+
+            throw result.data.Message;
         }
 
         /**
