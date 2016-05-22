@@ -68,11 +68,6 @@
         function searchLocalStorage(membershipType, displayName) {
             var searchDisplayName = displayName.toLowerCase();
 
-            // strip spaces if we're psn
-            if (membershipType === PLATFORMS.psn) {
-                searchDisplayName = searchDisplayName.replace(/\s/g, '');
-            }
-
             // check the local storage for the membership
             if ($localStorage.memberships[membershipType] && $localStorage.memberships[membershipType][searchDisplayName]) {
                 var clone = new Account($localStorage.memberships[membershipType][searchDisplayName]);
