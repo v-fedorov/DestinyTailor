@@ -73,7 +73,7 @@
                 displayName: displayName
             });
         }
-        
+
         /**
          * Gets the characters, for the given account.
          * @param {Object} account The cached account.
