@@ -43,18 +43,11 @@
          */
         function getAccount(membershipType, displayName) {
             return searchLocalStorage(membershipType, displayName)
-                .then(function(account) {
-                    return bungieService.getAccountSummary(account.membershipType, account.membershipId)
-                        .then(bungieService.throwErrors)
-                        .then(function(result) {
-                            account.summary = result;
-                            return account;
-                        });
-                }, getAccountFromBungie)
+                .then(getAccountFromCache, getAccountFromBungie)
                 .then(parseCharacters)
                 .then(assignCharacterSlugUrls)
                 .then(function(account) {
-                    account.summary = undefined;
+                    delete account.summary;
                     return account;
                 });
         }
@@ -80,11 +73,25 @@
                 displayName: displayName
             });
         }
+        
+        /**
+         * Gets the characters, for the given account.
+         * @param {Object} account The cached account.
+         * @returns {Object} The account summary.
+         */
+        function getAccountFromCache(account) {
+            return bungieService.getAccountSummary(account.membershipType, account.membershipId)
+                .then(bungieService.throwErrors)
+                .then(function(result) {
+                    account.summary = result;
+                    return account;
+                });
+        }
 
         /**
          * Gets the characters, for the given membership type and display name, from Bungie.
          * @param {Object} searchCriteria The search criteria, including the membership type and display name.
-         * @returns {Object} The account, from searching Bungie.
+         * @returns {Object} The account summary.
          */
         function getAccountFromBungie(searchCriteria) {
             return bungieService.searchDestinyPlayer(searchCriteria.membershipType, searchCriteria.displayName)
