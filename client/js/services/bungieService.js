@@ -2,14 +2,14 @@
     'use strict';
 
     angular.module('main').factory('bungieService', bungieService);
-    bungieService.$inject = ['$http'];
+    bungieService.$inject = ['httpUtils'];
 
     /**
      * Defines the Bungie service, used to communicate with Bungie.
-     * @param {Object} $http The http helper from Angular.
+     * @param {Object} httpUtils Provides HTTP utilities.
      * @returns {Object} The inventory service.
      */
-    function bungieService($http) {
+    function bungieService(httpUtils) {
         return {
             // functions
             getAccountSummary: getAccountSummary,
@@ -28,8 +28,12 @@
          * @returns {Object} The result of requesting the account summary.
          */
         function getAccountSummary(membershipType, membershipId) {
-            var path = '/Platform/Destiny/' + membershipType + '/Account/' + membershipId + '/';
-            return $http.get(path);
+            return httpUtils.get(
+                '/Platform/Destiny/{membershipType}/Account/{membershipId}/',
+                {
+                    membershipType: membershipType,
+                    membershipId: membershipId
+                });
         }
 
         /**
@@ -40,12 +44,13 @@
          * @returns {Object} The result of requesting the inventory summary.
          */
         function getInventorySummary(membershipType, membershipId, characterId) {
-            var path = '/Platform/Destiny/' + membershipType
-                        + '/Account/' + membershipId
-                        + '/Character/' + characterId
-                        + '/Inventory/Summary/?definitions=true';
-
-            return $http.get(path);
+            return httpUtils.get(
+                '/Platform/Destiny/{membershipType}/Account/{membershipId}/Character/{characterId}/Inventory/Summary/?definitions=true',
+                {
+                    membershipType: membershipType,
+                    membershipId: membershipId,
+                    characterId: characterId
+                });
         }
 
         /**
@@ -57,12 +62,29 @@
          * @returns {Object} The result of requesting the item details.
          */
         function getItemDetails(membershipType, membershipId, characterId, itemInstanceId) {
-            var path = '/Platform/Destiny/' + membershipType
-                        + '/Account/' + membershipId
-                        + '/Character/' + characterId
-                        + '/Inventory/' + itemInstanceId + '/';
+            return httpUtils.get(
+                '/Platform/Destiny/{membershipType}/Account/{membershipId}/Character/{characterId}/Inventory/{itemInstanceId}/',
+                {
+                    membershipType: membershipType,
+                    membershipId: membershipId,
+                    characterId: characterId,
+                    itemInstanceId: itemInstanceId
+                });
+        }
 
-            return $http.get(path);
+        /**
+         * Searches for a Destiny membership by their membership type and display name.
+         * @param {Number} membershipType The membership type; either 1 for xbox, or 2 for PSN.
+         * @param {String} displayName The display name to search for.
+         * @returns {Object} The result of the search.
+         */
+        function searchDestinyPlayer(membershipType, displayName) {
+            return httpUtils.get(
+                 '/Platform/Destiny/SearchDestinyPlayer/{membershipType}/{searchCriteria}/',
+                 {
+                     membershipType: membershipType,
+                     searchCriteria: encodeURIComponent(displayName)
+                 });
         }
 
         /**
@@ -82,17 +104,6 @@
             }
 
             throw result.data.Message;
-        }
-
-        /**
-         * Searches for a Destiny membership by their membership type and display name.
-         * @param {Number} membershipType The membership type; either 1 for xbox, or 2 for PSN.
-         * @param {String} displayName The display name to search for.
-         * @returns {Object} The result of the search.
-         */
-        function searchDestinyPlayer(membershipType, displayName) {
-            var path = '/Platform/Destiny/SearchDestinyPlayer/' + membershipType + '/' + encodeURIComponent(displayName) + '/';
-            return $http.get(path);
         }
     }
 })();
