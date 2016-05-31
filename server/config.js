@@ -14,5 +14,6 @@ module.exports = {
     },
     contentMaxAge: '365d',
     env: process.env.NODE_ENV || 'dev',
-    port: process.env.PORT || 3000
+    port: process.env.PORT || 3000,
+    workers: process.env.WEB_CONCURRENCY || 1
 };

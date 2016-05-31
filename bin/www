@@ -2,40 +2,24 @@
 
 var app = require('../server/main'),
     config = require('../server/config'),
-    debug = require('debug')('DestinyTailor:server'),
-    http = require('http');
-
-// set the port and start the server
-app.set('port', config.port);
-var server = http.createServer(app);
+    throng = require('throng');
 
 /**
- * Handles the server listening on the port.
+ * Starts a new worker service.
  */
-server.listen(config.port, function() {
-    console.log('Express server listening on port ' + config.port);
-});
+function startWorker() {
+    var worker = app();
 
-/**
- * Handle any errors when starting the server.
- * @param {Object} error The error.
- */
-server.on('error', function(error) {
-  if (error.syscall !== 'listen') {
-      throw error;
-  }
+    // set the port and start listening
+    worker.set('port', config.port);
+    worker.listen(config.port, function() {
+        console.log('Listening on ' + config.port + '...');
+    });
+}
 
-  // handle specific listen errors with friendly messages
-  switch (error.code) {
-      case 'EACCES':
-          console.error('Port: ' + config.port + ' requires elevated privileges');
-          process.exit(1);
-      break;
-      case 'EADDRINUSE':
-          console.error('Port: ' + config.port + ' is already in use');
-          process.exit(1);
-      break;
-      default:
-          throw error;
-      };
+// initialise the clusters
+throng({
+    workers: config.workers,
+    lifetime: Infinity,
+    start: startWorker
 });
