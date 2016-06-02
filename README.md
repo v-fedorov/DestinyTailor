@@ -1,14 +1,14 @@
 # Destiny Tailor
 
-Destiny Tailor is a site designed to help fellow guardian's get the most out of their hard earned gear. By using Bungie's API, Destiny Tailor is able to evaluate your equipped gear, and with a bit of number crunching, provide you with a list of available "stat profiles".
+Destiny Tailor is a site designed to help fellow guardians get the most out of their hard earned gear. By using Bungie's API, Destiny Tailor is able to evaluate your equipped gear, and with a bit of number crunching, provide you with a list of available "stat profiles".
 
 A "stat profile" is the term we use for a specific combinations of stats on your gear, e.g. choosing intellect over strength, which was introduced with Destiny year 2 items. This can proove really useful if, like us, you enjoy swapping your item stats to get the most out of them for the right situation, i.e. raiding, trials, or just a bit of casual striking.
 
 ## Releases
 
-### 0.x
+### 0.5
 
-- Improved item loading with local caching.
+- Performance improvements.
 - Added error warnings when Bungie API calls fail.
 
 ### 0.4
@@ -22,7 +22,7 @@ A "stat profile" is the term we use for a specific combinations of stats on your
  - Minor fixes to SPA parameter cases.
  - Added auto focusing on initial load.
  - Updated gulp minification.
-- **0.4.2a**
+- 0.4.2a
  - Hotfix; searching for an XBox gamertag sometimes returned multiple matching results.
 
 ### 0.3
