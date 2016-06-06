@@ -10,7 +10,6 @@ var unzip = require('unzip');
 
 function writeDefinitionFile(path, name, data) {
   var stream = fs.createWriteStream(path);
-  stream.write('/* exported ' + name + ' */\n\n');
   stream.write('var ' + name + ' = ');
   stream.write(JSON.stringify(data, null, 2));
   stream.write(';');
